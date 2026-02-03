@@ -1,0 +1,87 @@
+# 服务端口与环境配置
+server:
+  port: 8910        # 服务端口
+  servlet:
+    context-path: /ysblog  # 请求路径前缀
+  tomcat:
+    max-http-form-post-size: 200MB  # 最大请求体大小（适用于文件上传）
+# 应用基础配置
+spring:
+  application:
+    name: ys-blog  # 应用名称
+  autoconfigure:
+    exclude:      # 排除自动配置类（根据需求添加）
+  #      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 200MB              # 单个文件最大大小
+      max-request-size: 1000MB           # 单次请求最大大小（批量上传）
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher  # 路径匹配策略，解决Springboot2.6以上版本与Knife4j兼容问题
+
+
+  # 数据库配置（MySQL + Druid）
+  datasource:
+    url: jdbc:mysql://localhost:3306/ys-blog?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&allowPublicKeyRetrieval=true
+    username: root         # 数据库用户名
+    password: 1qaz!QAZ         # 数据库密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource  # 使用 Druid 连接池
+
+    # Druid 连接池配置
+    druid:
+      initial-size: 5            # 初始连接数
+      min-idle: 5                # 最小空闲连接数
+      max-active: 20             # 最大连接数
+      max-wait: 60000            # 获取连接的最大等待时间（毫秒）
+      validation-query: SELECT 1   # 验证数据库连接是否有效的SQL
+      test-while-idle: true      # 是否在空闲时验证连接
+      test-on-borrow: false      # 是否在获取连接时验证
+      test-on-return: false      # 是否在归还连接时验证
+      pool-prepared-statements: true  # 是否缓存PreparedStatement
+      max-pool-prepared-statement-per-connection-size: 20  # 每个连接缓存的PreparedStatement数量
+      filters: stat,wall,log4j2  # 配置监控和防火墙过滤器
+      stat-view-servlet:
+        enabled: true            # 启用Druid监控页面
+        url-pattern: /druid/*    # 监控页面访问路径
+        login-username: admin    # 监控页面登录用户名
+        login-password: admin    # 监控页面登录密码
+        reset-enable: false      # 禁用重置功能
+      web-stat-filter:
+        enabled: true            # 启用Web监控
+        url-pattern: /*          # 监控所有请求
+        exclusions: "*.js,*.gif,*.jpg,*.css,/druid/*"  # 排除静态资源
+
+  # 事务管理配置
+  transaction:
+    default-timeout: 30  # 默认事务超时时间（秒）
+    rollback-on-commit-failure: true  # 提交失败时回滚
+
+
+
+sa-token:
+  token-name: Authorization   # token 名称（同时也是 cookie 名称）
+  timeout: 86400             # token 有效期（单位：秒） 默认1天，-1 代表永久有效
+  active-timeout: -1          # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  is-concurrent: true         # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-share: false             # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  token-style: uuid           # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  is-log: true                # 是否输出操作日志
+  # jwt秘钥
+  jwt-secret-key: dce16d9c8672e35f4ad7cc5c196013d2
+
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml  # 映射文件路径
+  type-aliases-package: com.eric.*.*.entity       # 实体类包路径
+  configuration:
+    map-underscore-to-camel-case: true  # 开启驼峰命名自动映射
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL日志输出到控制台
+  global-config:
+    db-config:
+      id-type: auto          # 主键类型（auto 自动递增）
+      logic-delete-value: 1  # 逻辑删除值（1 表示已删除）
+      logic-not-delete-value: 0  # 逻辑未删除值（0 表示未删除）

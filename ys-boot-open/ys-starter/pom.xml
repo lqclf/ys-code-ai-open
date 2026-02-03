@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ys-boot-template</artifactId>
+        <groupId>com.eric</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-starter</artifactId>
+
+    <description>
+        项目启动模块 - Spring Boot 应用入口，聚合所有业务模块
+        功能：应用启动配置、自动装配、运行入口
+    </description>
+
+    <dependencies>
+        <!-- ==================== 内部模块依赖 ==================== -->
+        <!-- 系统业务模块 - 用户、角色、权限、部门等基础业务 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-system</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- 扩展业务模块 - 示例业务模块 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>demo-biz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <!-- ==================== Spring Boot Web ==================== -->
+        <!-- Spring Boot Web 启动器，包含嵌入式 Tomcat -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- ==================== 验证框架 ==================== -->
+        <!-- Spring Boot Validation 参数校验 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ==================== 认证授权 ==================== -->
+        <!-- Sa-Token 认证授权框架 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- Sa-Token 集成 JWT -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-jwt</artifactId>
+        </dependency>
+        <!-- Java JWT JWT 令牌处理 -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
+
+        <!-- ==================== JSON 处理 ==================== -->
+        <!-- FastJSON2 高性能 JSON 解析库 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
+
+        <!-- ==================== 日志框架 ==================== -->
+        <!-- Logback 日志框架 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Spring Boot Maven 插件，用于打包可执行 JAR -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 排除 lombok，避免打包时重复包含 -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

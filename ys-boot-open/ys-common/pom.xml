@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ys-boot-template</artifactId>
+        <groupId>com.eric</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-common</artifactId>
+
+    <description>
+        公共支撑层 - 通用工具类、常量定义、全局配置
+        功能：提供各层共享的基础能力，包括工具类、常量、枚举、响应封装、异常处理等
+    </description>
+
+    <dependencies>
+        <!-- ==================== Spring Boot Web ==================== -->
+        <!-- Spring Boot Web 启动器，包含嵌入式 Tomcat -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- ==================== 工具类 ==================== -->
+        <!-- Lombok 自动生成 getter/setter/constructor -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- Hutool 工具集，提供丰富的工具方法 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <!-- ==================== Excel 文件处理 ==================== -->
+        <!-- Apache POI Excel 文件处理 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+        </dependency>
+        <!-- Apache POI OOXML 格式支持（.xlsx） -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+        </dependency>
+        <!-- JExcel Excel 文件处理（老版本 .xls 格式） -->
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+        </dependency>
+        <!-- XPath 表达式解析，用于 XML/HTML 解析 -->
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+        </dependency>
+
+        <!-- ==================== JSON 处理 ==================== -->
+        <!-- Jackson JSON 序列化支持 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- ==================== HTML/文档解析 ==================== -->
+        <!-- JSoup HTML 解析库，用于 HTML 文档解析 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+        </dependency>
+
+        <!-- ==================== 文件操作 ==================== -->
+        <!-- Apache Commons IO 文件操作工具 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <!-- Apache Commons Lang3 工具类 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- ==================== Servlet ==================== -->
+        <!-- Servlet API，用于 Controller 层开发 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!-- ==================== 参数校验 ==================== -->
+        <!-- Spring Boot Validation 参数校验 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ==================== MyBatis-Plus ==================== -->
+        <!-- MyBatis-Plus ORM 框架，简化数据库操作 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- MyBatis-Plus JSQLParser 支持，用于动态 SQL -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+        </dependency>
+
+        <!-- ==================== 加密算法 ==================== -->
+        <!-- Bouncy Castle 国密加密算法库（SM4支持） -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15to18</artifactId>
+        </dependency>
+
+        <!-- ==================== Word 模板渲染 ==================== -->
+        <!-- POI 模板引擎 - Word 模板渲染 -->
+        <dependency>
+            <groupId>com.deepoove</groupId>
+            <artifactId>poi-tl</artifactId>
+        </dependency>
+
+        <!-- ==================== IP 地区查询 ==================== -->
+        <!-- IP 地址转地区信息 -->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+        </dependency>
+
+        <!-- ==================== UserAgent 解析 ==================== -->
+        <!-- 浏览器 UserAgent 解析（获取浏览器、操作系统信息） -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+        </dependency>
+
+        <!-- ==================== 压缩解压 ==================== -->
+        <!-- Zip4j ZIP 文件处理 -->
+        <dependency>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+        </dependency>
+
+        <!-- ==================== 认证授权 ==================== -->
+        <!-- Sa-Token 认证授权框架 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- Sa-Token 集成 JWT -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-jwt</artifactId>
+        </dependency>
+
+        <!-- ==================== JWT 令牌 ==================== -->
+        <!-- Java JWT JWT 令牌处理 -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
+
+        <!-- ==================== JSON 序列化 ==================== -->
+        <!-- FastJSON JSON 解析库（兼容旧版本） -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <!-- FastJSON2 高性能 JSON 解析库 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

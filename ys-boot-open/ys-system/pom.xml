@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ys-boot-template</artifactId>
+        <groupId>com.eric</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-system</artifactId>
+
+    <description>
+        系统业务模块 - 用户、角色、权限、部门等基础业务
+        包含：用户管理、角色管理、菜单管理、部门管理、字典管理、配置管理、通知公告等
+    </description>
+
+    <dependencies>
+        <!-- ==================== 内部模块依赖 ==================== -->
+        <!-- 公共支撑层 - 提供通用工具类、常量、全局配置 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- ==================== MyBatis-Plus 核心依赖 ==================== -->
+        <!-- MyBatis-Plus ORM 框架，简化数据库操作 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- MyBatis-Plus JSQLParser 支持，用于动态 SQL -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+        </dependency>
+
+        <!-- ==================== 数据库驱动 ==================== -->
+        <!-- MySQL 数据库驱动 -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+
+        <!-- ==================== 数据源连接池 ==================== -->
+        <!-- Druid 数据库连接池，提供强大的监控功能 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
+        </dependency>
+
+
+        <!-- ==================== 工具类 ==================== -->
+        <!-- Lombok 自动生成 getter/setter/constructor -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- Hutool 工具集，提供丰富的工具方法 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <!-- ==================== JSON 处理 ==================== -->
+        <!-- FastJSON2 高性能 JSON 解析库 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
+
+
+        <!-- ==================== AOP 切面 ==================== -->
+        <!-- Spring Boot AOP 支持，面向切面编程 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- ==================== 数据脱敏 ==================== -->
+        <!-- Bouncy Castle 国密加密算法库 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15to18</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eric.module.system.mapper.SysUserMapper">
+<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.eric.module.system.entity.SysUser">
+    	<id column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password" property="password"/>
+        <result column="user_name" property="userName"/>
+        <result column="code" property="code"/>
+        <result column="depart_id" property="departId"/>
+        <result column="depart_name" property="departName"/>
+        <result column="user_type" property="userType"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="third_type" property="thirdType"/>
+        <result column="third_account" property="thirdAccount"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="is_lock" property="isLock"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_name" property="createName"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_name" property="updateName"/>
+        <result column="login_ip" property="loginIp"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="password_update_time" property="passwordUpdateTime"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+		id, login_name, password, user_name, code, depart_id, depart_name, user_type, phone, email, third_type, third_account, remark, status, is_lock, is_delete, create_time, create_by, create_name, update_time, update_by, update_name, login_ip, login_time, password_update_time
+    </sql>
+
+
+    <resultMap id="ResultMap_UserRole" type="com.eric.module.system.vo.UserRoleVo">
+        <result column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="role_code" property="roleCode"/>
+    </resultMap>
+
+    <!-- 获取指定用户所有角色信息 -->
+    <select id="getUserRoleList" resultMap="ResultMap_UserRole">
+        SELECT
+            ur.*,
+            r.code as role_code
+        FROM
+            sys_user_role ur
+                LEFT JOIN sys_role r ON ur.role_id = r.id
+        WHERE
+            ur.user_id = #{userId}
+    </select>
+    
+    <!-- 获取所有用户的角色信息 -->
+    <select id="getAllUsersRoleList" resultMap="ResultMap_UserRole">
+        SELECT
+            ur.user_id,
+            ur.role_id,
+            r.code as role_code
+        FROM
+            sys_user_role ur
+                LEFT JOIN sys_role r ON ur.role_id = r.id
+        WHERE
+            ur.user_id IN
+            <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+    </select>
+    
+    <!-- 获取用户菜单列表 -->
+    <select id="getUserMenuList" resultType="com.eric.module.system.entity.SysMenu" parameterType="java.lang.String">
+        SELECT m.*
+        FROM sys_menu m
+                 JOIN sys_role_menu rm ON m.id = rm.menu_id
+                 JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        WHERE ur.user_id = #{userId}
+          AND m.is_delete = 1
+        ORDER BY m.seq ASC;
+    </select>
+    <insert id="addUserRole">
+        INSERT INTO sys_user_role(user_id, role_id) VALUES
+        <foreach collection="roleIds" item="roleId" separator=",">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
+    <delete id="removeUserRole">
+        DELETE FROM sys_user_role WHERE user_id = #{userId}
+    </delete>
+    <insert id="addRoleToUsers">
+        INSERT INTO sys_user_role(user_id, role_id) VALUES
+        <foreach collection="userIds" item="userId" separator=",">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
+    <delete id="removeRoleUsers">
+        DELETE FROM sys_user_role WHERE role_id = #{roleId}
+        <if test="userIds != null">
+            AND user_id IN
+            <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+        </if>
+    </delete>
+
+    <!-- 获取指定角色的所有用户ID列表 -->
+    <select id="getUserIdsByRoleId" resultType="java.lang.String">
+        SELECT user_id FROM sys_user_role WHERE role_id = #{roleId}
+    </select>
+</mapper>

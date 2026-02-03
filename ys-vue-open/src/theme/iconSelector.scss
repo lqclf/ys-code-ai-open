@@ -1,0 +1,64 @@
+.icon-selector-popper {
+    padding: 0 !important;
+    
+    .icon-selector-warp {
+        .icon-selector-warp-title {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--el-border-color-light);
+            font-weight: bold;
+        }
+        
+        // 修复Tab样式错位问题
+        .icon-selector-tabs-container {
+            padding: 0 5px; // 添加内边距确保Tab不会紧贴边缘
+            
+            .icon-selector-tabs {
+                .el-tabs__header {
+                    margin: 0;
+                }
+                
+                .el-tabs__nav-wrap {
+                    padding: 0 10px; // 调整导航栏内边距
+                    
+                    &::after {
+                        background-color: var(--el-border-color-light); // 确保下边框颜色一致
+                    }
+                }
+                
+                .el-tabs__nav {
+                    white-space: nowrap; // 防止Tab换行
+                }
+                
+                .el-tabs__item {
+                    padding: 0 15px; // 调整Tab项内边距
+                    height: 40px; // 固定Tab高度
+                    line-height: 40px; // 垂直居中
+                    
+                    &.is-active {
+                        color: var(--el-color-primary); // 激活状态颜色
+                        font-weight: bold; // 激活状态加粗
+                    }
+                }
+                
+                .el-tabs__active-bar {
+                    background-color: var(--el-color-primary); // 激活条颜色
+                }
+                
+                .el-tabs__content {
+                    padding: 10px 5px; // 调整内容区内边距
+                }
+            }
+        }
+        
+        .icon-selector-actions {
+            padding: 10px 15px;
+            border-top: 1px solid var(--el-border-color-light);
+            display: flex;
+            justify-content: space-between;
+            
+            .icon-uploader {
+                display: inline-block;
+            }
+        }
+    }
+}

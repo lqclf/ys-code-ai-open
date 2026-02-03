@@ -1,0 +1,11 @@
+@use './index.scss' as media;
+
+/* 页面宽度小于768px
+------------------------------- */
+@media screen and (max-width: media.$sm) {
+	.tags-view-form {
+		.tags-view-form-col {
+			margin-bottom: 20px;
+		}
+	}
+}

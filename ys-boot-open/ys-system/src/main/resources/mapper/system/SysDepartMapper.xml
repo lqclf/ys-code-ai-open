@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eric.module.system.mapper.SysDepartMapper">
+<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.eric.module.system.entity.SysDepart">
+    	<id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="short_name" property="shortName"/>
+        <result column="code" property="code"/>
+        <result column="pid" property="pid"/>
+        <result column="category" property="category"/>
+        <result column="dept_type" property="deptType"/>
+        <result column="level_type" property="levelType"/>
+        <result column="area" property="area"/>
+        <result column="email" property="email"/>
+        <result column="zip_code" property="zipCode"/>
+        <result column="address" property="address"/>
+        <result column="fax" property="fax"/>
+        <result column="remark" property="remark"/>
+        <result column="link_man" property="linkMan"/>
+        <result column="link_phone" property="linkPhone"/>
+        <result column="seq" property="seq"/>
+        <result column="icon" property="icon"/>
+        <result column="status" property="status"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_name" property="createName"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_name" property="updateName"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+		id, name, short_name, code, pid, category, dept_type, level_type, area, email, zip_code, address, fax, remark, link_man, link_phone, seq, icon, status, is_delete, create_time, create_by, create_name, update_time, update_by, update_name
+    </sql>
+
+</mapper>

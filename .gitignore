@@ -1,0 +1,65 @@
+# ==================== IDE 配置文件 ====================
+.idea/
+*/.idea/
+*.iml
+.settings/
+.classpath
+.project
+
+# ==================== Maven 编译输出 ====================
+target/
+**/target/
+**/target/**/*
+*.class
+
+**/.trae/
+
+# ==================== 日志文件 ====================
+*.log
+logs/
+**/logs/
+
+# ==================== 操作系统文件 ====================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==================== 临时文件 ====================
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# ==================== 包文件 ====================
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# ==================== Node.js 相关 ====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ==================== Vue/前端相关 ====================
+dist/
+.nuxt/
+.vuepress/dist/
+.cache/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ==================== 其他 ====================
+*.pid
+*.seed
+*.pid.lock
