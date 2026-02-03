@@ -48,16 +48,6 @@
 											权限配置
 										</el-link>
 									</el-dropdown-item>
-									<el-dropdown-item>
-										<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogUser(scope.row)" v-auth="'system:role:userConfig'">
-											人员配置
-										</el-link>
-									</el-dropdown-item>
-									<el-dropdown-item>
-										<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogDataPermission(scope.row)" v-auth="'system:role:dataPermission'">
-											数据权限
-										</el-link>
-									</el-dropdown-item>
 								</el-dropdown-menu>
 							</template>
 						</el-dropdown>

@@ -102,11 +102,6 @@
 							<el-tab-pane label="部门详情" name="detail">
 								<DeptDetail :dept-data="selectedDept" @update="handleDeptUpdate" @refresh="loadDeptTree" />
 							</el-tab-pane>
-
-							<!-- 部门用户选项卡 -->
-							<el-tab-pane label="部门用户" name="users">
-								<DeptUsers :depart-id="selectedDept.id" :depart-name="selectedDept.name" />
-							</el-tab-pane>
 						</el-tabs>
 					</div>
 				</el-card>
@@ -122,12 +117,10 @@ import { defineAsyncComponent, ref, onMounted, reactive, nextTick } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { Shop, OfficeBuilding, School, Loading } from '@element-plus/icons-vue';
 import { useDeptApi } from '@/api/system/dept';
-import { commonApi } from '@/api/common';
 
 // 引入组件
 const DeptDialog = defineAsyncComponent(() => import('@/views/system/dept/dialog.vue'));
 const DeptDetail = defineAsyncComponent(() => import('@/views/system/dept/components/DeptDetail.vue'));
-const DeptUsers = defineAsyncComponent(() => import('@/views/system/dept/components/DeptUsers.vue'));
 
 // 定义变量内容
 const deptDialogRef = ref();
@@ -141,7 +134,6 @@ const expandLoading = ref(false);
 // 状态管理
 const state = reactive({
 	loading: false,
-	selectTypeList: [] as any[],
 });
 
 // 搜索关键词
@@ -357,16 +349,6 @@ const toggleExpandCollapse = () => {
 // 组件挂载时加载数据
 onMounted(() => {
 	loadDeptTree();
-
-	// 获取枚举值
-	commonApi()
-		.getEnumValue('sys_depttype')
-		.then((res: any) => {
-			state.selectTypeList = res.data;
-		})
-		.catch(() => {
-			// 忽略错误
-		});
 });
 </script>
 

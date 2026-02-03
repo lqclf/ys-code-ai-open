@@ -15,7 +15,9 @@
 						<el-form :model="searchForm" ref="searchFormRef" label-width="90px">
 							<el-input placeholder="请输入菜单名称" class="w-180 mr20" v-model="searchForm.title" clearable />
 							<el-select class="m-2 w-180" v-model="searchForm.type" placeholder="请选择类型" clearable>
-								<el-option v-for="item in state.selectTypeList" :key="item.value" :label="item.label" :value="item.value" />
+								<el-option label="目录" :value="1" />
+								<el-option label="菜单" :value="2" />
+								<el-option label="按钮" :value="3" />
 							</el-select>
 							<el-button type="primary" class="ml10" @click="searchTable">
 								<i class="ri-search-line"></i>
@@ -66,13 +68,11 @@
 	</div>
 </template>
 <script setup lang="ts" name="systemMenu">
-import { defineAsyncComponent, ref, onMounted, reactive } from 'vue';
+import { defineAsyncComponent, ref, reactive } from 'vue';
 import { ElMessageBox, ElMessage, FormInstance } from 'element-plus';
 import { auth } from '@/utils/authFunction';
 import { useMenuApi } from '@/api/system/menu';
-import { commonApi } from '@/api/common';
 import { useResetForm } from '@/utils/resetForm';
-import YsTable from '@/components/YsTable/index.vue';
 
 // 引入组件
 const MenuDialog = defineAsyncComponent(() => import('@/views/system/menu/dialog.vue'));
@@ -86,7 +86,6 @@ const state = reactive({
 	table: {
 		loading: false,
 	},
-	selectTypeList: [] as any[],
 });
 
 const searchForm = reactive({
@@ -216,12 +215,4 @@ function onTabelRowDel(row: any) {
 		.catch(() => {});
 }
 
-onMounted(() => {
-	// 获取枚举值
-	commonApi()
-		.getEnumValue('sys_menutype')
-		.then((res: any) => {
-			state.selectTypeList = res.data;
-		});
-});
 </script>
