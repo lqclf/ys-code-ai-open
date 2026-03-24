@@ -1,5 +1,5 @@
 <template>
-	<YsDialog
+	<el-dialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="closeDialog"
@@ -7,6 +7,7 @@
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
+		draggable
 	>
 		<div class="user-detail-container" v-loading="state.loading">
 			<div class="detail-header">
@@ -153,9 +154,8 @@
 				编辑用户
 			</el-button>
 		</template>
-	</YsDialog>
+	</el-dialog>
 </template>
-
 <script setup lang="ts" name="systemUserDetail">
 import { reactive } from 'vue';
 import { User, InfoFilled, UserFilled, Setting, Document, Edit } from '@element-plus/icons-vue';
@@ -198,165 +198,153 @@ defineExpose({
 	openDialog,
 });
 </script>
-
 <style scoped lang="scss">
 .user-detail-container {
-	.detail-header {
-		display: flex;
-		align-items: center;
-		padding: 16px 20px;
-		background: #f5f7fa;
-		border-radius: 8px;
-		margin-bottom: 20px;
+	padding: 20px;
+}
 
-		.user-avatar {
-			margin-right: 16px;
-			flex-shrink: 0;
+.detail-header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 24px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--el-border-color-lighter);
+}
 
-			:deep(.el-avatar) {
-				background: #e0e0e0;
-				color: #909399;
-			}
-		}
+.user-avatar {
+	margin-right: 16px;
+}
 
-		.user-basic-info {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			gap: 8px;
+.user-basic-info {
+	flex: 1;
+}
 
-			.user-info-row {
-				display: flex;
-				align-items: center;
-				gap: 12px;
-				flex-wrap: wrap;
-			}
+.user-info-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 8px;
+}
 
-			.user-name {
-				margin: 0;
-				font-size: 18px;
-				font-weight: 600;
-				color: #303133;
-				line-height: 1.2;
-			}
+.user-name {
+	margin: 0;
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--el-text-color-primary);
+}
 
-			.user-tags {
-				display: flex;
-				align-items: center;
-				gap: 6px;
-			}
+.user-tags {
+	display: flex;
+	gap: 8px;
+}
 
-			.user-code {
-				font-size: 13px;
-				color: #606266;
-				line-height: 1.4;
+.user-code {
+	font-size: 14px;
+	color: var(--el-text-color-secondary);
 
-				.label {
-					margin-right: 6px;
-					color: #909399;
-				}
-
-				.value {
-					font-weight: 500;
-					color: #303133;
-				}
-			}
-		}
+	.label {
+		color: var(--el-text-color-regular);
 	}
 
-	.detail-content {
-		.info-section {
-			.section-title {
-				display: flex;
-				align-items: center;
-				font-size: 15px;
-				font-weight: 600;
-				color: #303133;
-				margin-bottom: 16px;
-				padding-bottom: 10px;
-				border-bottom: 2px solid #e4e7ed;
-
-				.el-icon {
-					margin-right: 8px;
-					color: #409eff;
-				}
-			}
-
-			.info-row {
-				margin-bottom: 12px;
-
-				.info-item {
-					display: flex;
-					align-items: center;
-					padding: 12px 16px;
-					background: #fafafa;
-					border-radius: 6px;
-					transition: all 0.3s;
-					border: 1px solid #ebeef5;
-
-					&:hover {
-						background: #f0f7ff;
-						border-color: #c6e2ff;
-					}
-
-					.info-label {
-						min-width: 80px;
-						color: #606266;
-						font-weight: 500;
-						font-size: 14px;
-					}
-
-					.info-value {
-						flex: 1;
-						color: #303133;
-						font-weight: 600;
-						font-size: 14px;
-					}
-				}
-			}
-
-			.status-section {
-				.status-item {
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					padding: 16px;
-					background: #fafafa;
-					border-radius: 6px;
-					border: 1px solid #ebeef5;
-
-					.status-label {
-						font-size: 14px;
-						color: #606266;
-						font-weight: 500;
-					}
-				}
-
-				.remark-box {
-					padding: 16px;
-					background: #fafafa;
-					border-radius: 6px;
-					min-height: 80px;
-					border: 1px solid #ebeef5;
-
-					p {
-						margin: 0;
-						color: #606266;
-						line-height: 1.6;
-						font-size: 14px;
-					}
-				}
-			}
-
-			.mt-20 {
-				margin-top: 20px;
-			}
-		}
-
-		.mt-24 {
-			margin-top: 24px;
-		}
+	.value {
+		font-weight: 500;
+		color: var(--el-text-color-primary);
 	}
+}
+
+.detail-content {
+	padding: 0 8px;
+}
+
+.info-section {
+	margin-bottom: 24px;
+}
+
+.section-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 16px;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--el-text-color-primary);
+
+	.el-icon {
+		color: var(--el-color-primary);
+	}
+}
+
+.info-row {
+	margin-bottom: 12px;
+}
+
+.info-item {
+	display: flex;
+	align-items: center;
+	padding: 12px 16px;
+	background-color: var(--el-fill-color-light);
+	border-radius: 8px;
+
+	.info-label {
+		width: 80px;
+		font-size: 14px;
+		color: var(--el-text-color-secondary);
+	}
+
+	.info-value {
+		flex: 1;
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--el-text-color-primary);
+	}
+}
+
+.role-list {
+	padding: 16px;
+	background-color: var(--el-fill-color-light);
+	border-radius: 8px;
+}
+
+.role-cards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.status-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 16px;
+	background-color: var(--el-fill-color-light);
+	border-radius: 8px;
+
+	.status-label {
+		font-size: 14px;
+		color: var(--el-text-color-secondary);
+	}
+}
+
+.remark-box {
+	padding: 16px;
+	background-color: var(--el-fill-color-light);
+	border-radius: 8px;
+	min-height: 80px;
+
+	p {
+		margin: 0;
+		font-size: 14px;
+		color: var(--el-text-color-regular);
+		line-height: 1.6;
+	}
+}
+
+.mt-20 {
+	margin-top: 20px;
+}
+
+.mt-24 {
+	margin-top: 24px;
 }
 
 .mr-4 {

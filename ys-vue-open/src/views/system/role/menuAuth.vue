@@ -1,14 +1,15 @@
 <template>
-	<YsDialog
+	<el-dialog
 		v-model="state.dialog.isShowDialog"
 		@close="onCancel"
 		width="75%"
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
-		:align-center="true"
+		align-center
+		draggable
 	>
-		<template #header-left>
+		<template #header>
 			<div class="dialog-header">
 				<span class="dialog-title">{{ state.dialog.title }}：</span>
 				<el-tag type="primary"><i class="ri-shield-user-line"></i> {{ state.row.name }}</el-tag>
@@ -50,7 +51,7 @@
 			<el-button @click="onCancel">取消</el-button>
 			<el-button type="primary" @click="handleSubmit" :loading="state.loading">确定</el-button>
 		</template>
-	</YsDialog>
+	</el-dialog>
 </template>
 <script setup lang="ts" name="systemRoleAuth">
 import { reactive, ref } from 'vue';
@@ -296,7 +297,6 @@ const handleParentCheckboxChange = (checked: boolean, row: Menu) => {
 				selectAllChildren(child.id);
 			});
 		};
-
 		// 选中所有子节点及其按钮
 		selectAllChildren(row.id);
 
@@ -499,7 +499,7 @@ defineExpose({
 :deep(.el-checkbox-group):hover {
 	scrollbar-width: thin;
 	/* Firefox */
-	-ms-overflow-style: scrollbar;
+	-ms-overflow-style: auto;
 	/* IE and Edge */
 }
 
@@ -510,38 +510,11 @@ defineExpose({
 }
 
 :deep(.el-checkbox-group):hover::-webkit-scrollbar-thumb {
+	background-color: var(--el-border-color-darker);
 	border-radius: 3px;
 }
 
-:deep(.el-checkbox-group):hover::-webkit-scrollbar-track {
-	background-color: transparent;
-}
-
 :deep(.title-column-border) {
-	border-right: 1px solid #e9eaec;
-}
-
-:deep(.vxe-table--body .vxe-body--row:first-child .vxe-table--column) {
-	border-right: none;
-}
-
-.link-group {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 30px;
-}
-
-.link-group .el-link i {
-	font-size: 20px;
-}
-
-.dialog-header {
-	font-size: 16px;
-	font-weight: var(--el-dialog-title-font-weight);
-	color: var(--el-text-color-primary);
-	line-height: var(--el-dialog-font-line-height);
-}
-:deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
-	color: var(--el-checkbox-text-color) !important;
+	border-right: 1px solid var(--el-border-color);
 }
 </style>

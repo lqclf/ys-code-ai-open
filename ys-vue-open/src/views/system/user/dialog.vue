@@ -1,5 +1,5 @@
 <template>
-	<YsDialog
+	<el-dialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
@@ -7,6 +7,7 @@
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
+		draggable
 	>
 		<el-form ref="userDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="90px" :inline="false" label-position="right">
 			<!-- 用户基本信息 -->
@@ -163,9 +164,8 @@
 				state.dialog.submitTxt
 			}}</el-button>
 		</template>
-	</YsDialog>
+	</el-dialog>
 </template>
-
 <script setup lang="ts" name="systemUserDialog">
 import { reactive, ref, nextTick } from 'vue';
 import { useUserApi } from '@/api/system/user';

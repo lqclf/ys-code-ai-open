@@ -1,5 +1,5 @@
 <template>
-	<YsDialog
+	<el-dialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
@@ -7,6 +7,7 @@
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
+		draggable
 	>
 		<el-form ref="deptDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="100px" :inline="false" label-position="right">
 			<el-row class="mb15">
@@ -199,7 +200,7 @@
 				state.dialog.submitTxt
 			}}</el-button>
 		</template>
-	</YsDialog>
+	</el-dialog>
 </template>
 
 <script setup lang="ts" name="systemDeptDialog">

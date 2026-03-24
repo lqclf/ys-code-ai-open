@@ -1,5 +1,5 @@
 <template>
-	<YsDialog
+	<el-dialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
@@ -7,6 +7,7 @@
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
+		draggable
 	>
 		<el-form ref="menuDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="90px" :inline="false" :label-position="labelPosition">
 			<el-row class="mb15">
@@ -160,7 +161,7 @@
 			<el-button @click="closeDialog" size="default">取 消</el-button>
 			<el-button type="primary" @click="onSubmit" size="default" :loading="state.loading">{{ state.dialog.submitTxt }}</el-button>
 		</template>
-	</YsDialog>
+	</el-dialog>
 </template>
 <script setup lang="ts" name="systemMenuDialog">
 import { defineAsyncComponent, reactive, ref, watch, nextTick } from 'vue';

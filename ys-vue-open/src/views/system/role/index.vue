@@ -1,85 +1,105 @@
 <template>
 	<div class="page-container">
 		<el-card>
-			<YsTable
-				ref="tableRef"
-				:request-fn="useRoleApi().list"
-				:options="tableOptions"
-				:query-params="searchForm"
-				:show-pagination="true"
-				:events="tableEvents"
-				@request-success="handleSuccess"
-			>
-				<!-- 页面头部区域 -->
-				<template #page-header>
-					<div class="page-header">
-						<el-form :model="searchForm" ref="searchFormRef" label-width="90px">
-							<el-input placeholder="请输入角色名称" class="w-180 mr20" v-model="searchForm.name" clearable @keyup.enter="searchTable" />
-							<el-button type="primary" class="ml10" @click="searchTable">
-								<i class="ri-search-line"></i>
-								查询
-							</el-button>
-							<el-button type="default" class="ml10" @click="resetTable">
-								<i class="ri-reset-left-line"></i>
-								重置
-							</el-button>
-						</el-form>
-					</div>
-				</template>
+			<!-- 页面头部区域 -->
+			<div class="page-header mb15">
+				<el-form :model="searchForm" ref="searchFormRef" label-width="90px">
+					<el-input placeholder="请输入角色名称" class="w-180 mr20" v-model="searchForm.name" clearable @keyup.enter="searchTable" />
+					<el-button type="primary" class="ml10" @click="searchTable">
+						<i class="ri-search-line"></i>
+						查询
+					</el-button>
+					<el-button type="default" class="ml10" @click="resetTable">
+						<i class="ri-reset-left-line"></i>
+						重置
+					</el-button>
+				</el-form>
+			</div>
 
-				<!-- 操作列 -->
-				<template #action="scope">
-					<div class="operation-btn-group">
-						<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogCRU('edit', scope.row)" v-auth="'system:role:edit'">
-							编辑
-						</el-link>
-						<el-link type="danger" underline="never" class="pr6 pl6" @click="onDelete(scope.row)" v-auth="'system:role:delete'"> 删除 </el-link>
-						<el-link type="success" underline="never" class="pr6 pl6" @click="openDialogCRU('view', scope.row)"> 详情 </el-link>
-						<el-dropdown :hide-on-click="false" v-auths="['system:role:updateAuth', 'system:role:userConfig', 'system:role:dataPermission']">
-							<span class="el-dropdown-link">
-								<el-link type="primary" underline="never" class="pr6 pl6">
-									<i class="ri-arrow-right-double-line"></i>
-								</el-link>
-							</span>
-							<template #dropdown>
-								<el-dropdown-menu>
-									<el-dropdown-item>
-										<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogAuth(scope.row)" v-auth="'system:role:updateAuth'">
-											权限配置
-										</el-link>
-									</el-dropdown-item>
-								</el-dropdown-menu>
-							</template>
-						</el-dropdown>
-					</div>
-				</template>
-			</YsTable>
+			<!-- 表格工具栏 -->
+			<div class="table-toolbar mb15">
+				<el-button type="success" @click="openDialogCRU('add')" v-auth="'system:role:add'">
+					<i class="ri-add-line"></i>
+					新增
+				</el-button>
+			</div>
+
+			<!-- 表格区域 -->
+			<el-table
+				ref="tableRef"
+				:data="tableData"
+				v-loading="state.loading"
+				border
+				stripe
+				highlight-current-row
+			>
+				<el-table-column type="index" label="序号" width="80" align="center" />
+				<el-table-column prop="name" label="角色名称" />
+				<el-table-column prop="code" label="角色编码" />
+				<el-table-column prop="seq" label="排序" width="80" />
+				<el-table-column prop="remark" label="备注" />
+				<el-table-column label="操作" width="180" align="center" fixed="right">
+					<template #default="scope">
+						<div class="operation-btn-group">
+							<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogCRU('edit', scope.row)" v-auth="'system:role:edit'">
+								编辑
+							</el-link>
+							<el-link type="danger" underline="never" class="pr6 pl6" @click="onDelete(scope.row)" v-auth="'system:role:delete'"> 删除 </el-link>
+							<el-link type="success" underline="never" class="pr6 pl6" @click="openDialogCRU('view', scope.row)"> 详情 </el-link>
+							<el-dropdown :hide-on-click="false" v-auths="['system:role:updateAuth', 'system:role:userConfig', 'system:role:dataPermission']">
+								<span class="el-dropdown-link">
+									<el-link type="primary" underline="never" class="pr6 pl6">
+										<i class="ri-arrow-right-double-line"></i>
+									</el-link>
+								</span>
+								<template #dropdown>
+									<el-dropdown-menu>
+										<el-dropdown-item>
+											<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogAuth(scope.row)" v-auth="'system:role:updateAuth'">
+												权限配置
+											</el-link>
+										</el-dropdown-item>
+									</el-dropdown-menu>
+								</template>
+							</el-dropdown>
+						</div>
+					</template>
+				</el-table-column>
+			</el-table>
+
+			<!-- 分页区域 -->
+			<div class="pagination-container mt15">
+				<el-pagination
+					v-model:current-page="state.page"
+					v-model:page-size="state.size"
+					:page-sizes="[10, 20, 50, 100]"
+					:total="state.total"
+					layout="total, sizes, prev, pager, next, jumper"
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+				/>
+			</div>
 		</el-card>
 
 		<!-- 引入组件 -->
-		<RoleDialog ref="roleDialogRef" />
+		<RoleDialog ref="roleDialogRef" @refresh="getTableData" />
 		<RoleAuthDialog ref="roleAuthDialogRef" />
-		<RoleUsersDialog ref="roleUsersDialogRef" />
-		<RoleDataPermission ref="roleDataPermissionRef" />
 	</div>
 </template>
 
 <script lang="ts" setup name="systemRole">
-import { defineAsyncComponent, reactive, ref } from 'vue';
+import { defineAsyncComponent, reactive, ref, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { useRoleApi } from '@/api/system/role';
 
 // 引入组件
 const RoleDialog = defineAsyncComponent(() => import('@/views/system/role/dialog.vue'));
 const RoleAuthDialog = defineAsyncComponent(() => import('@/views/system/role/menuAuth.vue'));
-const RoleUsersDialog = defineAsyncComponent(() => import('@/views/system/role/users.vue'));
-const RoleDataPermission = defineAsyncComponent(() => import('@/views/system/role/dataAuth.vue'));
 
 // 定义变量内容
 const roleDialogRef = ref();
 const roleAuthDialogRef = ref();
-const roleUsersDialogRef = ref();
-const roleDataPermissionRef = ref();
+const searchFormRef = ref();
 const tableRef = ref();
 
 // 搜索表单
@@ -87,48 +107,64 @@ const searchForm = reactive({
 	name: '',
 });
 
-const tableOptions = reactive<any>({
-	columns: [
-		{ type: 'seq', width: 80, align: 'center' },
-		{ title: '角色名称', field: 'name' },
-		{ title: '角色编码', field: 'code' },
-		{ title: '排序', field: 'seq', width: 80 },
-		{ title: '备注', field: 'remark' },
-		{ title: '操作', field: 'action', width: 180, slots: { default: 'action' }, align: 'center' },
-	],
-	// 工具栏配置
-	toolbarConfig: {
-		size: 'small', // 工具栏大小
-		refresh: true, // 开启刷新
-		zoom: true, // 开启缩放
-		custom: true, // 开启自定义按钮
-		buttons: [{ name: '新增', code: 'menuAdd', status: 'success', icon: 'ri-add-line' }],
-	},
+// 状态数据
+const state = reactive({
+	loading: false,
+	page: 1,
+	size: 10,
+	total: 0,
 });
 
-const tableEvents = {
-	toolbarButtonClick(params: any) {
-		switch (params.code) {
-			case 'menuAdd':
-				openDialogCRU('add');
-				break;
+// 表格数据
+const tableData = ref<any[]>([]);
+
+// 获取表格数据
+const getTableData = async () => {
+	state.loading = true;
+	try {
+		const params = {
+			...searchForm,
+			page: state.page,
+			size: state.size,
+		};
+		const res = await useRoleApi().list(params);
+		if (res.code === 200 || res.success) {
+			tableData.value = res.data?.records || res.data || [];
+			state.total = res.data?.total || 0;
 		}
-	},
+	} catch (error) {
+		console.error('获取角色列表失败:', error);
+		ElMessage.error('获取角色列表失败');
+	} finally {
+		state.loading = false;
+	}
 };
+
 // 搜索方法
 const searchTable = (resetPage = true) => {
-	tableRef.value?.search(resetPage);
+	if (resetPage) {
+		state.page = 1;
+	}
+	getTableData();
 };
 
 // 重置方法
 const resetTable = () => {
-	// 重置表格
-	tableRef.value?.reset();
+	searchForm.name = '';
+	state.page = 1;
+	getTableData();
 };
 
-// 数据加载成功回调
-const handleSuccess = (res: any) => {
-	//console.log('数据加载成功', res);
+// 分页大小变化
+const handleSizeChange = (val: number) => {
+	state.size = val;
+	getTableData();
+};
+
+// 页码变化
+const handleCurrentChange = (val: number) => {
+	state.page = val;
+	getTableData();
 };
 
 // 打开菜单操作弹窗（新增/编辑）
@@ -154,7 +190,7 @@ const deleteRow = async (row: any, message?: string) => {
 		const res = await useRoleApi().delete(row.id);
 		if (res.code === 200 || res.success) {
 			ElMessage.success('删除成功');
-			tableRef.value?.refresh();
+			getTableData();
 		} else {
 			ElMessage.error(res.msg || '删除失败');
 		}
@@ -168,13 +204,20 @@ const openDialogAuth = (row: any) => {
 	roleAuthDialogRef.value.openDialog(row);
 };
 
-// 打开人员配置弹窗
-const openDialogUser = (row: any) => {
-	roleUsersDialogRef.value.openDialog({ ...row, roleName: row.name });
-};
-
-// 打开数据权限配置弹窗
-const openDialogDataPermission = (row: any) => {
-	roleDataPermissionRef.value.openDialog(row);
-};
+// 页面加载时
+onMounted(() => {
+	getTableData();
+});
 </script>
+
+<style scoped>
+.operation-btn-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.pagination-container {
+	display: flex;
+	justify-content: flex-end;
+}
+</style>

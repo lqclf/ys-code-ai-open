@@ -1,5 +1,5 @@
 {
-	"name": "ys-vue3-admin",
+	"name": "ysCode-vue",
 	"version": "1.2.0",
 	"description": "vue3 vite admin template",
 	"author": "liuq",
@@ -108,7 +108,7 @@
 		"vuejs/vue-next",
 		"element-ui",
 		"element-plus",
-		"ys-vue3-admin"
+		"ysCode-vue"
 	],
 	"repository": {
 		"type": "git",
