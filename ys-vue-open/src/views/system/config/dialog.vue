@@ -146,7 +146,7 @@ const onSubmit = async () => {
 	state.loading = true;
 
 	// 根据类型调用不同的API
-	const apiMethod = state.dialog.type === 'add' ? useConfigApi().addConfig : useConfigApi().updateConfig;
+	const apiMethod = state.dialog.type === 'add' ? useConfigApi().add : useConfigApi().update;
 
 	try {
 		const res = await apiMethod(state.ruleForm);

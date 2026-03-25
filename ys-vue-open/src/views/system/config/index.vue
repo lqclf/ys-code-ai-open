@@ -100,12 +100,12 @@ const getTableData = async () => {
 	state.loading = true;
 	try {
 		const res = await useConfigApi().list({
-			pageNum: state.page,
+			pageNo: state.page,
 			pageSize: state.size,
 			...searchForm,
 		});
 		if (res.code === 200 || res.success) {
-			tableData.value = res.data.list || [];
+			tableData.value = res.data.records || [];
 			state.total = res.data.total || 0;
 		}
 	} catch (error) {

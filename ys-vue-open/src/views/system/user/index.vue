@@ -195,8 +195,6 @@ const UserDetail = defineAsyncComponent(() => import('@/views/system/user/detail
 const userDialogRef = ref();
 const passwordDialogRef = ref();
 const userDetailRef = ref();
-const searchFormRef = ref<FormInstance>();
-const tableRef = ref();
 
 // 展开的节点keys
 const expandedKeys = ref<string[]>([]);
@@ -233,8 +231,8 @@ const getTableData = async () => {
 	try {
 		const params = {
 			...searchForm,
-			page: state.page,
-			size: state.size,
+			pageNo: state.page,
+			pageSize: state.size,
 		};
 		const res = await useUserApi().list(params);
 		if (res.code === 200 || res.success) {

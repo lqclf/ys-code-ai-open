@@ -149,11 +149,6 @@
 						<el-input v-model="state.ruleForm.zipCode" placeholder="请输入邮政编码" :readonly="state.dialog.type == 'view'" />
 					</el-form-item>
 				</el-col>
-				<el-col :span="12">
-					<el-form-item label="部门图标" prop="icon">
-						<IconPicker placeholder="请选择部门图标" v-model="state.ruleForm.icon" :disabled="state.dialog.type == 'view'" />
-					</el-form-item>
-				</el-col>
 			</el-row>
 			<el-row class="mb15">
 				<el-col :span="24">
@@ -209,9 +204,6 @@ import { useDeptApi } from '@/api/system/dept';
 import { Shop, OfficeBuilding, School } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { objectCopyForm } from '@/utils/objectCopy';
-
-// 引入组件
-const IconPicker = defineAsyncComponent(() => import('@/components/YsIconPicker/index.vue'));
 
 const deptDialogFormRef = ref();
 

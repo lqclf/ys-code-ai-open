@@ -53,15 +53,7 @@ public class LoginController {
         }
         //【1】 校验用户是否存在且有效
         LambdaQueryWrapper<SysUser> query = new LambdaQueryWrapper<>();
-        if (LoginTypeEnum.USER_LOGIN.getKey().equals(o.getType())) {    // 账号密码登录
-            query.eq(SysUser::getLoginName, o.getLoginName());
-        } else if(LoginTypeEnum.USER_PHONE.getKey().equals(o.getType())){
-            query.eq(SysUser::getPhone, o.getPhone());
-        } else if(LoginTypeEnum.USER_EMAIL.getKey().equals(o.getType())){
-            query.eq(SysUser::getEmail, o.getEmail());
-        } else {
-            //......
-        }
+        query.eq(SysUser::getLoginName, o.getLoginName());
         query.eq(SysUser::getIsDelete, IsDeleteEnum.NOT_DELETED.getKey());
         SysUser sysUser = userService.getOne(query);
 
@@ -118,7 +110,6 @@ public class LoginController {
 
         if(sysUser!=null) {
             log.info("用户:  {},退出成功！ ", sysUser.getLoginName());
-            //调用shiro的logout
             StpUtil.logout();
             return ResponseResult.success("退出登录成功！");
         }else {

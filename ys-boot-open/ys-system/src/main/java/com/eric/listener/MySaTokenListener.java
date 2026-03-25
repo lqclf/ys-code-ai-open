@@ -39,10 +39,6 @@ public class MySaTokenListener implements SaTokenListener {
         
         // 获取请求信息
         HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
-                /*HttpServletRequest request = ObjectUtil.isNotEmpty(loginModel.getExtraData())
-            ? (HttpServletRequest) loginModel.getExtraData().get("request") 
-            : null;
-*/
         log.info("用户 {} 登录系统，token: {}", user.getLoginName(), tokenValue);
     }
 

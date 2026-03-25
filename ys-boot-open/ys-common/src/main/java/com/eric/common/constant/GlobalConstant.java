@@ -10,8 +10,6 @@ public class GlobalConstant {
 	// session中保存用户信息
 	public static final String SESSION_USERINFO = "session_userinfo";
 
-	/** 登录用户Shiro权限缓存KEY前缀 */
-	public static final String PREFIX_USER_SHIRO_CACHE  = "shiro:cache:org.jeecg.config.shiro.ShiroRealm.authorizationCache:";
 	/** 登录用户Token令牌缓存KEY前缀 */
 	public static final String PREFIX_USER_TOKEN  = "prefix_user_token:";
 

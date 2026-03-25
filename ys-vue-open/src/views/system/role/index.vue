@@ -124,8 +124,8 @@ const getTableData = async () => {
 	try {
 		const params = {
 			...searchForm,
-			page: state.page,
-			size: state.size,
+			pageNo: state.page,
+			pageSize: state.size,
 		};
 		const res = await useRoleApi().list(params);
 		if (res.code === 200 || res.success) {

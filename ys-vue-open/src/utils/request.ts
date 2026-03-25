@@ -30,19 +30,26 @@ service.interceptors.request.use(
 	}
 );
 
+/**
+ * 处理登录过期，跳转到登录页
+ */
+const handleLoginExpired = (message: string = '登录已过期，请重新登录') => {
+	Session.clear(); // 清除浏览器全部临时缓存
+	ElMessage.error(message);
+	setTimeout(() => {
+		window.location.href = '/'; // 去登录页
+	}, 1500);
+};
+
 // 添加响应拦截器
 service.interceptors.response.use(
 	(response) => {
 		// 对响应数据做点什么
-		const res = response.data;	
+		const res = response.data;
 		if (res.code && res.code != 200) {
 			// `token` 过期或者账号已在别处登录
 			if (res.code === 401 || res.code === 4001) {
-				Session.clear(); // 清除浏览器全部临时缓存
-				window.location.href = '/'; // 去登录页
-				ElMessageBox.alert('你已被登出，请重新登录', '提示', {})
-					.then(() => {})
-					.catch(() => {});
+				handleLoginExpired(res.msg || '你已被登出，请重新登录');
 			}
 			return res;
 		} else {
@@ -55,9 +62,30 @@ service.interceptors.response.use(
 			ElMessage.error('网络超时');
 		} else if (error.message == 'Network Error') {
 			ElMessage.error('网络连接错误');
+		} else if (error.response) {
+			// 处理 Sa-Token token 无效的情况
+			const { status, data } = error.response;
+			const errorMsg = data?.msg || data?.message || '';
+
+			// 检查是否是 token 相关错误（401 状态码或包含特定错误信息）
+			if (status === 401 ||
+				errorMsg.includes('token') ||
+				errorMsg.includes('Token') ||
+				errorMsg.includes('无效') ||
+				errorMsg.includes('未登录') ||
+				errorMsg.includes('NotLoginException') ||
+				errorMsg.includes('登录') ||
+				errorMsg.includes('登出')) {
+				handleLoginExpired(errorMsg || '登录已过期，请重新登录');
+			} else {
+				if (data?.msg || data?.message) {
+					ElMessage.error(data.msg || data.message);
+				} else {
+					ElMessage.error(`请求错误: ${status}`);
+				}
+			}
 		} else {
-			if (error.response.data) ElMessage.error(error.response.statusText);
-			else ElMessage.error('接口路径找不到');
+			ElMessage.error('接口路径找不到');
 		}
 		return Promise.reject(error);
 	}

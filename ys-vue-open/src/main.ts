@@ -17,10 +17,8 @@ import 'vxe-table/es/style.css';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 //全局引入YsTable
-import YsTable from '@/components/YsTable/index.vue';
 import '@/theme/remixicon/remixicon.css'
 //弹窗组件
-import YsDialog from '@/components/YsDialog/index.vue';
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 import 'highlight.js/lib/common';
 
@@ -29,8 +27,6 @@ const app = createApp(App);
 
 directive(app); // 引入自定义指令
 other.elSvg(app); // 引入svg图标 并注册全局组件
-app.component('YsDialog', YsDialog)
-app.component('YsTable', YsTable)
 app.use(pinia)
     .use(router)
     .use(ElementPlus, {

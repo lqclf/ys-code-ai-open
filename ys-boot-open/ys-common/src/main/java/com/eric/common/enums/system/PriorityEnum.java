@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * 优先级枚举
  * @ClassName:  PriorityEnum
  * @author:     liuQ
- * @date:       2025-01-19
+ * @date:       2025-07-19
  * @Copyright   ERIC 微信公众号：Eric技术杂货库
  */
 public enum PriorityEnum implements BaseEnum {

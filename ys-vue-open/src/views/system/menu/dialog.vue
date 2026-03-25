@@ -64,11 +64,6 @@
 			</el-row>
 			<el-row class="mb15">
 				<el-col :span="12">
-					<el-form-item label="菜单图标" prop="icon">
-						<IconPicker placeholder="请输入菜单图标" v-model="state.ruleForm.icon" />
-					</el-form-item>
-				</el-col>
-				<el-col :span="12">
 					<el-form-item label="排序" prop="seq">
 						<el-input-number v-model="state.ruleForm.seq" placeholder="请输入排序" :min="0" clearable />
 					</el-form-item>
@@ -164,14 +159,12 @@
 	</el-dialog>
 </template>
 <script setup lang="ts" name="systemMenuDialog">
-import { defineAsyncComponent, reactive, ref, watch, nextTick } from 'vue';
+import { reactive, ref, watch, nextTick } from 'vue';
 import { Memo, Notebook } from '@element-plus/icons-vue';
 import { useMenuApi } from '@/api/system/menu';
 import { ElMessage } from 'element-plus';
 import { objectCopyForm } from '@/utils/objectCopy';
 
-// 引入组件
-const IconPicker = defineAsyncComponent(() => import('@/components/YsIconPicker/index.vue'));
 
 const menuDialogFormRef = ref();
 const labelPosition = ref('right');

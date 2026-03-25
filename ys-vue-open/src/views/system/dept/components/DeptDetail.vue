@@ -122,11 +122,6 @@
 						<el-input v-model="formData.zipCode" placeholder="请输入邮政编码" />
 					</el-form-item>
 				</el-col>
-				<el-col :span="12">
-					<el-form-item label="部门图标" prop="icon">
-						<IconPicker placeholder="请选择部门图标" v-model="formData.icon" />
-					</el-form-item>
-				</el-col>
 			</el-row>
 
 			<!-- 状态信息 -->
@@ -171,12 +166,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted, defineAsyncComponent } from 'vue';
+import { ref, reactive, watch, onMounted } from 'vue';
 import { ElMessage, FormInstance } from 'element-plus';
 import { useDeptApi } from '@/api/system/dept';
 import { objectCopyForm } from '@/utils/objectCopy';
 // 引入组件
-const IconPicker = defineAsyncComponent(() => import('@/components/YsIconPicker/index.vue'));
 interface DeptData {
 	id: string;
 	name: string;
