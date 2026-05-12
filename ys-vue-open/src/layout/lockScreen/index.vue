@@ -230,10 +230,9 @@ const initLockScreen = () => {
 
 /**
  * 存储布局配置到本地
- * 关闭抽屉并保存当前主题配置
+ * 保存当前主题配置
  */
 const setLocalThemeConfig = () => {
-	themeConfig.value.isDrawer = false;
 	Local.set('themeConfig', themeConfig.value);
 };
 

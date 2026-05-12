@@ -19,7 +19,7 @@
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '@/stores/themeConfig';
-import logoMini from '@/assets/logo-mini.svg';
+import logoMini from '@/assets/logo.png';
 
 // 主题配置状态管理
 const storesThemeConfig = useThemeConfig();
@@ -53,23 +53,28 @@ const onThemeConfigChange = () => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: rgb(0 21 41 / 2%) 0px 1px 4px;
-	color: var(--el-color-primary);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+	color: #ffffff;
 	font-size: 16px;
 	cursor: pointer;
 	animation: logoAnimation 0.3s ease-in-out;
+	background: linear-gradient(90deg, rgba(64, 158, 255, 0.15) 0%, transparent 100%);
+	border-bottom: 1px solid rgba(64, 158, 255, 0.2);
 	span {
 		white-space: nowrap;
 		display: inline-block;
+		font-weight: 600;
+		letter-spacing: 1px;
 	}
 	&:hover {
 		span {
-			color: var(--color-primary-light-2);
+			color: #409eff;
 		}
 	}
 	&-medium-img {
-		width: 20px;
-		margin-right: 5px;
+		width: 24px;
+		margin-right: 8px;
+		filter: drop-shadow(0 0 4px rgba(64, 158, 255, 0.6));
 	}
 }
 .layout-logo-size {
@@ -78,9 +83,12 @@ const onThemeConfigChange = () => {
 	display: flex;
 	cursor: pointer;
 	animation: logoAnimation 0.3s ease-in-out;
+	background: linear-gradient(90deg, rgba(64, 158, 255, 0.15) 0%, transparent 100%);
+	border-bottom: 1px solid rgba(64, 158, 255, 0.2);
 	&-img {
-		width: 20px;
+		width: 24px;
 		margin: auto;
+		filter: drop-shadow(0 0 4px rgba(64, 158, 255, 0.6));
 	}
 	&:hover {
 		img {

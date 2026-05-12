@@ -1,8 +1,8 @@
 <template>
 	<div class="layout-footer pb15">
 		<div class="layout-footer-warp">
-			<div>ys-admin Eric</div>
-			<div class="mt5">忆笙平台版权所有</div>
+			<div>YsCode - 忆笙管理平台</div>
+			<div class="mt5">Eric © 版权所有</div>
 		</div>
 	</div>
 </template>

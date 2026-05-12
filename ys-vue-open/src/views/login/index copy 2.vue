@@ -21,9 +21,9 @@
 
         <div class="title-container">
           <h1 class="main-title">
-            <span class="title-char" v-for="(char, index) in '忆笙博客系统'" :key="index" :style="`--delay: ${index * 0.1}s`">{{ char }}</span>
+            <span class="title-char" v-for="(char, index) in '忆笙管理平台'" :key="index" :style="`--delay: ${index * 0.1}s`">{{ char }}</span>
           </h1>
-          <h2 class="sub-title">YiSheng Blog</h2>
+          <h2 class="sub-title">YsCode</h2>
           <div class="title-decoration">
             <div class="decoration-line"></div>
             <div class="decoration-dot"></div>
@@ -61,7 +61,7 @@
           <div class="qr-code">
             <img src="https://picsum.photos/seed/qrcode/200/200.jpg" alt="二维码">
           </div>
-          <p>请使用忆笙博客APP扫码登录</p>
+          <p>请使用忆笙管理平台APP扫码登录</p>
           
           <!-- 社交登录 -->
           <div class="social-login">
@@ -95,7 +95,7 @@
         
         <!-- 账号/手机登录区域 -->
         <div v-else class="form-login">
-          <h2>欢迎登录忆笙博客</h2>
+          <h2>欢迎登录忆笙管理平台</h2>
           
           <el-tabs v-model="activeTab" class="login-tabs">
             <!-- 账号密码登录 -->
@@ -226,7 +226,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { User, Lock, Picture, Iphone, Key, ChatDotRound, Share, Platform, Monitor } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import logoImg from '@/assets/logo_100.png';
+import logoImg from '@/assets/logo.png';
 
 const router = useRouter()
 const activeTab = ref('account')

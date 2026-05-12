@@ -22,6 +22,12 @@
 	--next-color-seting-main: #e9eef3;
 	--next-color-seting-aside: #d3dce6;
 	--next-color-seting-header: #b3c0d1;
+	/* 科技风侧边栏背景 */
+	--next-bg-menuBar: linear-gradient(180deg, #0f1b3a 0%, #1a2b5a 50%, #0d1a36 100%);
+	--next-bg-menuBarColor: #c2d4f0;
+	--next-bg-menuBarActiveColor: rgba(64, 158, 255, 0.25);
+	--next-bg-topBar: #ffffff;
+	--next-bg-topBarColor: #606266;
 }
 
 html,
@@ -77,6 +83,28 @@ body,
 		overflow-x: hidden !important;
 		.el-scrollbar__view {
 			overflow: hidden;
+		}
+		/* 科技风装饰线条 */
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 1px;
+			background: linear-gradient(90deg, transparent, rgba(64, 158, 255, 0.6), transparent);
+			z-index: 2;
+		}
+		/* 科技风底部装饰 */
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 1px;
+			background: linear-gradient(90deg, transparent, rgba(64, 158, 255, 0.4), transparent);
+			z-index: 2;
 		}
 	}
 	.layout-header {
@@ -193,14 +221,6 @@ body,
 	}
 	.layout-hide {
 		display: none;
-	}
-}
-
-/* element plus 全局样式
-------------------------------- */
-.layout-breadcrumb-seting {
-	.el-divider {
-		background-color: rgb(230, 230, 230);
 	}
 }
 

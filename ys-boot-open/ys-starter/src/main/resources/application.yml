@@ -2,13 +2,13 @@
 server:
   port: 8910        # 服务端口
   servlet:
-    context-path: /yscode  # 请求路径前缀
+    context-path: /yscode-open  # 请求路径前缀
   tomcat:
     max-http-form-post-size: 200MB  # 最大请求体大小（适用于文件上传）
 # 应用基础配置
 spring:
   application:
-    name: yscode  # 应用名称
+    name: yscode-open  # 应用名称
   autoconfigure:
     exclude:      # 排除自动配置类（根据需求添加）
   #      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration

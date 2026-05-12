@@ -73,6 +73,7 @@
 .el-menu {
 	border-right: none !important;
 	width: 220px;
+	background: transparent !important;
 }
 .el-menu-item {
 	height: 56px !important;
@@ -81,6 +82,22 @@
 .el-menu-item,
 .el-sub-menu__title {
 	color: var(--next-bg-menuBarColor);
+}
+// 科技风菜单项悬停效果
+.el-menu-item:hover,
+.el-sub-menu__title:hover {
+	background: linear-gradient(90deg, rgba(64, 158, 255, 0.15) 0%, rgba(64, 158, 255, 0.05) 100%) !important;
+	color: #ffffff !important;
+}
+// 科技风激活菜单项
+.el-menu-item.is-active {
+	background: linear-gradient(90deg, rgba(64, 158, 255, 0.25) 0%, rgba(64, 158, 255, 0.1) 100%) !important;
+	color: #ffffff !important;
+	border-right: 3px solid #409eff;
+}
+// 子菜单展开背景
+.el-sub-menu.is-opened .el-sub-menu__title {
+	background: linear-gradient(90deg, rgba(64, 158, 255, 0.1) 0%, transparent 100%) !important;
 }
 // 修复点击左侧菜单折叠再展开时，宽度不跟随问题
 .el-menu--collapse {

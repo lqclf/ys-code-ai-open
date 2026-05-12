@@ -19,9 +19,9 @@
 
 			<div class="title-container">
 				<h1 class="main-title">
-					<span class="title-char" v-for="(char, index) in '忆笙博客'" :key="index" :style="`--delay: ${index * 0.1}s`">{{ char }}</span>
+					<span class="title-char" v-for="(char, index) in '忆笙管理平台'" :key="index" :style="`--delay: ${index * 0.1}s`">{{ char }}</span>
 				</h1>
-				<h2 class="sub-title">YiSheng Blog</h2>
+				<h2 class="sub-title">YsCode</h2>
 				<div class="title-decoration">
 					<div class="decoration-line"></div>
 					<div class="decoration-dot"></div>
@@ -74,8 +74,8 @@
 
 			<!-- 账号/手机登录 -->
 			<div v-else class="login-form">
-				<div class="login-title">忆笙博客管理系统</div>
-				<div class="login-subtitle">Welcome to YiSheng Blog Admin</div>
+				<div class="login-title">忆笙管理平台</div>
+				<div class="login-subtitle">Welcome to YsCode</div>
 
 				<!-- Tab切换 -->
 				<el-tabs v-model="activeTab" class="login-tabs">
@@ -352,10 +352,10 @@ const showAgreement = (type: string) => {
   if (type === 'user') {
     agreementTitle.value = '用户协议'
     agreementContent.value = `
-      <h3>忆笙博客用户协议</h3>
-      <p>欢迎使用忆笙博客平台！请仔细阅读以下用户协议：</p>
+      <h3>忆笙管理平台用户协议</h3>
+      <p>欢迎使用忆笙管理平台！请仔细阅读以下用户协议：</p>
       <h4>1. 服务内容</h4>
-      <p>忆笙博客提供个人博客发布、内容分享、评论互动等服务。</p>
+      <p>忆笙管理平台提供企业级管理解决方案、数据分析、流程审批等服务。</p>
       <h4>2. 用户义务</h4>
       <p>用户需遵守国家法律法规，不得发布违法、违规内容。</p>
       <h4>3. 隐私保护</h4>
@@ -367,7 +367,7 @@ const showAgreement = (type: string) => {
   } else if (type === 'privacy') {
     agreementTitle.value = '隐私政策'
     agreementContent.value = `
-      <h3>忆笙博客隐私政策</h3>
+      <h3>忆笙管理平台隐私政策</h3>
       <p>我们非常重视您的隐私保护，以下是我们的隐私政策：</p>
       <h4>1. 信息收集</h4>
       <p>我们收集您主动提供的信息，如注册资料、发布内容等。</p>

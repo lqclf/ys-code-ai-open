@@ -42,7 +42,7 @@
 	<div class="login-container">
 		<div class="login-left">
 			<div>
-				<h1>忆笙博客系统</h1>
+				<h1>忆笙管理平台</h1>
 				<p>代码编织梦想，知识点亮未来<br />探索 · 创新 · 共享</p>
 			</div>
 			<div>

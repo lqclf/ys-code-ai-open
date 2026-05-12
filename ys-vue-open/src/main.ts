@@ -9,10 +9,10 @@ import ElementPlus from 'element-plus';
 import '@/theme/index.scss';
 import VueGridLayout from 'vue-grid-layout';
 import VxeUIAll from 'vxe-pc-ui';
-import 'vxe-pc-ui/es/style.css';
+import 'vxe-pc-ui/lib/style.min.css';
 
 import VxeUITable from 'vxe-table';
-import 'vxe-table/es/style.css';
+import 'vxe-table/lib/style.min.css';
 
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
