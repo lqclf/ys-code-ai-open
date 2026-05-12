@@ -34,7 +34,18 @@
 			</span>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item command="/home">{{ $t('message.user.dropdown1') }}</el-dropdown-item>
+					<el-dropdown-item command="/home">
+						<i class="ri-home-4-line mr5"></i>
+						{{ $t('message.user.dropdown1') }}
+					</el-dropdown-item>
+					<el-dropdown-item command="gitee">
+						<i class="ri-git-repository-line mr5"></i>
+						Gitee
+					</el-dropdown-item>
+					<el-dropdown-item command="github">
+						<i class="ri-github-line mr5"></i>
+						GitHub
+					</el-dropdown-item>
 					<el-dropdown-item divided command="logOut">{{ $t('message.user.dropdown5') }}</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
@@ -127,7 +138,10 @@ const onHandleCommandClick = (path: string) => {
 				window.location.reload();
 			})
 			.catch(() => {});
-	} else if (path === 'wareHouse') {
+	} else if (path === 'gitee') {
+		window.open('https://gitee.com', '_blank');
+	} else if (path === 'github') {
+		window.open('https://github.com', '_blank');
 	} else {
 		router.push(path);
 	}
