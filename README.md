@@ -83,31 +83,31 @@
 
 ### 系统整体技术架构图
 
-![系统整体技术架构图](docs/diagrams/tech-architecture.svg)
+![系统整体技术架构图](https://gitee.com/lqclf/typora-image/raw/master/images/tech-architecture.svg)
 
 > 忆笙智云技术架构采用五层技术栈设计：客户端层(浏览器/移动端/桌面端) → 前端技术层(Vue 3 + TypeScript + Element Plus + Vite + Pinia + Vue Router) → 后端技术层(Spring Boot 3.3 + Java 21 + Spring AI 1.1 + MyBatis-Plus + Sa-Token + Knife4j) → 中间件层(Nginx + Redis + MySQL + WebSocket + MinIO/OSS) → AI供应商层(OpenAI/DeepSeek/智谱AI/MiniMax/Ollama/豆包/Qwen)。各层之间通过RESTful API和WebSocket进行通信。
 
 ### 业务整体架构图
 
-![业务整体架构图](docs/diagrams/architecture.svg)
+![业务整体架构图](https://gitee.com/lqclf/typora-image/raw/master/images/architecture.svg)
 
 > 忆笙智云采用前后端分离架构，前端基于 Vue 3 + TypeScript，后端基于 Spring Boot 3.3 + Java 21，通过 Spring AI 统一适配多供应商大模型，数据层支持 MySQL + Redis + 多种对象存储。业务服务层包含12个核心模块，覆盖系统管理、AI智能、代码生成等完整功能。
 
 ### 整体功能架构图
 
-![feature-architecture](E:\myworkspace\ys-lowcode\ys-lowcode-pro\docs\diagrams\feature-architecture.svg)
+![feature-architecture](https://gitee.com/lqclf/typora-image/raw/master/images/feature-architecture.svg)
 
 > 忆笙智云功能架构分为五大层级：核心业务层(系统管理/AI智能助手/代码生成器) → 基础设施层(文件上传/Excel处理/定时任务/数据权限) → 安全防护层(Sa-Token认证/敏感词过滤/数据脱敏/IP规则) → 监控运维层(服务器/Redis/在线用户/API性能) → 数据存储层(MySQL/Redis/本地存储/对象存储/向量存储)。
 
 ### AI智能模块架构图
 
-![AI智能模块架构图](docs/diagrams/ai-architecture.svg)
+![AI智能模块架构图](https://gitee.com/lqclf/typora-image/raw/master/images/ai-architecture.svg)
 
 > AI模块采用六层架构设计：用户输入层 → 意图识别引擎 → 核心处理层(RAG知识库检索/LLM核心引擎/Function Calling工具层) → 多模型适配层(Spring AI统一适配器) → AI模型供应商层(7大供应商) → 流式响应输出层。支持流式响应、知识增强、工具调用等高级能力。
 
 ### 代码生成器流程图
 
-![代码生成器流程图](docs/diagrams/codegen-flow.svg)
+![代码生成器流程图](https://gitee.com/lqclf/typora-image/raw/master/images/codegen-flow.svg)
 
 > 代码生成器采用五步向导模式：选择数据源 → 选择数据表 → 选择模板集 → 参数配置 → 预览生成。支持生成 Entity、DTO、Mapper、Service、Controller、Vue 等六种代码类型，模板支持 FreeMarker/Velocity 双引擎。
 
