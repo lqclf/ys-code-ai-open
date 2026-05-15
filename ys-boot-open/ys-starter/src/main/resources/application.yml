@@ -24,9 +24,9 @@ spring:
 
   # 数据库配置（MySQL + Druid）
   datasource:
-    url: jdbc:mysql://localhost:3306/ys-open?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://your_ip:3306/ys-open?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&allowPublicKeyRetrieval=true
     username: root         # 数据库用户名
-    password: 1qaz!QAZ         # 数据库密码
+    password: your_password         # 数据库密码
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource  # 使用 Druid 连接池
 
@@ -70,7 +70,7 @@ sa-token:
   token-style: uuid           # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
   is-log: true                # 是否输出操作日志
   # jwt秘钥
-  jwt-secret-key: dce16d9c8672e35f4ad7cc5c196013d2
+  jwt-secret-key: dce14d9c8642e35f4a45cc8c19613d2
 
 
 # MyBatis-Plus 配置
