@@ -139,9 +139,9 @@ const onHandleCommandClick = (path: string) => {
 			})
 			.catch(() => {});
 	} else if (path === 'gitee') {
-		window.open('https://gitee.com', '_blank');
+		window.open('https://gitee.com/lqclf/ys-lowcode-open', '_blank');
 	} else if (path === 'github') {
-		window.open('https://github.com', '_blank');
+		window.open('https://github.com/lqclf/ys-code-ai-open', '_blank');
 	} else {
 		router.push(path);
 	}
