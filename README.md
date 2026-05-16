@@ -295,7 +295,7 @@ java -jar ys-starter-*.jar
 
 #### AI对话
 
-![AI对话-新会话](docs/images/AI大模型_AI对话新会话)
+![AI对话-新会话](docs/images/AI大模型_AI对话新会话.png)
 
 ![AI对话-消息交互](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220334651.png)
 
