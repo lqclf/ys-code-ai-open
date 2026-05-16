@@ -1,10 +1,11 @@
 <div align="center">
-  <img src="https://gitee.com/lqclf/typora-image/raw/master/img/20260512231304503.png" alt="YsCode AI Cloud Logo" width="120">
+  <img src="docs/images/logo.png" alt="YsCode AI Cloud Logo" width="120">
   <h1>忆笙智云 (YsCode AI Cloud)</h1>
   <p>企业级AI低代码开发平台</p>
   <p><strong>YsCode AI Cloud Platform</strong></p>
   <p>让开发更高效、更智能、更简单</p>
 </div>
+
 
 ***
 
@@ -83,7 +84,7 @@
 
 ### 系统整体技术架构图
 
-![系统整体技术架构图](https://gitee.com/lqclf/typora-image/raw/master/images/tech-architecture.svg)
+![系统整体技术架构图](docs/images/tech-architecture.svg)
 
 > 忆笙智云技术架构采用五层技术栈设计：客户端层(浏览器/移动端/桌面端) → 前端技术层(Vue 3 + TypeScript + Element Plus + Vite + Pinia + Vue Router) → 后端技术层(Spring Boot 3.3 + Java 21 + Spring AI 1.1 + MyBatis-Plus + Sa-Token + Knife4j) → 中间件层(Nginx + Redis + MySQL + WebSocket + MinIO/OSS) → AI供应商层(OpenAI/DeepSeek/智谱AI/MiniMax/Ollama/豆包/Qwen)。各层之间通过RESTful API和WebSocket进行通信。
 
@@ -294,7 +295,7 @@ java -jar ys-starter-*.jar
 
 #### AI对话
 
-![AI对话-新会话](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220329573.png)
+![AI对话-新会话](docs/images/AI大模型_AI对话新会话)
 
 ![AI对话-消息交互](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220334651.png)
 
