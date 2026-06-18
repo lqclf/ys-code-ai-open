@@ -26,6 +26,10 @@
  <img src="https://img.shields.io/badge/存储方式-6+-9cf.svg" alt="Storage">
 </p>
 
+<p align="center">
+  <a href="https://admin.yscode.cn/" target="_blank"><img src="https://img.shields.io/badge/在线预览-点击体验-brightgreen.svg" alt="Online Preview"></a>
+</p>
+
 ***
 
 ## 核心价值
@@ -84,31 +88,31 @@
 
 ### 系统整体技术架构图
 
-![系统整体技术架构图](docs/images/tech-architecture.svg)
+![系统整体技术架构图](docs/diagrams/tech-architecture.svg)
 
 > 忆笙智云技术架构采用五层技术栈设计：客户端层(浏览器/移动端/桌面端) → 前端技术层(Vue 3 + TypeScript + Element Plus + Vite + Pinia + Vue Router) → 后端技术层(Spring Boot 3.3 + Java 21 + Spring AI 1.1 + MyBatis-Plus + Sa-Token + Knife4j) → 中间件层(Nginx + Redis + MySQL + WebSocket + MinIO/OSS) → AI供应商层(OpenAI/DeepSeek/智谱AI/MiniMax/Ollama/豆包/Qwen)。各层之间通过RESTful API和WebSocket进行通信。
 
 ### 业务整体架构图
 
-![业务整体架构图](https://gitee.com/lqclf/typora-image/raw/master/images/architecture.svg)
+![业务整体架构图](docs/images/architecture.png)
 
 > 忆笙智云采用前后端分离架构，前端基于 Vue 3 + TypeScript，后端基于 Spring Boot 3.3 + Java 21，通过 Spring AI 统一适配多供应商大模型，数据层支持 MySQL + Redis + 多种对象存储。业务服务层包含12个核心模块，覆盖系统管理、AI智能、代码生成等完整功能。
 
 ### 整体功能架构图
 
-![feature-architecture](https://gitee.com/lqclf/typora-image/raw/master/images/feature-architecture.svg)
+![feature-architecture](docs/diagrams/feature-architecture.svg)
 
 > 忆笙智云功能架构分为五大层级：核心业务层(系统管理/AI智能助手/代码生成器) → 基础设施层(文件上传/Excel处理/定时任务/数据权限) → 安全防护层(Sa-Token认证/敏感词过滤/数据脱敏/IP规则) → 监控运维层(服务器/Redis/在线用户/API性能) → 数据存储层(MySQL/Redis/本地存储/对象存储/向量存储)。
 
 ### AI智能模块架构图
 
-![AI智能模块架构图](https://gitee.com/lqclf/typora-image/raw/master/images/ai-architecture.svg)
+![AI智能模块架构图](docs/diagrams/ai-architecture.svg)
 
 > AI模块采用六层架构设计：用户输入层 → 意图识别引擎 → 核心处理层(RAG知识库检索/LLM核心引擎/Function Calling工具层) → 多模型适配层(Spring AI统一适配器) → AI模型供应商层(7大供应商) → 流式响应输出层。支持流式响应、知识增强、工具调用等高级能力。
 
 ### 代码生成器流程图
 
-![代码生成器流程图](https://gitee.com/lqclf/typora-image/raw/master/images/codegen-flow.svg)
+![代码生成器流程图](docs/diagrams/codegen-flow.svg)
 
 > 代码生成器采用五步向导模式：选择数据源 → 选择数据表 → 选择模板集 → 参数配置 → 预览生成。支持生成 Entity、DTO、Mapper、Service、Controller、Vue 等六种代码类型，模板支持 FreeMarker/Velocity 双引擎。
 
@@ -224,6 +228,16 @@ YsCode/
 
 ***
 
+## 在线体验
+
+| 项目 | 预览地址 | 账号 | 密码 |
+|------|---------|------|------|
+| **管理后台** | [https://admin.yscode.cn/](https://admin.yscode.cn/) | `ysadmin` | `ysadmin123456` |
+
+> 温馨提示：在线预览为只读体验环境，如需体验全部功能（如数据修改、代码生成等），建议下载源码本地部署。
+
+***
+
 ## 快速开始
 
 ### 环境要求
@@ -255,8 +269,8 @@ mvn clean package -DskipTests
 mvn spring-boot:run -pl ys-starter
 
 # 访问地址
-# API文档: http://localhost:8910/ysblog/doc.html
-# Druid监控: http://localhost:8910/ysblog/druid/
+# API文档: http://localhost:8910/yscode/doc.html
+# Druid监控: http://localhost:8910/yscode/druid/
 ```
 
 ### 前端启动
@@ -297,95 +311,95 @@ java -jar ys-starter-*.jar
 
 ![AI对话-新会话](docs/images/AI大模型_AI对话新会话.png)
 
-![AI对话-消息交互](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220334651.png)
+![AI对话-消息交互](docs/images/AI大模型_AI对话消息.png)
 
 > 支持多轮对话、流式输出、深度思考、多模型切换、附件上传、提示词润色、联网搜索
 
 #### AI助手管理
 
-![AI助手管理-列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910594.png)
+![AI助手管理-列表](docs/images/AI大模型_AI助手管理列表.png)
 
-![AI助手管理-配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220337503.png)
+![AI助手管理-配置](docs/images/AI大模型_AI助手管理配置.png)
 
 > AI助手配置、角色设定、能力描述、模型绑定、个性化定制
 
 #### 助手会话
 
-![助手会话列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220346529.png)
+![助手会话列表](docs/images/AI大模型_助手会话列表.png)
 
 > 助手对话记录、会话管理、多助手并发对话
 
 #### 模型管理
 
-![模型管理-列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910595.png)
+![模型管理-列表](docs/images/AI大模型_模型管理列表.png)
 
-![模型管理-编辑](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910596.png)
+![模型管理-编辑](docs/images/AI大模型_编辑模型.png)
 
 > 多供应商AI模型配置、参数设置、模型关联、调用限额
 
 #### 供应商管理
 
-![供应商管理-列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910597.png)
+![供应商管理-列表](docs/images/AI大模型_供应商管理列表.png)
 
-![供应商管理-新增](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910598.png)
+![供应商管理-新增](docs/images/AI大模型_新增供应商.png)
 
 > AI供应商配置管理、API Key管理、基础URL配置
 
 #### 知识库管理
 
-![知识文档列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910599.png)
+![知识文档列表](docs/images/AI大模型_知识文档列表.png)
 
-![知识分片列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910600.png)
+![知识分片列表](docs/images/AI大模型_知识分片列表.png)
 
-![知识库测试](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910601.png)
+![知识库测试](docs/images/AI大模型_知识库测试.png)
 
 > RAG知识库、文档向量化、智能分块、语义检索、知识分片管理
 
 #### 意图规则
 
-![意图规则-列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910603.png)
+![意图规则-列表](docs/images/AI大模型_意图规则列表.png)
 
-![意图规则-详情](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910604.png)
+![意图规则-详情](docs/images/AI大模型_意图规则详情.png)
 
 > 智能意图识别、规则配置、自动分类、业务路由
 
 #### Function Calling
 
-![Function Calling列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910605.png)
+![Function Calling列表](docs/images/AI大模型_FunctionCalling列表.png)
 
 > 函数调用管理、工具注册、参数映射、自动执行
 
 #### 页面上下文
 
-![页面上下文-列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910606.png)
+![页面上下文-列表](docs/images/AI大模型_页面上下文列表.png)
 
-![页面上下文-编辑](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910607.png)
+![页面上下文-编辑](docs/images/AI大模型_编辑页面上下文.png)
 
 > 页面状态管理、上下文缓存、会话保持
 
 #### 报表元数据
 
-![报表元数据列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910608.png)
+![报表元数据列表](docs/images/AI大模型_报表元数据列表.png)
 
 > 报表数据源配置、字段映射、查询条件定义、动态报表生成
 
 #### 错误知识库
 
-![错误知识列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910609.png)
+![错误知识列表](docs/images/AI大模型_错误知识列表.png)
 
 > 错误解决方案积累、智能推荐、问题分类、快速检索
 
 #### API调用日志
 
-![API调用日志](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910610.png)
+![API调用日志](docs/images/AI大模型_API调用日志.png)
 
-![API调用详情](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910611.png)
+![API调用详情](docs/images/AI大模型_API调用详情.png)
 
 > API调用记录、Token消耗统计、响应时间监控、错误日志
 
 #### Token配置
 
-![Token配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910612.png)
+![Token配置](docs/images/AI大模型_Token配置.png)
 
 > Token消耗配置、限额管理、使用统计、成本控制
 
@@ -395,49 +409,49 @@ java -jar ys-starter-*.jar
 
 #### 数据源管理
 
-![数据源管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910613.png)
+![数据源管理](docs/images/代码生成器_数据源管理列表.png)
 
-![编辑数据源](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910614.png)
+![编辑数据源](docs/images/代码生成器_编辑数据源.png)
 
 > 多数据源配置、数据库连接测试，支持MySQL/Oracle/PostgreSQL/SQLServer/达梦/人大金仓
 
 #### 模板管理
 
-![模板管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910615.png)
+![模板管理](docs/images/代码生成器_模板管理列表.png)
 
-![编辑模板-实体类](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910616.png)
+![编辑模板-实体类](docs/images/代码生成器_编辑模板实体类.png)
 
-![编辑模板-Mapper接口](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910617.png)
+![编辑模板-Mapper接口](docs/images/代码生成器_编辑模板Mapper接口.png)
 
 > Monaco编辑器、FreeMarker/Velocity语法、在线预览、模板分类管理
 
 #### 模板集管理
 
-![模板集管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910618.png)
+![模板集管理](docs/images/代码生成器_模板集管理列表.png)
 
-![编辑模板集](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910619.png)
+![编辑模板集](docs/images/代码生成器_编辑模板集.png)
 
-![模板集文件列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910620.png)
+![模板集文件列表](docs/images/代码生成器_模板集文件列表.png)
 
 > 模板集CRUD、模板关联、团队共享、版本管理
 
 #### 参数配置
 
-![参数配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910621.png)
+![参数配置](docs/images/代码生成器_参数配置基础后端模板.png)
 
 > 包名配置、作者信息、表前缀、字段映射
 
 #### 五步代码生成向导
 
-![步骤1-选择数据源](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910622.png)
+![步骤1-选择数据源](docs/images/代码生成器_代码生成选择数据源.png)
 
-![步骤2-选择数据表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910623.png)
+![步骤2-选择数据表](docs/images/代码生成器_代码生成选择数据表.png)
 
-![步骤3-选择模板集](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910624.png)
+![步骤3-选择模板集](docs/images/代码生成器_代码生成选择模板集.png)
 
-![步骤4-配置字段](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910625.png)
+![步骤4-配置字段](docs/images/代码生成器_代码生成配置字段.png)
 
-![步骤5-预览与生成](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910626.png)
+![步骤5-预览与生成](docs/images/代码生成器_代码生成预览与生成.png)
 
 > 可视化引导：数据源 → 表选择 → 模板集 → 参数配置 → 预览生成
 
@@ -447,113 +461,113 @@ java -jar ys-starter-*.jar
 
 #### 用户管理
 
-![用户管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910627.png)
+![用户管理](docs/images/系统管理_用户管理列表.png)
 
-![新增用户](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910628.png)
+![新增用户](docs/images/系统管理_新增用户.png)
 
 > 用户增删改查、角色分配、部门分配、密码管理、导入导出
 
 #### 角色管理
 
-![角色管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910629.png)
+![角色管理](docs/images/系统管理_角色管理列表.png)
 
-![新增角色](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910630.png)
+![新增角色](docs/images/系统管理_新增角色.png)
 
-![权限配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910631.png)
+![权限配置](docs/images/系统管理_权限配置.png)
 
-![角色分配用户](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910632.png)
+![角色分配用户](docs/images/系统管理_角色分配用户.png)
 
-![角色数据导入](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910633.png)
+![角色数据导入](docs/images/系统管理_角色数据导入.png)
 
 > 角色权限配置、菜单权限、数据权限、用户分配、数据导入
 
 #### 菜单管理
 
-![菜单管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910634.png)
+![菜单管理](docs/images/系统管理_菜单管理列表.png)
 
-![新增菜单](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910635.png)
+![新增菜单](docs/images/系统管理_新增菜单.png)
 
 > 动态路由配置、菜单权限控制、按钮权限
 
 #### 部门管理
 
-![部门管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910636.png)
+![部门管理](docs/images/系统管理_部门管理.png)
 
-![新增部门](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910637.png)
+![新增部门](docs/images/系统管理_新增部门.png)
 
-![部门用户列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910638.png)
+![部门用户列表](docs/images/系统管理_部门用户列表.png)
 
 > 组织架构管理、树形结构展示、部门人员管理
 
 #### 岗位管理
 
-![岗位管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910639.png)
+![岗位管理](docs/images/系统管理_岗位管理列表.png)
 
-![新增岗位](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910640.png)
+![新增岗位](docs/images/系统管理_新增岗位.png)
 
 > 岗位CRUD、职级管理
 
 #### 字典管理
 
-![字典管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910641.png)
+![字典管理](docs/images/系统管理_字典管理.png)
 
-![字典数据](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910642.png)
+![字典数据](docs/images/系统管理_字典数据.png)
 
 > 数据字典维护、字典项管理、自动翻译
 
 #### 参数配置
 
-![参数配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910643.png)
+![参数配置](docs/images/系统管理_参数配置.png)
 
 > 系统参数配置、动态修改生效
 
 #### 数据权限
 
-![数据权限规则列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910644.png)
+![数据权限规则列表](docs/images/系统管理_数据权限规则列表.png)
 
-![数据权限配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910645.png)
+![数据权限配置](docs/images/系统管理_数据权限配置.png)
 
-![新增数据权限规则](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910646.png)
+![新增数据权限规则](docs/images/系统管理_新增数据权限规则.png)
 
 > 数据权限规则配置、角色绑定、灵活的数据权限控制
 
 #### 文件管理
 
-![文件管理列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910647.png)
+![文件管理列表](docs/images/系统管理_文件统计分析.png)
 
-![文件上传](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910648.png)
+![文件上传](docs/images/系统管理_文件上传.png)
 
-![文件预览-图片](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910649.png)
+![文件预览-图片](docs/images/系统管理_文件预览图片.png)
 
-![文件预览-Markdown](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910650.png)
+![文件预览-Markdown](docs/images/系统管理_文件预览Markdown.png)
 
 > 文件上传、分片上传、断点续传、6种存储方式、在线预览
 
 #### 操作日志
 
-![操作日志](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910651.png)
+![操作日志](docs/images/系统管理_操作日志操作日志.png)
 
-![异常日志](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910652.png)
+![异常日志](docs/images/系统管理_操作日志异常日志.png)
 
-![查询日志](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910653.png)
+![查询日志](docs/images/系统管理_操作日志查询日志.png)
 
-![日志统计分析](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910654.png)
+![日志统计分析](docs/images/系统管理_操作日志统计分析.png)
 
 > 操作审计日志、登录日志、异常记录、日志分析统计
 
 #### 通知公告
 
-![通知公告列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910655.png)
+![通知公告列表](docs/images/系统管理_通知公告列表.png)
 
-![新增通知公告](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910656.png)
+![新增通知公告](docs/images/系统管理_新增通知公告.png)
 
-![阅读统计](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910657.png)
+![阅读统计](docs/images/系统管理_阅读统计.png)
 
 > 公告发布、富文本编辑、阅读统计、弹窗通知
 
 #### 接收者配置
 
-![接收者配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910658.png)
+![接收者配置](docs/images/系统管理_接收者配置.png)
 
 > 通知接收者配置、定向推送
 
@@ -561,13 +575,13 @@ java -jar ys-starter-*.jar
 
 ### 站内信管理
 
-![消息管理列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910659.png)
+![消息管理列表](docs/images/站内信管理_消息管理列表.png)
 
-![发送站内信](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910660.png)
+![发送站内信](docs/images/站内信管理_发送站内信.png)
 
-![消息记录](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910661.png)
+![消息记录](docs/images/站内信管理_消息记录.png)
 
-![模板管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910662.png)
+![模板管理](docs/images/站内信管理_模板管理.png)
 
 > 站内信发送、消息模板、消息记录、阅读状态追踪
 
@@ -575,13 +589,13 @@ java -jar ys-starter-*.jar
 
 ### 敏感词管理
 
-![敏感词配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910663.png)
+![敏感词配置](docs/images/敏感词管理_敏感词配置.png)
 
-![新增敏感词](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910664.png)
+![新增敏感词](docs/images/敏感词管理_新增敏感词.png)
 
-![敏感词白名单](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910665.png)
+![敏感词白名单](docs/images/敏感词管理_敏感词白名单.png)
 
-![敏感词过滤日志](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910666.png)
+![敏感词过滤日志](docs/images/敏感词管理_敏感词过滤日志.png)
 
 > 敏感词库、白名单、检测日志、自动过滤、替换策略
 
@@ -591,27 +605,27 @@ java -jar ys-starter-*.jar
 
 #### 服务器监控
 
-![服务器监控](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910667.png)
+![服务器监控](docs/images/系统监控_服务监控.png)
 
 > CPU、内存、磁盘、网络、JVM实时监控
 
 #### Redis监控
 
-![Redis监控](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910668.png)
+![Redis监控](docs/images/系统监控_缓存监控Redis.png)
 
 > Redis监控、内存使用、键值统计、连接信息
 
 #### 定时任务
 
-![定时任务列表](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910669.png)
+![定时任务列表](docs/images/系统监控_定时任务列表.png)
 
-![定时任务详情](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910670.png)
+![定时任务详情](docs/images/系统监控_定时任务列表详情.png)
 
-![新增定时任务](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910671.png)
+![新增定时任务](docs/images/系统监控_新增定时任务.png)
 
-![定时任务统计面板](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910672.png)
+![定时任务统计面板](docs/images/系统监控_定时任务统计面板.png)
 
-![定时任务执行统计](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910673.png)
+![定时任务执行统计](docs/images/系统监控_定时任务执行统计.png)
 
 > 定时任务管理、Cron表达式、执行日志、集群支持、执行统计
 
@@ -621,33 +635,33 @@ java -jar ys-starter-*.jar
 
 #### CMS内容管理
 
-![CMS内容管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910674.png)
+![CMS内容管理](docs/images/工作台_CMS内容管理.png)
 
 > 文章发布审核、数据统计分析、内容管理
 
 #### CRM客户管理
 
-![CRM客户管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910675.png)
+![CRM客户管理](docs/images/工作台_CRM客户管理.png)
 
 > 销售业绩追踪、待跟进客户管理、合同回款监控
 
 #### 系统监控仪表板
 
-![系统监控仪表板](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910676.png)
+![系统监控仪表板](docs/images/工作台_系统监控仪表板.png)
 
 > 服务器状态、关键指标概览、数据库监控
 
 #### 运营管理
 
-![运营管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910677.png)
+![运营管理](docs/images/工作台_运营管理.png)
 
-![运营管理完整视图](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910678.png)
+![运营管理完整视图](docs/images/工作台_运营管理完整视图.png)
 
 > 全渠道运营、数据分析、营销工具
 
 #### 工作流审批
 
-![工作流审批](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910679.png)
+![工作流审批](docs/images/工作台_工作流审批.png)
 
 > 流程设计、审批管理、任务分配、进度追踪
 
@@ -655,15 +669,15 @@ java -jar ys-starter-*.jar
 
 ### 数据大屏
 
-![校园大屏](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910680.png)
+![校园大屏](docs/images/数据大屏_校园大屏.png)
 
-![电商大屏](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910681.png)
+![电商大屏](docs/images/数据大屏_电商大屏.png)
 
-![能源大屏](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910682.png)
+![能源大屏](docs/images/数据大屏_能源大屏.png)
 
-![金融大屏](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910683.png)
+![金融大屏](docs/images/数据大屏_金融大屏.png)
 
-![物流大屏](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910684.png)
+![物流大屏](docs/images/数据大屏_物流大屏.png)
 
 > 多行业数据大屏模板，包含校园、电商、能源、金融、物流等12+行业模板，支持3D可视化效果
 
@@ -671,19 +685,19 @@ java -jar ys-starter-*.jar
 
 ### 个人中心
 
-![个人信息](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910685.png)
+![个人信息](docs/images/个人中心_个人信息.png)
 
-![安全设置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910686.png)
+![安全设置](docs/images/个人中心_安全设置.png)
 
-![我的权限](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910688.png)
+![我的权限](docs/images/个人中心_我的权限.png)
 
-![消息中心](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910689.png)
+![消息中心](docs/images/个人中心_消息中心.png)
 
-![日志中心](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910690.png)
+![日志中心](docs/images/个人中心_日志中心.png)
 
-![账号管理](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910691.png)
+![账号管理](docs/images/个人中心_账号管理.png)
 
-![布局配置](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910692.png)
+![布局配置](docs/images/个人中心_布局配置.png)
 
 > 个人信息修改、安全设置、权限查看、消息中心、日志中心、账号管理、布局配置
 
@@ -691,7 +705,7 @@ java -jar ys-starter-*.jar
 
 ### 通知中心
 
-![通知公告](https://gitee.com/lqclf/typora-image/raw/master/img/20260514220910693.png)
+![通知公告](docs/images/通知中心_通知公告.png)
 
 > 通知公告查看、已读未读管理
 
@@ -858,7 +872,7 @@ spring:
 **环境配置** (`.env.development`):
 
 ```bash
-VITE_API_URL = http://127.0.0.1:8910/ysblog/
+VITE_API_URL = http://127.0.0.1:8910/yscode/
 VITE_PORT = 8888
 ```
 
@@ -1034,16 +1048,15 @@ Controller层 → Service层 → Mapper层 → 数据库
 
 - **微信公众号**: ”Eric的技术杂货库“，可留言需求 
   
-  <img src="https://gitee.com/lqclf/typora-image/raw/master/images/Eric微信公众号二维码.jpg" alt="Eric的技术杂货库" width="250">
+  <img src="docs/images/Eric微信公众号二维码.jpg" alt="Eric的技术杂货库" width="250">
   
 - **Gitee**: [https://gitee.com/lqclf/ys-lowcode-open](https://gitee.com/lqclf/ys-lowcode-open)
 - **GitHub**: [https://github.com/lqclf/ys-code-ai-open](https://github.com/lqclf/ys-code-ai-open)
 - **邮箱**: <1921277843@qq.com>
-- **官网**: <https://yscode.dev> (即将上线)
+- **官网**: <https://yscode.cn>
 
 ***
 
 > 如果这个项目对您有帮助，请给它一个 Star！
 >
 > 您的支持是我们持续更新的动力！
-
