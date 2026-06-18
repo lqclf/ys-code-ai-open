@@ -6,7 +6,6 @@
   <p>让开发更高效、更智能、更简单</p>
 </div>
 
-
 ***
 
 <p align="center">
@@ -58,7 +57,7 @@
 
 ### 独特优势
 
-- **AI原生设计**：深度融合 Spring AI，支持多模型流式对话、RAG知识库、Function Calling
+- **AI原生设计**：深度融合 Spring AI，支持多模型流式对话、RAG知识库、Function Calling。
 - **企业级安全**：Sa-Token权限框架，敏感数据自动脱敏，敏感词过滤
 - **高性能架构**：Redis缓存、异步任务、WebSocket实时推送
 - **多数据库支持**：MySQL、Oracle、PostgreSQL、SQL Server、达梦、人大金仓
@@ -230,9 +229,9 @@ YsCode/
 
 ## 在线体验
 
-| 项目 | 预览地址 | 账号 | 密码 |
-|------|---------|------|------|
-| **管理后台** | [https://admin.yscode.cn/](https://admin.yscode.cn/) | `ysadmin` | `ysadmin123456` |
+| 项目       | 预览地址                       | 账号        | 密码              |
+| -------- | -------------------------- | --------- | --------------- |
+| **管理后台** | <https://admin.yscode.cn/> | `ysadmin` | `ysadmin123456` |
 
 > 温馨提示：在线预览为只读体验环境，如需体验全部功能（如数据修改、代码生成等），建议下载源码本地部署。
 
@@ -1046,12 +1045,8 @@ Controller层 → Service层 → Mapper层 → 数据库
 
 ## 联系我们
 
-- **微信公众号**: ”Eric的技术杂货库“，可留言需求 
-  
-  <img src="docs/images/Eric微信公众号二维码.jpg" alt="Eric的技术杂货库" width="250">
-  
-- **Gitee**: [https://gitee.com/lqclf/ys-lowcode-open](https://gitee.com/lqclf/ys-lowcode-open)
-- **GitHub**: [https://github.com/lqclf/ys-code-ai-open](https://github.com/lqclf/ys-code-ai-open)
+- **Gitee**: <https://gitee.com/lqclf/ys-lowcode-open>
+- **GitHub**: <https://github.com/lqclf/ys-code-ai-open>
 - **邮箱**: <1921277843@qq.com>
 - **官网**: <https://yscode.cn>
 
@@ -1060,3 +1055,4 @@ Controller层 → Service层 → Mapper层 → 数据库
 > 如果这个项目对您有帮助，请给它一个 Star！
 >
 > 您的支持是我们持续更新的动力！
+
