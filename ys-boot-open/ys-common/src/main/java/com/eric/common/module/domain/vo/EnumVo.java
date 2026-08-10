@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * @ClassName:  EnumVo
  * @author:     liuQ
  * @date:       2025-07-22 15:02:49
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 @AllArgsConstructor

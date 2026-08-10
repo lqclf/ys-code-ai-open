@@ -10,7 +10,7 @@ import java.util.List;
  * @ClassName:  PageQuery
  * @author:     liuQ
  * @date:       2025-07-22 14:11:09
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 public class PageQuery implements java.io.Serializable {

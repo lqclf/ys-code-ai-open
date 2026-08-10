@@ -12,7 +12,7 @@ import java.util.List;
  * @ClassName:  SysDepartService     
  * @author:     liuQ
  * @date:       2025-09-10 15:22:32
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public interface SysDepartService extends BaseService<SysDepartDTO, SysDepart> {
 

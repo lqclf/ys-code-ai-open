@@ -9,7 +9,7 @@ import com.eric.module.system.entity.SysConfig;
  * @ClassName:  SysConfigService     
  * @author:     liuQ
  * @date:       2025-09-11 15:29:29
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public interface SysConfigService extends BaseService<SysConfigDTO, SysConfig> {
     

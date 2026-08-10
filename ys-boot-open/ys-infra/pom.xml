@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ys-boot-template</artifactId>
+        <groupId>com.eric</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-infra</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        基础设施层 - 与具体业务无关的通用技术能力聚合模块
+        功能：日志采集、后续可扩展缓存、消息、文件存储等基础设施能力
+    </description>
+
+    <modules>
+        <!-- 系统日志模块：登录日志、操作日志、异常日志的采集与查询 -->
+        <module>ys-infra-log</module>
+    </modules>
+
+</project>

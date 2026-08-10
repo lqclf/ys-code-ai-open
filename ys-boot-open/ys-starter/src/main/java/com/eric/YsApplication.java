@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -17,13 +18,15 @@ import java.net.UnknownHostException;
  * @ClassName: YsApplication
  * @author: liuQ
  * @date: 2025-07-21 15:37:41
- * @Copyright ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright ERIC 微信公众号：忆笙的技术杂货库
  */
 @Slf4j
 @SpringBootApplication
 //@EnableFileStorage
 @EnableCaching
-@MapperScan("com.eric.*.*.mapper")
+// 开启定时任务：日志缓存管理器依赖其定时批量落库
+@EnableScheduling
+@MapperScan("com.eric.**.mapper")
 //@ProcessApplication
 public class YsApplication {
 

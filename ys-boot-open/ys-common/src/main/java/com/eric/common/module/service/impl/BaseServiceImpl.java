@@ -12,7 +12,7 @@ import com.eric.common.module.domain.query.PageQuery;
  * @ClassName:  BaseServiceImpl
  * @author:     liuQ
  * @date:       2025-07-22 15:07:48
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T>{
 

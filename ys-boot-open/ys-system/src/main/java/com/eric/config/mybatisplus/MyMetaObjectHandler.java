@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * @ClassName:  MyMetaObjectHandler
  * @author:     liuQ
  * @date:       2025-07-28 15:43:05
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {

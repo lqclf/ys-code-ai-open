@@ -7,7 +7,7 @@ import com.eric.common.enums.BaseEnum;
  * @ClassName:  LoginTypeEnum     
  * @author:     liuQ 
  * @date:       2025-07-24 15:52:11
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public enum LoginTypeEnum implements BaseEnum {
 

@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * @ClassName:  MenuVo     
  * @author:     liuQ 
  * @date:       2025-08-13 16:31:52
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

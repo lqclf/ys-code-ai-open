@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @ClassName:  SysDepartServiceImpl     
  * @author:     liuQ
  * @date:       2025-09-10 15:22:32
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Service
 @Transactional(rollbackFor = Exception.class)

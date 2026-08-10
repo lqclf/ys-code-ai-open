@@ -53,7 +53,7 @@ import java.util.zip.ZipOutputStream;
  * @ClassName:  ZipUtils
  * @author:     liuQ
  * @date:       2025-06-16 15:11:09
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public class ZipUtils {
 

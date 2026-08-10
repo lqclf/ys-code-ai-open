@@ -76,7 +76,7 @@ sa-token:
 # MyBatis-Plus 配置
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml  # 映射文件路径
-  type-aliases-package: com.eric.*.*.entity       # 实体类包路径
+  type-aliases-package: com.eric.**.entity       # 实体类包路径（含 system、infra 等各模块）
   configuration:
     map-underscore-to-camel-case: true  # 开启驼峰命名自动映射
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL日志输出到控制台

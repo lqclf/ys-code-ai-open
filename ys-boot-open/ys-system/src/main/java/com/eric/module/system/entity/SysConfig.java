@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * @ClassName:   SysConfig
  * @author:      liuQ
  * @date:        2025-09-11 15:29:29
- * @Copyright    ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright    ERIC 微信公众号：忆笙的技术杂货库
  */
 @TableName("sys_config")
 @Data

@@ -19,7 +19,7 @@ import java.nio.file.Paths;
  * @ClassName: ImageUtils
  * @author: liuQ
  * @date: 2025-09-12
- * @Copyright ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright ERIC 微信公众号：忆笙的技术杂货库
  */
 @Slf4j
 public class ImageUtils {

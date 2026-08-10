@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @ClassName:  WebMvcConfig
  * @author:     liuQ
  * @date:       2025-06-16 16:40:01
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Configuration
 //@EnableWebMvc

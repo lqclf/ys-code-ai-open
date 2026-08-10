@@ -11,7 +11,7 @@ import java.util.List;
  * @ClassName: MenuTreeVO
  * @author: liuQ
  * @date: 2025-07-31
- * @Copyright ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

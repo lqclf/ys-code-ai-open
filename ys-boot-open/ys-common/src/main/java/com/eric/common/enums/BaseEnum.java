@@ -5,7 +5,7 @@ package com.eric.common.enums;
  * @ClassName:  BaseEnum
  * @author:     liuQ
  * @date:       2025-07-23 16:21:12
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public interface BaseEnum {
 

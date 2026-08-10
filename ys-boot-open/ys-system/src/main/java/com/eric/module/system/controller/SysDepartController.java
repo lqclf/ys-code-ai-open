@@ -21,7 +21,7 @@ import java.util.List;
  * @ClassName:  SysDepartController 
  * @author:     liuQ 
  * @date:       2025-06-16 15:20:01
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @RestController
 @RequestMapping("/system/dept")

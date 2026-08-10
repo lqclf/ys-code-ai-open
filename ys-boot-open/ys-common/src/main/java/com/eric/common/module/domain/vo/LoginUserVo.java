@@ -11,7 +11,7 @@ import java.util.Set;
  * @ClassName:  LoginUserVo     
  * @author:     liuQ 
  * @date:       2025-07-23 09:58:32
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 public class LoginUserVo {

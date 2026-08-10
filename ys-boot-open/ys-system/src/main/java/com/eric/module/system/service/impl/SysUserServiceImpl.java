@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @ClassName:   SysUserServiceImpl
  * @author:      liuQ
  * @date:        2025-07-23 12:29:26
- * @Copyright    ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright    ERIC 微信公众号：忆笙的技术杂货库
  */
 @Slf4j
 @Service

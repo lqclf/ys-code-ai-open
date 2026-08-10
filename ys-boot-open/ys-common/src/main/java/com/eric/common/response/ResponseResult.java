@@ -13,7 +13,7 @@ import java.time.Instant;
  * 统一公共响应体
  * @author liuQ
  * @date 2025-06-16 14:48:49
- * @Copyright ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 @Builder

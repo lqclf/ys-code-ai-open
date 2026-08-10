@@ -14,7 +14,7 @@ import java.util.List;
  * @ClassName:  StpInterfaceImpl
  * @author:     Eric
  * @date:       2025-08-03 10:14:32
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Component
 @RequiredArgsConstructor

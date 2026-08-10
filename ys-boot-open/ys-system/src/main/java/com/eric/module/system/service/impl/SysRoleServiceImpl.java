@@ -26,7 +26,7 @@ import java.util.List;
  * @ClassName:  SysRoleServiceImpl
  * @author:     liuQ
  * @date:       2025-07-28 16:37:15
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Service
 @Transactional(rollbackFor = Exception.class)

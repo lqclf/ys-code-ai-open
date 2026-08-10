@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @ClassName:   SysDepartDTO
  * @author:      liuQ
  * @date:        2025-09-10 15:22:32
- * @Copyright    ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright    ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

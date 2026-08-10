@@ -32,6 +32,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- 基础设施 - 系统日志模块：登录/操作/异常日志自动采集 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-infra-log</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <!-- ==================== Spring Boot Web ==================== -->
         <!-- Spring Boot Web 启动器，包含嵌入式 Tomcat -->

@@ -7,7 +7,7 @@ import lombok.Data;
  * @ClassName:  LoginUserDTO     
  * @author:     liuQ 
  * @date:       2025-07-24 15:42:55
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 public class LoginUserDTO {

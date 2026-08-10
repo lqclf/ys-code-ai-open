@@ -8,7 +8,7 @@ import com.eric.module.system.entity.SysDepart;
  * @ClassName:  SysDepartMapper    
  * @author:     liuQ
  * @date:       2025-07-10 15:22:32
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public interface SysDepartMapper extends BaseMapper<SysDepart> {
 

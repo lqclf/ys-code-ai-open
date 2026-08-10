@@ -5,7 +5,7 @@ package com.eric.common.utils;
  * @ClassName:  UserAgentUtils
  * @author:     liuQ
  * @date:       2025-06-18 14:35:41
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public class UserAgentUtils {
 

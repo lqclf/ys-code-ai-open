@@ -3,6 +3,8 @@ package com.eric.module.auth.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.eric.common.annotation.log.LoginLog;
+import com.eric.common.annotation.log.LogoutLog;
 import com.eric.common.constant.GlobalConstant;
 import com.eric.common.enums.common.IsDeleteEnum;
 import com.eric.common.enums.common.LoginTypeEnum;
@@ -33,7 +35,7 @@ import java.util.stream.Collectors;
  * @ClassName:  LoginController     
  * @author:     liuQ 
  * @date:       2025-07-24 15:38:56
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @RestController
 @RequestMapping("/auth")
@@ -47,6 +49,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/login")
+    @LoginLog("用户登录")
     public ResponseResult<LoginUserVo> login(@RequestBody LoginUserDTO o){
         if (o.getType() == null) {
             return ResponseResult.fail("登录类型不能为空");
@@ -104,6 +107,7 @@ public class LoginController {
      * @return
      */
     @GetMapping(value = "/logout")
+    @LogoutLog("用户登出")
     public ResponseResult<Object> logout() {
         String userId = StpUtil.getLoginIdAsString();
         SysUser sysUser = userService.getById(userId);

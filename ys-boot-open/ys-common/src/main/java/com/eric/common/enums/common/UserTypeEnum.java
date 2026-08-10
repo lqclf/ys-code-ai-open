@@ -7,7 +7,7 @@ import com.eric.common.enums.BaseEnum;
  * @ClassName:  UserTypeEnum
  * @author:     liuQ 
  * @date:       2025-07-24 16:17:32
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public enum UserTypeEnum implements BaseEnum {
 

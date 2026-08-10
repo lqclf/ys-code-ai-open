@@ -13,7 +13,7 @@ import java.util.List;
  * @ClassName:  BaseService
  * @author:     liuQ
  * @date:       2025-07-22 15:06:42
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public interface BaseService<DTO, T> extends IService<T> {
 

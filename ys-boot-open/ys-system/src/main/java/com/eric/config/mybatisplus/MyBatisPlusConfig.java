@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @ClassName:  MyBatisPlusConfig
  * @author:     liuQ
  * @date:       2025-06-16 16:39:21
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Configuration
 public class MyBatisPlusConfig {

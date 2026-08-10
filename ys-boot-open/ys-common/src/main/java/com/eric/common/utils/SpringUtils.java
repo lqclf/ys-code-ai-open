@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @ClassName:  SpringUtils
  * @author:     liuQ
  * @date:       2025-09-15 10:31:33
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Component
 public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContextAware {

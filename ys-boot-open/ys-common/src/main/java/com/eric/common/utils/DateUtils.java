@@ -15,7 +15,7 @@ import java.util.List;
  * @ClassName:  DateUtils
  * @author:     liuQ
  * @date:       2025-07-22 15:09:39
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public class DateUtils {
 

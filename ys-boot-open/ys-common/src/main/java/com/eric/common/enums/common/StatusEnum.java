@@ -7,7 +7,7 @@ import com.eric.common.enums.BaseEnum;
  * @ClassName:  StatusEnum     
  * @author:     liuQ 
  * @date:       2025-07-28 14:53:02
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 public enum StatusEnum implements BaseEnum {
 

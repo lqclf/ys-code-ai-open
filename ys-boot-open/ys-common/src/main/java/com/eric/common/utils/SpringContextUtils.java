@@ -19,7 +19,7 @@ import java.util.Objects;
  * @ClassName:  SpringContextUtils
  * @author:     liuQ
  * @date:       2025-06-16 14:56:14
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Component
 public class SpringContextUtils implements ApplicationContextAware {

@@ -9,7 +9,7 @@ import java.util.List;
  * @ClassName:  UserListRoleVo
  * @author:     liuQ 
  * @date:       2025-07-23 15:00:47
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 public class UserListRoleVo {

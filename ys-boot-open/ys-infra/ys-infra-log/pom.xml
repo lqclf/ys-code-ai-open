@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ys-infra</artifactId>
+        <groupId>com.eric</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-infra-log</artifactId>
+
+    <description>
+        系统日志模块 - 基于 AOP 的日志自动采集与管理
+        功能：登录日志、登出日志、业务操作日志、异常日志的自动记录、异步入库、分页查询与清理
+    </description>
+
+    <dependencies>
+        <!-- ==================== 内部模块依赖 ==================== -->
+        <!-- 公共支撑层：注解、常量、枚举、基础 Service/Controller、工具类 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- ==================== AOP 切面 ==================== -->
+        <!-- Spring AOP，用于实现日志切面拦截 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

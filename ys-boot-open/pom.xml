@@ -14,6 +14,7 @@
     <modules>
         <module>ys-system</module>
         <module>ys-common</module>
+        <module>ys-infra</module>
         <module>ys-module</module>
         <module>ys-starter</module>
     </modules>

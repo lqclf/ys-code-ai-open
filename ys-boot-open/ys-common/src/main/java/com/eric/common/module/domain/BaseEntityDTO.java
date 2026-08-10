@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @ClassName:  BaseEntity
  * @author:     liuQ
  * @date:       2025-06-16 14:52:21
- * @Copyright   ERIC 微信公众号：Eric的技术杂货库
+ * @Copyright   ERIC 微信公众号：忆笙的技术杂货库
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
