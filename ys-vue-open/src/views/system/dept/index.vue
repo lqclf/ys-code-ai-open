@@ -4,7 +4,7 @@
 			<!-- 左侧部门树区域 -->
 			<div class="left-panel">
 				<el-card class="tree-card">
-					<!-- 操作按钮区域 -->
+					<!-- 工具栏区域 -->
 					<div class="tree-toolbar">
 						<el-button type="success" @click="handleAddRootDept" v-auth="'system:dept:add'">
 							<i class="ri-add-line"></i>
@@ -17,6 +17,14 @@
 						<el-button type="danger" @click="handleBatchDelete" v-auth="'system:dept:delete'" :disabled="checkedKeys.length === 0">
 							<i class="ri-delete-bin-6-line"></i>
 							批量删除
+						</el-button>
+						<el-button type="warning" @click="openImportDialog" v-auth="'system:dept:add'">
+							<i class="ri-upload-line"></i>
+							导入
+						</el-button>
+						<el-button type="primary" @click="openExportDialog" v-auth="'system:dept:query'">
+							<i class="ri-download-line"></i>
+							导出
 						</el-button>
 					</div>
 					<!-- 搜索区域 -->
@@ -69,6 +77,9 @@
 										<Shop v-else />
 									</el-icon>
 									<span class="tree-label">{{ node.label }}</span>
+									<el-tag v-if="data.leaderName" size="small" type="success" class="leader-tag">
+										{{ data.leaderName }}
+									</el-tag>
 									<el-tag size="small" class="level-tag" :type="getLevelTagType(data.levelType)">
 										{{ getLevelText(data.levelType) }}
 									</el-tag>
@@ -102,6 +113,11 @@
 							<el-tab-pane label="部门详情" name="detail">
 								<DeptDetail :dept-data="selectedDept" @update="handleDeptUpdate" @refresh="loadDeptTree" />
 							</el-tab-pane>
+
+							<!-- 部门用户选项卡 -->
+							<el-tab-pane label="部门用户" name="users">
+								<DeptUsers :depart-id="selectedDept.id" :depart-name="selectedDept.name" />
+							</el-tab-pane>
 						</el-tabs>
 					</div>
 				</el-card>
@@ -110,6 +126,32 @@
 
 		<!-- 引入组件 -->
 		<DeptDialog ref="deptDialogRef" @refresh="loadDeptTree" />
+		
+		<!-- 导入导出组件（hide-button隐藏自带按钮，通过工具栏调用） -->
+		<YsImportExcel
+			ref="importRef"
+			import-type="systemDept"
+			:columns="importColumns"
+			button-text="导入"
+			button-type="warning"
+			dialog-title="部门数据导入"
+			hide-button
+			@success="handleImportSuccess"
+			@error="handleImportError"
+		/>
+		<YsExportExcel
+			ref="exportRef"
+			export-type="systemDept"
+			:query-params="{}"
+			:columns="exportColumns"
+			file-name="部门数据"
+			button-text="导出"
+			button-type="success"
+			dialog-title="部门数据导出"
+			hide-button
+			@success="handleExportSuccess"
+			@error="handleExportError"
+		/>
 	</div>
 </template>
 <script setup lang="ts" name="systemDept">
@@ -117,23 +159,50 @@ import { defineAsyncComponent, ref, onMounted, reactive, nextTick } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { Shop, OfficeBuilding, School, Loading } from '@element-plus/icons-vue';
 import { useDeptApi } from '@/api/system/dept';
+import { commonApi } from '@/api/common';
 
 // 引入组件
 const DeptDialog = defineAsyncComponent(() => import('@/views/system/dept/dialog.vue'));
 const DeptDetail = defineAsyncComponent(() => import('@/views/system/dept/components/DeptDetail.vue'));
+const DeptUsers = defineAsyncComponent(() => import('@/views/system/dept/components/DeptUsers.vue'));
 
 // 定义变量内容
 const deptDialogRef = ref();
 const deptTreeRef = ref();
+const importRef = ref();
+const exportRef = ref();
 
 // 树是否展开状态
 const isTreeExpanded = ref(false);
 // 展开/收缩加载状态
 const expandLoading = ref(false);
 
+// API 实例
+const deptApi = useDeptApi();
+
+// 导入导出列定义
+const importColumns = [
+	{ field: 'code', title: '部门编码', width: 150 },
+	{ field: 'name', title: '部门名称', width: 150 },
+	{ field: 'parentName', title: '上级部门', width: 150 },
+	{ field: 'levelTypeStr', title: '层级类型', width: 100 },
+	{ field: 'seq', title: '显示顺序', width: 100 },
+	{ field: 'statusStr', title: '状态', width: 100 },
+];
+
+const exportColumns = [
+	{ field: 'code', title: '部门编码' },
+	{ field: 'name', title: '部门名称' },
+	{ field: 'parentName', title: '上级部门' },
+	{ field: 'levelTypeStr', title: '层级类型' },
+	{ field: 'seq', title: '显示顺序' },
+	{ field: 'statusStr', title: '状态' },
+];
+
 // 状态管理
 const state = reactive({
 	loading: false,
+	selectTypeList: [] as any[],
 });
 
 // 搜索关键词
@@ -346,9 +415,57 @@ const toggleExpandCollapse = () => {
 	}, 500);
 };
 
+// ==================== 导入导出相关方法 ====================
+
+/**
+ * 打开导入弹窗
+ */
+const openImportDialog = () => {
+	importRef.value?.open();
+};
+
+/**
+ * 打开导出弹窗
+ */
+const openExportDialog = () => {
+	exportRef.value?.open();
+};
+
+// 导入成功回调
+const handleImportSuccess = (result: any) => {
+	ElMessage.success(`导入完成，成功 ${result.successCount} 条，失败 ${result.failCount} 条`);
+	// 刷新部门树
+	loadDeptTree();
+};
+
+// 导入失败回调
+const handleImportError = (error: any) => {
+	ElMessage.error(error.message || '导入失败');
+};
+
+// 导出成功回调
+const handleExportSuccess = () => {
+	ElMessage.success('导出成功');
+};
+
+// 导出失败回调
+const handleExportError = (error: any) => {
+	ElMessage.error(error.message || '导出失败');
+};
+
 // 组件挂载时加载数据
 onMounted(() => {
 	loadDeptTree();
+
+	// 获取枚举值
+	commonApi()
+		.getEnumValue('sys_depttype')
+		.then((res: any) => {
+			state.selectTypeList = res.data;
+		})
+		.catch(() => {
+			// 忽略错误
+		});
 });
 </script>
 
@@ -464,9 +581,13 @@ onMounted(() => {
 	margin-bottom: 15px;
 	padding-bottom: 15px;
 	border-bottom: 1px solid var(--el-border-color-light);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 
 	.el-button {
 		flex: 1;
+		min-width: 80px;
 	}
 }
 
@@ -510,6 +631,10 @@ onMounted(() => {
 
 .level-tag {
 	margin-left: auto;
+}
+
+.leader-tag {
+	margin-left: 8px;
 }
 
 .empty-state {

@@ -104,6 +104,20 @@
 			</el-row>
 
 			<el-row class="mb15">
+				<el-col :span="24">
+					<el-form-item label="部门负责人" prop="leaderName">
+						<div class="leader-select-wrapper">
+							<el-input v-model="formData.leaderName" placeholder="请选择部门负责人" :readonly="true" clearable @click-clear="clearLeader" />
+							<el-button type="primary" @click="openLeaderSelectDialog">
+								<i class="ri-user-search-line"></i>
+								选择
+							</el-button>
+						</div>
+					</el-form-item>
+				</el-col>
+			</el-row>
+
+			<el-row class="mb15">
 				<el-col :span="12">
 					<el-form-item label="部门邮箱" prop="email">
 						<el-input v-model="formData.email" placeholder="请输入部门邮箱" />
@@ -120,6 +134,11 @@
 				<el-col :span="12">
 					<el-form-item label="邮政编码" prop="zipCode">
 						<el-input v-model="formData.zipCode" placeholder="请输入邮政编码" />
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="部门图标" prop="icon">
+						<IconPicker placeholder="请选择部门图标" v-model="formData.icon" />
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -162,15 +181,22 @@
 		<div class="form-footer">
 			<el-button type="primary" @click="handleUpdate" :loading="saving" size="default">更新</el-button>
 		</div>
+
+		<!-- 部门负责人选择弹窗 -->
+		<DeptUserSelectDialog ref="deptUserSelectRef" @confirm="handleLeaderConfirm" />
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted } from 'vue';
+import { ref, reactive, watch, onMounted, defineAsyncComponent } from 'vue';
 import { ElMessage, FormInstance } from 'element-plus';
 import { useDeptApi } from '@/api/system/dept';
 import { objectCopyForm } from '@/utils/objectCopy';
 // 引入组件
+const IconPicker = defineAsyncComponent(() => import('@/components/YsIconPicker/index.vue'));
+const DeptUserSelectDialog = defineAsyncComponent(() => import('./DeptUserSelectDialog.vue'));
+
+const deptUserSelectRef = ref();
 interface DeptData {
 	id: string;
 	name: string;
@@ -180,7 +206,9 @@ interface DeptData {
 	levelType: number;
 	area: string;
 	linkMan: string;
-	phone: string;
+	linkPhone: string;
+	leaderId: string;
+	leaderName: string;
 	address: string;
 	remark: string;
 	[key: string]: any;
@@ -212,7 +240,9 @@ const formData = reactive<DeptData>({
 	levelType: 1,
 	area: '',
 	linkMan: '',
-	phone: '',
+	linkPhone: '',
+	leaderId: '',
+	leaderName: '',
 	address: '',
 	remark: '',
 });
@@ -243,6 +273,8 @@ watch(
 				area: '',
 				linkMan: '',
 				linkPhone: '',
+				leaderId: '',
+				leaderName: '',
 				email: '',
 				fax: '',
 				zipCode: '',
@@ -297,6 +329,33 @@ const loadParentDeptData = async () => {
 onMounted(() => {
 	loadParentDeptData();
 });
+
+/**
+ * 打开部门负责人选择弹窗
+ */
+const openLeaderSelectDialog = () => {
+	if (!formData.id) {
+		ElMessage.warning('请先保存部门后再选择负责人');
+		return;
+	}
+	deptUserSelectRef.value?.openDialog(formData.id, formData.name);
+};
+
+/**
+ * 确认选择部门负责人
+ */
+const handleLeaderConfirm = (user: { id: string; name: string }) => {
+	formData.leaderId = user.id;
+	formData.leaderName = user.name;
+};
+
+/**
+ * 清除部门负责人
+ */
+const clearLeader = () => {
+	formData.leaderId = '';
+	formData.leaderName = '';
+};
 </script>
 
 <style scoped lang="scss">
@@ -318,5 +377,11 @@ onMounted(() => {
 	display: flex;
 	justify-content: flex-end;
 	gap: 15px;
+}
+.leader-select-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<el-dialog
+	<YsDialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
@@ -7,7 +7,6 @@
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
-		draggable
 	>
 		<el-form ref="menuDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="90px" :inline="false" :label-position="labelPosition">
 			<el-row class="mb15">
@@ -36,39 +35,15 @@
 				</el-col>
 			</el-row>
 			<el-row class="mb15">
-				<el-col :span="12">
+				<el-col :span="24">
 					<el-form-item label="菜单名称" prop="title">
 						<el-input v-model="state.ruleForm.title" placeholder="请输入菜单名称" size="default" clearable />
 					</el-form-item>
 				</el-col>
-				<el-col :span="12">
-					<el-form-item label="组件路径" prop="component">
-						<el-input v-model="state.ruleForm.component" placeholder="请输入组件路径" />
-					</el-form-item>
-				</el-col>
 			</el-row>
-			<el-row class="mb15">
-				<el-col :span="12">
-					<el-form-item label="路由名称" prop="name" class="form-item-tip">
-						<el-input v-model="state.ruleForm.name" placeholder="请输入路由名称" clearable style="width: calc(100% - 20px)" />
-						<el-tooltip class="box-item" effect="dark" content="名称与前端路由名称保持一致" placement="top-start">
-							<el-icon><ele-InfoFilled /></el-icon>
-						</el-tooltip>
-					</el-form-item>
-				</el-col>
-				<el-col :span="12">
-					<el-form-item label="路由路径" prop="path">
-						<el-input v-model="state.ruleForm.path" placeholder="请输入路由路径" clearable />
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-row class="mb15">
-				<el-col :span="12">
-					<el-form-item label="排序" prop="seq">
-						<el-input-number v-model="state.ruleForm.seq" placeholder="请输入排序" :min="0" clearable />
-					</el-form-item>
-				</el-col>
-			</el-row>
+
+			<el-divider content-position="left">路由配置</el-divider>
+			
 			<el-row class="mb15">
 				<el-col :span="12">
 					<el-form-item label="菜单类型" prop="type">
@@ -79,13 +54,84 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
+			<el-row class="mb15">
+				<el-col :span="24">
+					<el-form-item label="组件路径" prop="component">
+						<el-input 
+							v-model="state.ruleForm.component" 
+							placeholder="请输入组件路径，如：system/menu/index"
+							clearable
+						/>
+					</el-form-item>
+				</el-col>
+			</el-row>
 
+			<el-row class="mb15">
+				<el-col :span="12">
+					<el-form-item label="自动生成">
+						<el-switch
+							v-model="state.autoGenerate"
+							width="50px"
+							inline-prompt
+							active-text="是"
+							inactive-text="否"
+						/>
+						<el-tooltip content="开启后将根据组件路径自动生成路由路径、路由名称、权限标识" placement="top">
+							<el-icon class="ml5"><ele-InfoFilled /></el-icon>
+						</el-tooltip>
+					</el-form-item>
+				</el-col>
+			</el-row>
+
+			<el-row class="mb15">
+				<el-col :span="12">
+					<el-form-item label="路由路径" prop="path">
+						<el-input 
+							v-model="state.ruleForm.path" 
+							placeholder="自动生成或手动输入"
+							clearable
+							:disabled="state.autoGenerate && state.ruleForm.type === 2"
+						/>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="路由名称" prop="name" class="form-item-tip">
+						<el-input 
+							v-model="state.ruleForm.name" 
+							placeholder="自动生成或手动输入"
+							clearable
+							:disabled="state.autoGenerate && state.ruleForm.type === 2"
+							style="width: calc(100% - 20px)"
+						/>
+						<el-tooltip class="box-item" effect="dark" content="名称与前端路由名称保持一致" placement="top-start">
+							<el-icon><ele-InfoFilled /></el-icon>
+						</el-tooltip>
+					</el-form-item>
+				</el-col>
+			</el-row>
+
+			<el-row class="mb15">
+				<el-col :span="12">
+					<el-form-item label="菜单图标" prop="icon">
+						<IconPicker placeholder="请输入菜单图标" v-model="state.ruleForm.icon" />
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="排序" prop="seq">
+						<el-input-number v-model="state.ruleForm.seq" placeholder="请输入排序" :min="0" clearable />
+					</el-form-item>
+				</el-col>
+			</el-row>
 			<div v-if="state.ruleForm.type == 2">
 				<el-divider />
 				<el-row class="mb15">
 					<el-col :span="24">
 						<el-form-item label="权限标识" prop="permission">
-							<el-input v-model="state.ruleForm.permission" placeholder="请输入权限标识" />
+							<el-input 
+								v-model="state.ruleForm.permission" 
+								placeholder="自动生成或手动输入"
+								:disabled="state.autoGenerate"
+							/>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -130,41 +176,60 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<el-form-item label="是否外链" prop="isIframe">
-							<el-switch
-								v-model="state.ruleForm.isIframe"
-								width="50px"
-								inline-prompt
-								:active-value="1"
-								:inactive-value="0"
-								active-text="是"
-								inactive-text="否"
-							/>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row class="mb15" v-if="state.ruleForm.isIframe == 1">
-					<el-col :span="24">
-						<el-form-item label="外链地址" prop="link">
-							<el-input v-model="state.ruleForm.link" placeholder="请输入外链地址" />
-						</el-form-item>
-					</el-col>
-				</el-row>
+					<el-form-item label="是否外链" prop="isLink">
+						<el-switch
+							v-model="state.ruleForm.isLink"
+							width="50px"
+							inline-prompt
+							:active-value="1"
+							:inactive-value="0"
+							active-text="是"
+							inactive-text="否"
+						/>
+					</el-form-item>
+				</el-col>
+			</el-row>
+			<el-row class="mb15" v-if="state.ruleForm.isLink == 1">
+				<el-col :span="12">
+					<el-form-item label="外链地址" prop="link">
+						<el-input v-model="state.ruleForm.link" placeholder="请输入外链地址" />
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="iframe嵌入" prop="isIframe">
+						<el-switch
+							v-model="state.ruleForm.isIframe"
+							width="50px"
+							inline-prompt
+							:active-value="1"
+							:inactive-value="0"
+							active-text="是"
+							inactive-text="否"
+						/>
+						<el-tooltip class="box-item" effect="dark" content="开启则在当前页嵌入iframe，关闭则新窗口打开" placement="top">
+							<el-icon class="ml5"><ele-InfoFilled /></el-icon>
+						</el-tooltip>
+					</el-form-item>
+				</el-col>
+			</el-row>
 			</div>
 		</el-form>
 		<template #footer>
 			<el-button @click="closeDialog" size="default">取 消</el-button>
 			<el-button type="primary" @click="onSubmit" size="default" :loading="state.loading">{{ state.dialog.submitTxt }}</el-button>
 		</template>
-	</el-dialog>
+	</YsDialog>
 </template>
 <script setup lang="ts" name="systemMenuDialog">
-import { reactive, ref, watch, nextTick } from 'vue';
+import { defineAsyncComponent, reactive, ref, watch, nextTick } from 'vue';
 import { Memo, Notebook } from '@element-plus/icons-vue';
 import { useMenuApi } from '@/api/system/menu';
 import { ElMessage } from 'element-plus';
 import { objectCopyForm } from '@/utils/objectCopy';
+import { generatePath, generateName, generatePermission } from '@/utils/menuHelper';
 
+// 引入组件
+const IconPicker = defineAsyncComponent(() => import('@/components/YsIconPicker/index.vue'));
 
 const menuDialogFormRef = ref();
 const labelPosition = ref('right');
@@ -213,6 +278,7 @@ const state = reactive({
 	},
 	loading: false,
 	isInitializing: false, // 是否正在初始化数据
+	autoGenerate: true, // 是否自动生成路由信息
 });
 
 // 展开的节点keys
@@ -264,8 +330,39 @@ watch(
 		// 如果正在初始化，则跳过重置逻辑
 		if (state.isInitializing) return;
 
-		// 根据类型设置默认组件路径
-		state.ruleForm.component = val === 1 ? 'layout/routerView/parent' : '';
+		if (val === 1) {
+			// 目录类型
+			state.ruleForm.component = 'layout/routerView/parent';
+			state.ruleForm.path = '';
+			state.ruleForm.name = '';
+			state.ruleForm.permission = '';
+		} else if (val === 2) {
+			// 菜单类型
+			state.ruleForm.component = '';
+			state.ruleForm.path = '';
+			state.ruleForm.name = '';
+			state.ruleForm.permission = '';
+		}
+	}
+);
+
+// 监听组件路径变化，自动生成路由信息
+watch(
+	() => state.ruleForm.component,
+	(val) => {
+		// 如果正在初始化或未开启自动生成，则跳过
+		if (state.isInitializing || !state.autoGenerate) return;
+
+		// 自动生成路由路径
+		state.ruleForm.path = generatePath(val);
+
+		// 自动生成路由名称
+		state.ruleForm.name = generateName(val);
+
+		// 自动生成权限标识（仅菜单类型）
+		if (state.ruleForm.type === 2) {
+			state.ruleForm.permission = generatePermission(val);
+		}
 	}
 );
 
@@ -291,8 +388,6 @@ const onSubmit = async () => {
 		} else {
 			ElMessage.error(res.msg || `${state.dialog.type === 'add' ? '添加' : '更新'}失败`);
 		}
-	} catch (error) {
-		ElMessage.error('请求失败');
 	} finally {
 		// 请求完成后重置loading状态
 		state.loading = false;

@@ -1,6 +1,13 @@
 <template>
-	<el-dialog title="权限设置" v-model="state.dialog.isShowDialog" width="50%" :close-on-click-modal="false" :close-on-press-escape="false">
-		<el-form :model="state.ruleForm" :rules="rules" ref="formRef" label-width="90px" style="height: 200px">
+	<YsDialog
+		title="权限设置"
+		v-model="state.dialog.isShowDialog"
+		width="50%"
+		:close-on-click-modal="false"
+		:close-on-press-escape="false"
+		@close="onCancel"
+	>
+		<el-form :model="state.ruleForm" :rules="rules" ref="formRef" label-width="90px">
 			<el-row>
 				<el-col :span="12" class="mb20">
 					<el-form-item label="所属菜单">
@@ -8,8 +15,8 @@
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" class="mb20">
-					<el-form-item label="权限名称">
-						<EditableSelect
+					<el-form-item label="权限名称" prop="title">
+						<YsEditableSelect
 							v-model="state.ruleForm.title"
 							ref="editableSelectRef"
 							:options="state.optionTitles"
@@ -27,29 +34,31 @@
 				</el-col>
 				<el-col :span="12" class="mb20">
 					<el-form-item label="序号">
-						<el-input v-model="state.ruleForm.seq" />
+						<el-input-number v-model="state.ruleForm.seq" placeholder="请输入排序" :min="0" clearable />
 					</el-form-item>
 				</el-col>
 			</el-row>
 		</el-form>
 		<template #footer>
-			<span class="dialog-footer">
-				<el-button @click="onCancel" size="default">取 消</el-button>
-				<el-button type="primary" @click="onSubmit" size="default" :loading="state.loading">确定</el-button>
-			</span>
+			<el-button @click="onCancel" size="default">
+				取 消
+			</el-button>
+			<el-button type="primary" @click="onSubmit" size="default" :loading="state.loading">
+				确 定
+			</el-button>
 		</template>
-	</el-dialog>
+	</YsDialog>
 </template>
 
 <script setup lang="ts" name="AuthDialog">
 import { ref, reactive, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
-import EditableSelect from '@/components/EditableSelect/index.vue';
+import YsEditableSelect from '@/components/YsEditableSelect/index.vue';
 import { useMenuApi } from '@/api/system/menu';
 
 // 表单引用
 const formRef = ref();
-// 获取 EditableSelect 组件的引用
+// 获取 YsEditableSelect 组件的引用
 const editableSelectRef = ref();
 
 // 定义子组件向父组件传值/事件
@@ -114,7 +123,7 @@ const openDialog = (type: string, row?: any) => {
 	// 显示弹窗
 	state.dialog.isShowDialog = true;
 
-	// 重置 EditableSelect 组件内部状态
+	// 重置 YsEditableSelect 组件内部状态
 	nextTick(() => {
 		if (editableSelectRef.value) {
 			// 先重置组件
@@ -161,8 +170,6 @@ const onSubmit = async () => {
 		} else {
 			ElMessage.error(res.msg || `${state.dialog.type === 'add' ? '添加' : '更新'}失败`);
 		}
-	} catch (error) {
-		ElMessage.error('请求失败');
 	} finally {
 		// 请求完成后重置loading状态
 		state.loading = false;

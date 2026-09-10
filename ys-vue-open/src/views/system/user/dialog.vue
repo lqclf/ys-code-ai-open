@@ -1,5 +1,5 @@
 <template>
-	<el-dialog
+	<YsDialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
@@ -7,7 +7,6 @@
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
-		draggable
 	>
 		<el-form ref="userDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="90px" :inline="false" label-position="right">
 			<!-- 用户基本信息 -->
@@ -84,6 +83,22 @@
 								</div>
 							</template>
 						</el-tree-select>
+					</el-form-item>
+				</el-col>
+			</el-row>
+			<el-row class="mb15">
+				<el-col :span="12">
+					<el-form-item label="岗位" prop="positionId">
+						<el-select
+							v-model="state.ruleForm.positionId"
+							placeholder="请选择岗位"
+							clearable
+							:readonly="state.dialog.type == 'view'"
+							class="w100"
+							@change="handlePositionChange"
+						>
+							<el-option v-for="position in state.positionList" :key="position.id" :label="position.name" :value="position.id" />
+						</el-select>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -164,12 +179,14 @@
 				state.dialog.submitTxt
 			}}</el-button>
 		</template>
-	</el-dialog>
+	</YsDialog>
 </template>
+
 <script setup lang="ts" name="systemUserDialog">
 import { reactive, ref, nextTick } from 'vue';
 import { useUserApi } from '@/api/system/user';
 import { useRoleApi } from '@/api/system/role';
+import { usePositionApi } from '@/api/system/position';
 import { Shop, OfficeBuilding, School } from '@element-plus/icons-vue';
 import { useDeptApi } from '@/api/system/dept';
 import { ElMessage } from 'element-plus';
@@ -185,6 +202,8 @@ const initialForm = {
 	code: '', // 编号
 	departId: '', // 所属部门ID
 	departName: '', // 所属部门名称
+	positionId: '', // 岗位ID
+	positionName: '', // 岗位名称
 	userType: 1, // 用户类型
 	phone: '', // 手机号码
 	email: '', // 邮箱
@@ -225,6 +244,7 @@ const state = reactive({
 	isInitializing: false, // 是否正在初始化数据
 	deptData: [] as any[], // 部门数据
 	roleList: [] as any[], // 角色列表数据
+	positionList: [] as any[], // 岗位列表数据
 });
 
 // 表单验证规则
@@ -302,8 +322,25 @@ const initSelectData = async () => {
 		console.error('加载角色列表失败:', error);
 		state.roleList = [];
 	}
+	try {
+		const res = await usePositionApi().getPositionList();
+		state.positionList = res.data || [];
+	} catch (error) {
+		console.error('加载岗位列表失败:', error);
+		state.positionList = [];
+	}
 };
 
+const handlePositionChange = (positionId: string) => {
+	if (positionId) {
+		const selectedPosition = state.positionList.find(p => p.id === positionId);
+		if (selectedPosition) {
+			state.ruleForm.positionName = selectedPosition.name;
+		}
+	} else {
+		state.ruleForm.positionName = '';
+	}
+};
 // 提交表单
 const onSubmit = async () => {
 	// 表单验证
@@ -326,8 +363,6 @@ const onSubmit = async () => {
 		} else {
 			ElMessage.error(res.msg || `${state.dialog.type === 'add' ? '添加' : '更新'}失败`);
 		}
-	} catch (error) {
-		ElMessage.error('请求失败');
 	} finally {
 		// 请求完成后重置loading状态
 		state.loading = false;

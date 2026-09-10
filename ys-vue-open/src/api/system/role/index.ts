@@ -1,7 +1,9 @@
 import request from '@/utils/request';
 
+let currentBatchId: string = '';
+
 /**
- * 角色模块接口
+ * 角色管理api接口集合
  */
 export function useRoleApi() {
 	return {
@@ -16,14 +18,14 @@ export function useRoleApi() {
 			return request({
 				url: '/api/system/role/add',
 				method: 'post',
-				params,
+				data: params,
 			});
 		},
 		update: (params?: object) => {
 			return request({
 				url: '/api/system/role/update',
 				method: 'put',
-				params,
+				data: params,
 			});
 		},
 		delete: (ids?: String) => {
@@ -38,22 +40,19 @@ export function useRoleApi() {
 				method: 'get',
 			});
 		},
-		/*获取角色所拥有的权限id */
-		getRoleMenus: (id?: String) => { 
+		getRoleMenus: (id?: String) => {
 			return request({
 				url: '/api/system/role/getRoleMenus/' + id,
 				method: 'get',
 			});
 		},
-		/*修改角色权限 */
 		updateRoleMenus: (params?: object) => {
 			return request({
 				url: '/api/system/role/updateRoleMenus',
 				method: 'post',
-				data: params,  
+				data: params,
 			});
 		},
-		/*获取角色列表 */
 		getRoleList: () => {
 			return request({
 				url: '/api/system/role/getRoleList',

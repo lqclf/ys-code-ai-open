@@ -68,5 +68,14 @@ export function useMenuApi() {
 				method: 'get',
 			});
 		},
+		// 导出数据
+		exportData: (params?: object) => {
+			return request({
+				url: '/api/system/sysmenu/export',
+				method: 'get',
+				params,
+				responseType: 'blob',
+			});
+		},
 	};
 }

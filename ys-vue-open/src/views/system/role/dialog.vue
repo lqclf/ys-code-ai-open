@@ -1,38 +1,33 @@
 <template>
-	<el-dialog
+	<YsDialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
-		width="50%"
+		width="40%"
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
-		draggable
 	>
 		<el-form ref="roleDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="90px" :inline="false" label-position="right">
 			<el-row class="mb15">
-				<el-col :span="24">
+				<el-col :span="12">
 					<el-form-item label="角色名称" prop="name">
 						<el-input v-model="state.ruleForm.name" placeholder="请输入角色名称" size="default" clearable :readonly="state.dialog.type == 'view'" />
 					</el-form-item>
 				</el-col>
-			</el-row>
-			<el-row class="mb15">
-				<el-col :span="24">
+				<el-col :span="12">
 					<el-form-item label="角色标识" prop="code">
 						<el-input v-model="state.ruleForm.code" placeholder="请输入角色标识" :readonly="state.dialog.type == 'view'" />
 					</el-form-item>
 				</el-col>
 			</el-row>
 			<el-row class="mb15">
-				<el-col :span="24">
+				<el-col :span="12">
 					<el-form-item label="排序" prop="seq">
 						<el-input-number v-model="state.ruleForm.seq" placeholder="请输入排序" :min="0" clearable :readonly="state.dialog.type == 'view'" />
 					</el-form-item>
 				</el-col>
-			</el-row>
-			<el-row class="mb15">
-				<el-col :span="24">
+				<el-col :span="12">
 					<el-form-item label="状态" prop="status">
 						<el-switch
 							v-model="state.ruleForm.status"
@@ -68,7 +63,7 @@
 				state.dialog.submitTxt
 			}}</el-button>
 		</template>
-	</el-dialog>
+	</YsDialog>
 </template>
 <script setup lang="ts" name="systemRoleDialog">
 import { reactive, ref, nextTick } from 'vue';
@@ -170,8 +165,6 @@ const onSubmit = async () => {
 		} else {
 			ElMessage.error(res.msg || `${state.dialog.type === 'add' ? '添加' : '更新'}失败`);
 		}
-	} catch (error) {
-		ElMessage.error('请求失败');
 	} finally {
 		// 请求完成后重置loading状态
 		state.loading = false;

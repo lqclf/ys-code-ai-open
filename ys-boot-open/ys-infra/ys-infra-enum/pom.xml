@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ys-infra</artifactId>
+        <groupId>com.eric</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-infra-enum</artifactId>
+
+    <description>
+        枚举翻译模块 - 枚举值与展示名称的转换
+        功能：枚举类型定义、自动翻译注解、枚举值转换
+    </description>
+
+    <dependencies>
+        <!-- ==================== 内部模块依赖 ==================== -->
+        <!-- 公共支撑层 - 提供枚举注解、配置等基础能力 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- ==================== AOP 切面 ==================== -->
+        <!-- Spring Boot AOP 支持，用于枚举翻译切面 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- ==================== 工具类 ==================== -->
+        <!-- Hutool 工具集 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+    </dependencies>
+</project>

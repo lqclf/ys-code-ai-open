@@ -40,7 +40,7 @@ export function useConfigApi() {
 		 */
 		delete: (ids: string) => {
 			return request({
-				url: `/system/sysconfig/delete/${ids}`,
+				url: `/api/system/sysconfig/delete/${ids}`,
 				method: 'delete',
 			});
 		},
@@ -49,7 +49,7 @@ export function useConfigApi() {
 		 */
 		get: (id: string) => {
 			return request({
-				url: `/system/sysconfig/${id}`,
+				url: `/api/system/sysconfig/${id}`,
 				method: 'get',
 			});
 		},

@@ -1,186 +1,225 @@
 <template>
 	<div class="page-container">
 		<el-card>
-			<!-- 页面头部区域 -->
-			<div class="page-header mb15">
-				<el-form :model="searchForm" ref="searchFormRef" label-width="90px">
-					<el-input placeholder="请输入登录名" class="w-180 mr20" v-model="searchForm.loginName" clearable @keyup.enter="searchTable" />
-					<el-input placeholder="请输入真实姓名" class="w-180 mr20" v-model="searchForm.userName" clearable @keyup.enter="searchTable" />
-					<el-select class="m-2 w-180 mr20" v-model="searchForm.roleId" placeholder="请选择角色" clearable>
-						<el-option v-for="item in state.roleList" :key="item.id" :label="item.name" :value="item.id" />
-					</el-select>
-					<el-select class="m-2 w-180 mr20" v-model="searchForm.status" placeholder="请选择状态" clearable>
-						<el-option label="正常" :value="1" />
-						<el-option label="禁用" :value="0" />
-					</el-select>
-					<el-select class="m-2 w-180 mr20" v-model="searchForm.userType" placeholder="请选择用户类型" clearable>
-						<el-option label="游客" :value="0" />
-						<el-option label="普通用户" :value="1" />
-						<el-option label="会员" :value="2" />
-						<el-option label="管理员" :value="3" />
-					</el-select>
-					<el-tree-select
-						class="w-280 mr20"
-						v-model="searchForm.departId"
-						:data="state.deptData"
-						check-strictly
-						:render-after-expand="false"
-						:default-expanded-keys="expandedKeys"
-						accordion
-						clearable
-						placeholder="请选择部门"
-					>
-						<template #default="{ node, data }">
-							<div class="tree-node">
-								<el-icon class="tree-icon">
-									<OfficeBuilding v-if="data.data.levelType === 1" />
-									<School v-else-if="data.data.levelType === 2" />
-									<Shop v-else />
-								</el-icon>
-								<span class="tree-label">{{ node.label }}</span>
-							</div>
-						</template>
-					</el-tree-select>
-					<el-button type="primary" class="ml10" @click="searchTable">
-						<i class="ri-search-line"></i>
-						查询
-					</el-button>
-					<el-button type="default" class="ml10" @click="resetTable">
-						<i class="ri-reset-left-line"></i>
-						重置
-					</el-button>
-				</el-form>
-			</div>
-
-			<!-- 表格工具栏 -->
-			<div class="table-toolbar mb15">
-				<el-button type="success" @click="openDialogCRU('add')" v-auth="'system:user:add'">
-					<i class="ri-add-line"></i>
-					新增
-				</el-button>
-				<el-button type="primary" @click="handleImport" v-auth="'system:user:import'">
-					<i class="ri-download-2-line"></i>
-					导入
-				</el-button>
-				<el-button type="warning" @click="handleExport" v-auth="'system:user:export'">
-					<i class="ri-upload-2-line"></i>
-					导出
-				</el-button>
-			</div>
-
-			<!-- 表格区域 -->
-			<el-table
+			<YsTable
 				ref="tableRef"
-				:data="tableData"
-				v-loading="state.loading"
-				@selection-change="handleSelectionChange"
-				border
-				stripe
-				highlight-current-row
+				:request-fn="useUserApi().list"
+				:options="tableOptions"
+				:query-params="searchForm"
+				:show-pagination="true"
+				:show-selection-alert="true"
+				:events="tableEvents"
 			>
-				<el-table-column type="selection" width="55" align="center" />
-				<el-table-column type="index" label="序号" width="80" align="center" />
-				<el-table-column prop="loginName" label="登录名" width="140" />
-				<el-table-column prop="userName" label="真实姓名" width="140" />
-				<el-table-column label="用户类型" width="100">
-					<template #default="scope">
-						<el-tag v-if="scope.row.userType === 0" type="info">游客</el-tag>
-						<el-tag v-else-if="scope.row.userType === 1">普通用户</el-tag>
-						<el-tag v-else-if="scope.row.userType === 2" type="warning">会员</el-tag>
-						<el-tag v-else-if="scope.row.userType === 3" type="danger">管理员</el-tag>
-						<el-tag v-else type="info">未知</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="phone" label="手机号码" />
-				<el-table-column prop="email" label="邮箱" />
-				<el-table-column prop="departName" label="部门" />
-				<el-table-column label="角色">
-					<template #default="scope">
-						<el-tag v-for="item in scope.row.roleList" :key="item.id" class="mr4 mb4">
-							{{ item.name }}
-						</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column label="状态" width="100">
-					<template #default="scope">
-						<el-tag type="danger" v-if="scope.row.isLock === 0">已锁定</el-tag>
-						<el-tag type="success" v-else>正常</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column label="操作" width="220" align="center" fixed="right">
-					<template #default="scope">
-						<div class="operation-btn-group">
-							<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogCRU('edit', scope.row)" v-auth="'system:user:edit'">
-								编辑
-							</el-link>
-							<el-link
-								type="danger"
-								underline="never"
-								class="pr6 pl6"
-								@click="onDelete(scope.row)"
-								v-auth="'system:user:delete'"
-								:disabled="scope.row.loginName === 'admin'"
+				<!-- 页面头部区域 -->
+				<template #page-header>
+					<div class="page-header">
+						<el-form :model="searchForm" ref="searchFormRef" label-width="90px">
+							<el-input placeholder="请输入登录名" class="w-180 mr20" v-model="searchForm.loginName" clearable @keyup.enter="searchTable" />
+							<el-input placeholder="请输入真实姓名" class="w-180 mr20" v-model="searchForm.userName" clearable @keyup.enter="searchTable" />
+							<el-select class="m-2 w-180 mr20" v-model="searchForm.roleId" placeholder="请选择角色" clearable>
+								<el-option v-for="item in state.roleList" :key="item.id" :label="item.name" :value="item.id" />
+							</el-select>
+							<el-select class="m-2 w-180 mr20" v-model="searchForm.status" placeholder="请选择状态" clearable>
+								<el-option label="正常" :value="1" />
+								<el-option label="禁用" :value="0" />
+							</el-select>
+							<el-select class="m-2 w-180 mr20" v-model="searchForm.userType" placeholder="请选择用户类型" clearable>
+								<el-option label="游客" :value="0" />
+								<el-option label="普通用户" :value="1" />
+								<el-option label="会员" :value="2" />
+								<el-option label="管理员" :value="3" />
+							</el-select>
+							<el-tree-select
+								class="w-280 mr20"
+								v-model="searchForm.departId"
+								:data="state.deptData"
+								check-strictly
+								:render-after-expand="false"
+								:default-expanded-keys="expandedKeys"
+								accordion
+								clearable
+								placeholder="请选择部门"
 							>
-								删除
-							</el-link>
-							<el-link type="success" underline="never" class="pr6 pl6" @click="openDialogCRU('view', scope.row)"> 详情 </el-link>
-							<el-dropdown :hide-on-click="false" v-auths="['system:user:freeze', 'system:user:resetPwd']">
-								<span class="el-dropdown-link">
-									<el-link type="primary" underline="never" class="pr6 pl6">
-										<i class="ri-arrow-right-double-line"></i>
-									</el-link>
-								</span>
-								<template #dropdown>
-									<el-dropdown-menu>
+								<template #default="{ node, data }">
+									<div class="tree-node">
+										<el-icon class="tree-icon">
+											<OfficeBuilding v-if="data.data.levelType === 1" />
+											<School v-else-if="data.data.levelType === 2" />
+											<Shop v-else />
+										</el-icon>
+										<span class="tree-label">{{ node.label }}</span>
+									</div>
+								</template>
+							</el-tree-select>
+							<el-button type="primary" class="ml10" @click="searchTable">
+								<i class="ri-search-line"></i>
+								查询
+							</el-button>
+							<el-button type="default" class="ml10" @click="resetTable">
+								<i class="ri-reset-left-line"></i>
+								重置
+							</el-button>
+						</el-form>
+					</div>
+				</template>
+
+				<!-- 用户类型列 -->
+				<template #userType="scope">
+					<el-tag v-if="scope.row.userType === 0" type="info">游客</el-tag>
+					<el-tag v-else-if="scope.row.userType === 1" type="primary">普通用户</el-tag>
+					<el-tag v-else-if="scope.row.userType === 2" type="warning">会员</el-tag>
+					<el-tag v-else-if="scope.row.userType === 3" type="danger">管理员</el-tag>
+					<el-tag v-else type="info">未知</el-tag>
+				</template>
+
+				<!-- 角色列 -->
+				<template #roleList="scope">
+					<el-tag v-for="item in scope.row.roleList" :key="item.id" type="info" class="mr4 mb4">
+						{{ item.name }}
+					</el-tag>
+				</template>
+
+				<!-- 锁定状态列 -->
+				<template #isLock="scope">
+					<el-tag type="danger" v-if="scope.row.isLock === 0">已锁定</el-tag>
+					<el-tag type="success" v-else>正常</el-tag>
+				</template>
+
+				<!-- 操作列 -->
+				<template #action="scope">
+					<div class="operation-btn-group">
+						<el-link type="primary" underline="never" class="pr6 pl6" @click="openDialogCRU('edit', scope.row)" v-auth="'system:user:edit'">
+							编辑
+						</el-link>
+						<el-link
+							type="danger"
+							underline="never"
+							class="pr6 pl6"
+							@click="onDelete(scope.row)"
+							v-auth="'system:user:delete'"
+							:disabled="scope.row.loginName === 'admin'"
+						>
+							删除
+						</el-link>
+						<el-link type="success" underline="never" class="pr6 pl6" @click="openDialogCRU('view', scope.row)"> 详情 </el-link>
+						<el-dropdown :hide-on-click="false" v-auths="['system:user:freeze', 'system:user:resetPwd']">
+							<span class="el-dropdown-link">
+								<el-link type="primary" underline="never" class="pr6 pl6">
+									<i class="ri-arrow-right-double-line"></i>
+								</el-link>
+							</span>
+							<template #dropdown>
+								<el-dropdown-menu>
+									<div v-auth="'system:user:resetPwd'">
 										<el-dropdown-item>
-											<el-link type="primary" underline="never" class="pr6 pl6" @click="openPasswordDialog(scope.row)" v-auth="'system:user:resetPwd'">
+											<el-link type="primary" underline="never" class="pr6 pl6" @click="openPasswordDialog(scope.row)">
 												密码修改
 											</el-link>
 										</el-dropdown-item>
+									</div>
+									<div v-auth="'system:user:freeze'">
 										<el-dropdown-item>
 											<el-link
 												:type="scope.row.isLock === 1 ? 'warning' : 'success'"
 												underline="never"
 												class="pr6 pl6"
 												@click="toggleUserStatus(scope.row)"
-												v-auth="'system:user:freeze'"
 												:disabled="scope.row.loginName === 'admin'"
 											>
 												{{ scope.row.isLock === 1 ? '冻结' : '解冻' }}
 											</el-link>
 										</el-dropdown-item>
-									</el-dropdown-menu>
-								</template>
-							</el-dropdown>
-						</div>
-					</template>
-				</el-table-column>
-			</el-table>
-
-			<!-- 分页区域 -->
-			<div class="pagination-container mt15">
-				<el-pagination
-					v-model:current-page="state.page"
-					v-model:page-size="state.size"
-					:page-sizes="[10, 20, 50, 100]"
-					:total="state.total"
-					layout="total, sizes, prev, pager, next, jumper"
-					@size-change="handleSizeChange"
-					@current-change="handleCurrentChange"
-				/>
-			</div>
+									</div>
+								</el-dropdown-menu>
+							</template>
+						</el-dropdown>
+					</div>
+				</template>
+			</YsTable>
 		</el-card>
 
 		<!-- 引入组件 -->
 		<UserDialog ref="userDialogRef" @refresh="searchTable()" />
 		<PasswordDialog ref="passwordDialogRef" @refresh="searchTable()" />
 		<UserDetail ref="userDetailRef" @edit="handleEditFromDetail" />
+		
+		<!-- 导入组件（使用插槽自定义参数，hide-button隐藏自带按钮，通过工具栏调用） -->
+		<YsImportExcel
+			ref="importRef"
+			import-type="systemUser"
+			:columns="importColumns"
+			button-text="导入"
+			button-type="warning"
+			dialog-title="用户数据导入"
+			hide-button
+			@success="handleImportSuccess"
+			@error="handleImportError"
+		>
+			<!-- 自定义参数配置插槽 -->
+			<template #params="{ params, validate, updateParams }">
+				<div class="import-params-form">
+					<el-form label-width="100px">
+						<el-form-item label="选择部门">
+							<el-tree-select
+								class="w-full"
+								:model-value="params.departId"
+								@update:model-value="(val: string) => updateParams({ departId: val })"
+								:data="state.deptData"
+								check-strictly
+								:render-after-expand="false"
+								accordion
+								clearable
+								placeholder="请选择导入部门（可选）"
+							>
+								<template #default="{ node, data }">
+									<div class="tree-node">
+										<el-icon class="tree-icon">
+											<OfficeBuilding v-if="data.data.levelType === 1" />
+											<School v-else-if="data.data.levelType === 2" />
+											<Shop v-else />
+										</el-icon>
+										<span class="tree-label">{{ node.label }}</span>
+									</div>
+								</template>
+							</el-tree-select>
+						</el-form-item>
+					</el-form>
+					<el-alert type="info" :closable="false" show-icon class="import-tips">
+						<template #title>
+							<div class="import-tips-content">
+								<p>说明：</p>
+								<ul>
+									<li>选择部门后，导入的用户将统一分配到该部门</li>
+									<li>如果导入数据中的部门名称与选择的部门不一致，将作为错误数据处理</li>
+									<li>不选择部门时，将以导入数据中的部门名称匹配部门</li>
+								</ul>
+							</div>
+						</template>
+					</el-alert>
+				</div>
+			</template>
+		</YsImportExcel>
+		
+		<!-- 导出组件（hide-button隐藏自带按钮，通过工具栏调用） -->
+		<YsExportExcel
+			ref="exportRef"
+			export-type="systemUser"
+			:query-params="searchForm"
+			:columns="exportColumns"
+			file-name="用户数据"
+			button-text="导出"
+			button-type="success"
+			dialog-title="用户数据导出"
+			hide-button
+			@success="handleExportSuccess"
+			@error="handleExportError"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts" name="systemUser">
 import { defineAsyncComponent, reactive, onMounted, ref, nextTick } from 'vue';
-import { FormInstance, ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { Shop, OfficeBuilding, School } from '@element-plus/icons-vue';
 import { useUserApi } from '@/api/system/user';
 import { useRoleApi } from '@/api/system/role';
@@ -195,9 +234,15 @@ const UserDetail = defineAsyncComponent(() => import('@/views/system/user/detail
 const userDialogRef = ref();
 const passwordDialogRef = ref();
 const userDetailRef = ref();
+const tableRef = ref();
+const importRef = ref();
+const exportRef = ref();
 
 // 展开的节点keys
 const expandedKeys = ref<string[]>([]);
+
+// API 实例
+const userApi = useUserApi();
 
 // 搜索表单
 const searchForm = reactive({
@@ -210,79 +255,90 @@ const searchForm = reactive({
 	userType: '',
 });
 
+// 导入导出列定义
+const importColumns = [
+	{ field: 'loginName', title: '登录名', width: 150 },
+	{ field: 'userName', title: '真实姓名', width: 150 },
+	{ field: 'phone', title: '手机号码', width: 150 },
+	{ field: 'email', title: '邮箱', width: 200 },
+	{ field: 'departName', title: '部门名称', width: 150 },
+	{ field: 'positionName', title: '岗位名称', width: 150 },
+	{ field: 'userTypeStr', title: '用户类型', width: 100 },
+	{ field: 'statusStr', title: '状态', width: 100 },
+];
+const exportColumns = [
+	{ field: 'loginName', title: '登录名' },
+	{ field: 'userName', title: '真实姓名' },
+	{ field: 'phone', title: '手机号码' },
+	{ field: 'email', title: '邮箱' },
+	{ field: 'departName', title: '部门' },
+	{ field: 'positionName', title: '岗位' },
+	{ field: 'userTypeStr', title: '用户类型' },
+	{ field: 'statusStr', title: '状态' },
+];
+
 // 状态数据
 const state = reactive({
-	loading: false,
-	page: 1,
-	size: 10,
-	total: 0,
 	roleList: [] as any[],
-	deptData: [] as any[], // 上级部门数据
+	deptData: [] as any[],
 });
 
-// 表格数据
-const tableData = ref<any[]>([]);
-// 选中的数据
-const selectedRows = ref<any[]>([]);
+const tableOptions = reactive<any>({
+	columns: [
+		{ type: 'checkbox', width: 55, align: 'center' },
+		{ type: 'seq', width: 80, align: 'center' },
+		{ title: '登录名', field: 'loginName', width: 140 },
+		{ title: '真实姓名', field: 'userName', width: 140 },
+		{ title: '用户类型', field: 'userType', width: 100, slots: { default: 'userType' } },
+		{ title: '手机号码', field: 'phone' },
+		{ title: '邮箱', field: 'email' },
+		{ title: '部门', field: 'departName' },
+		{ title: '岗位', field: 'positionName', width: 120 },
+		{ title: '角色', field: 'roleList', slots: { default: 'roleList' } },
+		{ title: '状态', field: 'isLock', width: 100, slots: { default: 'isLock' } },
+		{ title: '操作', field: 'action', width: 220, slots: { default: 'action' }, align: 'center' },
+	],
+	cellConfig: {
+		height: 'auto',
+	},
+	// 工具栏配置
+	toolbarConfig: {
+		size: 'small',
+		refresh: true,
+		zoom: true,
+		custom: true,
+		buttons: [
+				{ name: '新增', code: 'userAdd', status: 'success', icon: 'ri-add-line', auth: 'system:user:add' },
+				{ name: '导入', code: 'userImport', status: 'warning', icon: 'ri-upload-line', auth: 'system:user:import' },
+				{ name: '导出', code: 'userExport', status: 'primary', icon: 'ri-download-line', auth: 'system:user:export' },
+			],
+	},
+});
 
-// 获取表格数据
-const getTableData = async () => {
-	state.loading = true;
-	try {
-		const params = {
-			...searchForm,
-			pageNo: state.page,
-			pageSize: state.size,
-		};
-		const res = await useUserApi().list(params);
-		if (res.code === 200 || res.success) {
-			tableData.value = res.data?.records || res.data || [];
-			state.total = res.data?.total || 0;
+const tableEvents = {
+	toolbarButtonClick(params: any) {
+		switch (params.code) {
+			case 'userAdd':
+				openDialogCRU('add');
+				break;
+			case 'userImport':
+				openImportDialog();
+				break;
+			case 'userExport':
+				openExportDialog();
+				break;
 		}
-	} catch (error) {
-		console.error('获取用户列表失败:', error);
-		ElMessage.error('获取用户列表失败');
-	} finally {
-		state.loading = false;
-	}
+	},
 };
 
 // 搜索方法
 const searchTable = (resetPage = true) => {
-	if (resetPage) {
-		state.page = 1;
-	}
-	getTableData();
+	tableRef.value?.search(resetPage);
 };
 
 // 重置方法
 const resetTable = () => {
-	searchForm.loginName = '';
-	searchForm.userName = '';
-	searchForm.phone = '';
-	searchForm.roleId = '';
-	searchForm.departId = '';
-	searchForm.status = '';
-	searchForm.userType = '';
-	state.page = 1;
-	getTableData();
-};
-
-// 分页大小变化
-const handleSizeChange = (val: number) => {
-	state.size = val;
-	getTableData();
-};
-
-// 页码变化
-const handleCurrentChange = (val: number) => {
-	state.page = val;
-	getTableData();
-};
-
-// 选中行变化
-const handleSelectionChange = (rows: any[]) => {
-	selectedRows.value = rows;
+	tableRef.value?.reset();
 };
 
 // 打开用户操作弹窗（新增/编辑/查看）
@@ -322,7 +378,7 @@ const deleteRow = async (row: any, message?: string) => {
 		const res = await useUserApi().delete(row.id);
 		if (res.code === 200 || res.success) {
 			ElMessage.success('删除成功');
-			getTableData();
+			tableRef.value?.refresh();
 		} else {
 			ElMessage.error(res.msg || '删除失败');
 		}
@@ -342,15 +398,13 @@ const toggleUserStatus = async (row: any) => {
 		});
 		let res;
 		if (row.isLock === 1) {
-			// 冻结用户
 			res = await useUserApi().freezeUser(row.id);
 		} else {
-			// 解冻用户
 			res = await useUserApi().unfreezeUser(row.id);
 		}
 		if (res.code === 200 || res.success) {
 			ElMessage.success(`${action}成功`);
-			getTableData();
+			tableRef.value?.refresh();
 		} else {
 			ElMessage.error(res.msg || `${action}失败`);
 		}
@@ -359,30 +413,42 @@ const toggleUserStatus = async (row: any) => {
 	}
 };
 
-// 处理导入
-const handleImport = () => {
-	ElMessage.info('导入功能开发中');
+// ==================== 导入导出相关方法 ====================
+
+/**
+ * 打开导入弹窗
+ */
+const openImportDialog = () => {
+	importRef.value?.open();
 };
 
-// 处理导出
-const handleExport = async () => {
-	try {
-		const res = await useUserApi().exportUser(searchForm);
-		if (res) {
-			// 创建下载链接
-			const url = window.URL.createObjectURL(new Blob([res.data || res]));
-			const link = document.createElement('a');
-			link.href = url;
-			link.setAttribute('download', `用户列表_${new Date().getTime()}.xlsx`);
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			window.URL.revokeObjectURL(url);
-			ElMessage.success('导出成功');
-		}
-	} catch (error) {
-		ElMessage.error('导出失败');
-	}
+/**
+ * 打开导出弹窗
+ */
+const openExportDialog = () => {
+	exportRef.value?.open();
+};
+
+// 导入成功回调
+const handleImportSuccess = (result: any) => {
+	ElMessage.success(`导入完成，成功 ${result.successCount} 条，失败 ${result.failCount} 条`);
+	// 刷新表格
+	tableRef.value?.refresh();
+};
+
+// 导入失败回调
+const handleImportError = (error: any) => {
+	ElMessage.error(error.message || '导入失败');
+};
+
+// 导出成功回调
+const handleExportSuccess = () => {
+	ElMessage.success('导出成功');
+};
+
+// 导出失败回调
+const handleExportError = (error: any) => {
+	ElMessage.error(error.message || '导出失败');
 };
 
 // 初始化数据
@@ -399,7 +465,7 @@ const initData = async () => {
 		state.deptData = res.data;
 		nextTick(() => {
 			if (state.deptData && state.deptData.length > 0) {
-				expandedKeys.value = [state.deptData[0].data.id]; //设置默认展开第一个节点
+				expandedKeys.value = [state.deptData[0].data.id];
 			}
 		});
 	} catch (error) {
@@ -411,18 +477,32 @@ const initData = async () => {
 // 页面加载时
 onMounted(() => {
 	initData();
-	getTableData();
 });
 </script>
 
-<style scoped>
-.operation-btn-group {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+<style scoped lang="scss">
+.import-params-form {
+	padding: 10px 0;
 }
-.pagination-container {
-	display: flex;
-	justify-content: flex-end;
+
+.import-tips {
+	margin-top: 20px;
+
+	.import-tips-content {
+		p {
+			font-weight: bold;
+			margin-bottom: 8px;
+		}
+
+		ul {
+			margin: 0;
+			padding-left: 20px;
+
+			li {
+				font-size: 13px;
+				line-height: 1.8;
+			}
+		}
+	}
 }
 </style>

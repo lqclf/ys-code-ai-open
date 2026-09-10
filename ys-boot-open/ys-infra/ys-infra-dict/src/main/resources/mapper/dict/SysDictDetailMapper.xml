@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eric.dict.module.mapper.SysDictDetailMapper">
+<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.eric.dict.module.entity.SysDictDetail">
+    	<id column="id" property="id"/>
+        <result column="dict_id" property="dictId"/>
+        <result column="dict_code" property="dictCode"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="seq" property="seq"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_name" property="createName"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+		id, dict_id, dict_code, code, name, seq, is_delete, create_time, create_by, create_name
+    </sql>
+
+</mapper>

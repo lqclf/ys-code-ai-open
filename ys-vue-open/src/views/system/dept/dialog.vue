@@ -1,5 +1,5 @@
 <template>
-	<el-dialog
+	<YsDialog
 		:title="state.dialog.title"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
@@ -7,7 +7,6 @@
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
-		draggable
 	>
 		<el-form ref="deptDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="100px" :inline="false" label-position="right">
 			<el-row class="mb15">
@@ -132,6 +131,25 @@
 				</el-col>
 			</el-row>
 			<el-row class="mb15">
+				<el-col :span="24">
+					<el-form-item label="部门负责人" prop="leaderName">
+						<div class="leader-select-wrapper">
+							<el-input
+								v-model="state.ruleForm.leaderName"
+								placeholder="请选择部门负责人"
+								:readonly="true"
+								clearable
+								@click-clear="clearLeader"
+							/>
+							<el-button type="primary" :disabled="state.dialog.type == 'view'" @click="openLeaderSelectDialog">
+								<i class="ri-user-search-line"></i>
+								选择
+							</el-button>
+						</div>
+					</el-form-item>
+				</el-col>
+			</el-row>
+			<el-row class="mb15">
 				<el-col :span="12">
 					<el-form-item label="部门邮箱" prop="email">
 						<el-input v-model="state.ruleForm.email" placeholder="请输入部门邮箱" :readonly="state.dialog.type == 'view'" />
@@ -147,6 +165,11 @@
 				<el-col :span="12">
 					<el-form-item label="邮政编码" prop="zipCode">
 						<el-input v-model="state.ruleForm.zipCode" placeholder="请输入邮政编码" :readonly="state.dialog.type == 'view'" />
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="部门图标" prop="icon">
+						<IconPicker placeholder="请选择部门图标" v-model="state.ruleForm.icon" :disabled="state.dialog.type == 'view'" />
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -195,7 +218,10 @@
 				state.dialog.submitTxt
 			}}</el-button>
 		</template>
-	</el-dialog>
+	</YsDialog>
+
+	<!-- 部门负责人选择弹窗 -->
+	<DeptUserSelectDialog ref="deptUserSelectRef" @confirm="handleLeaderConfirm" />
 </template>
 
 <script setup lang="ts" name="systemDeptDialog">
@@ -205,7 +231,12 @@ import { Shop, OfficeBuilding, School } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { objectCopyForm } from '@/utils/objectCopy';
 
+// 引入组件
+const IconPicker = defineAsyncComponent(() => import('@/components/YsIconPicker/index.vue'));
+const DeptUserSelectDialog = defineAsyncComponent(() => import('./components/DeptUserSelectDialog.vue'));
+
 const deptDialogFormRef = ref();
+const deptUserSelectRef = ref();
 
 // 表单初始数据
 const initialForm = {
@@ -225,6 +256,8 @@ const initialForm = {
 	remark: '', // 备注
 	linkMan: '', // 联系人
 	linkPhone: '', // 联系电话
+	leaderId: '', // 部门负责人ID
+	leaderName: '', // 部门负责人名称
 	seq: 0, // 显示顺序(值越小越靠前)
 	icon: '', // 图标
 	status: 1, // 状态 0.禁用 1.正常
@@ -333,8 +366,6 @@ const onSubmit = async () => {
 		} else {
 			ElMessage.error(res.msg || `${state.dialog.type === 'add' ? '添加' : '更新'}失败`);
 		}
-	} catch (error) {
-		ElMessage.error('请求失败');
 	} finally {
 		// 请求完成后重置loading状态
 		state.loading = false;
@@ -346,6 +377,30 @@ const closeDialog = () => {
 	state.dialog.isShowDialog = false;
 };
 
+/**
+ * 打开部门负责人选择弹窗
+ */
+const openLeaderSelectDialog = () => {
+	// 支持新增和编辑时选择负责人，新增时deptId为空，可以查询所有用户
+	deptUserSelectRef.value?.openDialog();
+};
+
+/**
+ * 确认选择部门负责人
+ */
+const handleLeaderConfirm = (user: { id: string; name: string }) => {
+	state.ruleForm.leaderId = user.id;
+	state.ruleForm.leaderName = user.name;
+};
+
+/**
+ * 清除部门负责人
+ */
+const clearLeader = () => {
+	state.ruleForm.leaderId = '';
+	state.ruleForm.leaderName = '';
+};
+
 // 定义子组件向父组件传值/事件
 const emit = defineEmits(['refresh']);
 
@@ -354,3 +409,18 @@ defineExpose({
 	openDialog,
 });
 </script>
+
+<style scoped lang="scss">
+.leader-select-wrapper {
+	display: flex;
+	gap: 10px;
+	
+	.el-input {
+		flex: 1;
+	}
+	
+	.el-button {
+		white-space: nowrap;
+	}
+}
+</style>

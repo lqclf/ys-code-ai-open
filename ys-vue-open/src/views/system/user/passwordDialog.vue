@@ -1,13 +1,12 @@
 <template>
-	<el-dialog
+	<YsDialog
 		title="修改密码"
 		v-model="state.dialog.isShowDialog"
 		@close="state.dialog.isShowDialog = false"
-		width="50%"
+		width="600px"
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
-		draggable
 	>
 		<el-form ref="passwordDialogFormRef" :model="state.ruleForm" :rules="rules" label-width="120px" :inline="false" label-position="right">
 			<el-row class="mb15">
@@ -43,7 +42,7 @@
 			<el-button @click="closeDialog" size="default">取 消</el-button>
 			<el-button type="primary" @click="onSubmit" size="default" :loading="state.loading">确 定</el-button>
 		</template>
-	</el-dialog>
+	</YsDialog>
 </template>
 
 <script setup lang="ts" name="systemUserPasswordDialog">
@@ -128,8 +127,6 @@ const onSubmit = async () => {
 		} else {
 			ElMessage.error(res.msg || '密码修改失败');
 		}
-	} catch (error) {
-		ElMessage.error('请求失败');
 	} finally {
 		state.loading = false;
 	}
