@@ -20,6 +20,10 @@
     <modules>
         <!-- 系统日志模块：登录日志、操作日志、异常日志的采集与查询 -->
         <module>ys-infra-log</module>
+        <!-- 字典模块：字典类型与字典项维护 -->
+        <module>ys-infra-dict</module>
+        <!-- 枚举模块：枚举值下发 -->
+        <module>ys-infra-enum</module>
     </modules>
 
 </project>

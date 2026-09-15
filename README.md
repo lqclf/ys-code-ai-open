@@ -120,39 +120,28 @@
 ## 项目架构
 
 ```
-YsCode/
-├── ys-boot-pro/              # 后端项目（Spring Boot 3.3.3 + Java 21）
+ys-lowcode-open/
+├── ys-boot-open/             # 后端项目（Spring Boot 3.3.3 + Java 21）
 │   ├── ys-common/            # 公共支撑层（注解、常量、枚举、异常、工具类）
 │   ├── ys-infra/             # 基础设施层
-│   │   ├── ys-infra-file/    # 文件上传模块（6种存储方式）
 │   │   ├── ys-infra-log/     # 系统日志模块（操作/登录/异常）
-│   │   ├── ys-infra-dict/    # 字典翻译模块
-│   │   ├── ys-infra-enum/    # 枚举翻译模块
-│   │   ├── ys-infra-sensitive/# 敏感数据脱敏模块
-│   │   ├── ys-infra-quartz/  # 定时任务模块（集群支持）
-│   │   ├── ys-infra-datapermission/  # 数据权限模块
-│   │   ├── ys-infra-excel/   # Excel导入导出模块（百万级）
-│   │   ├── ys-infra-codegen/ # 代码生成器模块（多数据源）
-│   │   ├── ys-infra-ai/      # AI智能模块（多模型适配）
-│   │   ├── ys-infra-redis/   # Redis缓存模块
-│   │   └── ys-infra-monitor/ # 系统监控模块
-│   ├── ys-system/            # 系统业务模块（用户/角色/菜单/部门/岗位）
-│   ├── ys-module/            # 业务扩展模块
+│   │   ├── ys-infra-dict/    # 字典管理模块（字典类型与字典项维护）
+│   │   └── ys-infra-enum/    # 枚举模块（枚举值下发）
+│   ├── ys-system/            # 系统业务模块（用户/角色/菜单/部门）
+│   ├── ys-module/            # 业务扩展模块（demo-biz 示例）
 │   └── ys-starter/           # 应用启动模块
 │
-└── ys-vue-pro/               # 前端项目（Vue 3.4 + TypeScript 5.4）
+└── ys-vue-open/              # 前端项目（Vue 3.4 + TypeScript 5.4）
     ├── src/
-    │   ├── api/              # API接口层（按模块分组）
-    │   ├── components/       # 公共组件（YsTable/YsDialog/YsUpload/YsAIAssistant等）
+    │   ├── api/              # API接口层（common/login/system 按模块分组）
+    │   ├── components/       # 公共组件（YsTable/YsDialog/EditableSelect等）
     │   ├── views/            # 页面视图
-    │   │   ├── ai/           # AI模块页面（17个）
-    │   │   ├── codegen/      # 代码生成器页面
-    │   │   ├── system/       # 系统管理页面
+    │   │   ├── system/       # 系统管理页面（用户/角色/菜单/部门/字典/参数/日志）
     │   │   ├── home/         # 首页仪表盘
-    │   │   └── home-work/    # 工作台（CMS/CRM/监控大屏）
+    │   │   └── login/        # 登录页面
     │   ├── stores/           # Pinia状态管理
     │   ├── router/           # 路由配置
-    │   ├── layout/           # 布局组件（5种布局）
+    │   ├── layout/           # 布局组件
     │   └── utils/            # 工具函数
     └── ...
 ```
@@ -512,7 +501,7 @@ java -jar ys-starter-*.jar
 
 ![字典数据](docs/images/系统管理_字典数据.png)
 
-> 数据字典维护、字典项管理、自动翻译
+> 数据字典维护、字典项管理
 
 #### 参数配置
 
@@ -532,7 +521,7 @@ java -jar ys-starter-*.jar
 
 #### 文件管理
 
-![文件管理列表](docs/images/系统管理_文件统计分析.png)
+![文件管理列表](docs/images/系统管理_文件管理列表.png)
 
 ![文件上传](docs/images/系统管理_文件上传.png)
 
@@ -721,7 +710,8 @@ java -jar ys-starter-*.jar
 | 菜单管理   | 菜单CRUD、按钮权限、动态路由配置         | 支持目录、菜单、按钮三种类型              |
 | 部门管理   | 组织架构管理、树形结构展示              | 支持无限层级部门结构                  |
 | 岗位管理   | 岗位CRUD、职级管理                | 支持岗位编码、等级                   |
-| 字典管理   | 数据字典维护、字典项翻译               | 支持字典缓存、自动翻译                 |
+| 字典管理   | 数据字典维护、字典项管理               | 支持字典缓存、进程内字典项下发                 |
+| 枚举管理   | 枚举值下发（`/enum/getEnumValue/{code}`） | 进程内缓存、下拉选项直接可用 |
 | 参数配置   | 系统参数配置、动态修改生效              | 支持参数分类管理                    |
 | 通知公告   | 公告发布、定向推送、状态追踪             | 支持全体/指定用户推送                 |
 | 文件管理   | 文件上传、存储配置、文件预览             | 6种存储方式、在线预览                 |
@@ -884,22 +874,78 @@ VITE_PORT = 8888
 | 注解                   | 功能      | 使用位置         |
 | -------------------- | ------- | ------------ |
 | `@MyLog`             | 记录操作日志  | Controller方法 |
-| `@DataPermission`    | 数据权限控制  | Controller方法 |
-| `@DictTranslate`     | 字典自动翻译  | 实体类字段        |
-| `@EnumTranslate`     | 枚举自动翻译  | 实体类字段        |
-| `@SensitiveField`    | 敏感数据脱敏  | 实体类字段        |
 | `@SaCheckPermission` | 权限校验    | Controller方法 |
-| `@RateLimiter`       | 限流控制    | Controller方法 |
-| `@AutoDict`          | 自动字典翻译  | Controller方法 |
-| `@AutoEnum`          | 自动枚举翻译  | Controller方法 |
-| `@Sensitive`         | 敏感数据编解码 | Controller方法 |
+
+> 数据权限、敏感数据脱敏、限流等能力属于商业版扩展模块，开源版未包含对应注解。
+
+### 通用组件
+
+开源版内置两个全局注册的通用组件（`main.ts` 中注册，所有页面可直接使用，无需 import）。
+
+**YsTable —— 通用表格组件**（基于 vxe-table，支持自动高度、分页、跨页选中）
+
+| Prop | 类型 | 默认值 | 说明 |
+| ---- | ---- | ---- | ---- |
+| `options` | `VxeGridProps` | `{}` | vxe-grid 配置（columns等） |
+| `events` | `VxeGridListeners` | `{}` | vxe-grid 事件 |
+| `requestFn` | `(params) => Promise<any>` | — | 数据请求函数（传入 API 方法即可） |
+| `queryParams` | `Record<string, any>` | `{}` | 查询参数 |
+| `data` | `any[]` | — | 直接传入本地数据（不走请求） |
+| `showPagination` | `boolean` | `true` | 是否显示分页 |
+| `autoLoad` | `boolean` | `true` | 是否自动加载数据 |
+| `autoHeight` | `boolean` | `true` | 是否启用自动高度计算 |
+| `showSelectionAlert` | `boolean` | `false` | 是否显示跨页选中提示条 |
+
+**事件**：`size-change` / `current-change` / `request-success` / `request-error` / `refresh` / `reset` / `search`
+
+**插槽**：`page-header`（页头搜索区）、`toolbar`（工具栏，暴露 `refresh` / `reset` / `search`），其余透传 vxe-grid 插槽
+
+**expose 方法**：`refresh()` / `reset()` / `search()` / `updateQueryParams()` / `getQueryParams()` / `setCurrentPage()` / `setPageSize()` / `clearSelection()` / `getAllSelectedData()` / `tableRef`
+
+```vue
+<YsTable
+	ref="mainTableRef"
+	:request-fn="useDictApi().list"
+	:options="mainTableOptions"
+	:query-params="mainSearchForm"
+>
+	<template #toolbar="{ refresh }">
+		<el-button @click="refresh">刷新</el-button>
+	</template>
+</YsTable>
+```
+
+**YsDialog —— 通用弹窗组件**（统一弹窗样式，支持全屏切换）
+
+| Prop | 类型 | 默认值 | 说明 |
+| ---- | ---- | ---- | ---- |
+| `modelValue` | `boolean` | `false` | 弹窗是否显示（v-model） |
+| `title` | `string` | `''` | 弹窗标题 |
+| `height` | `string \| number` | `'auto'` | 内容区高度 |
+| `showFullscreenBtn` | `boolean` | `true` | 是否显示全屏切换按钮 |
+| `showClose` | `boolean` | `true` | 是否显示关闭按钮 |
+
+其余属性透传给 `el-dialog`；事件包含 `update:modelValue` / `open` / `opened` / `close` / `closed` 与全屏切换通知。
+
+**插槽**：`header`（自定义头部）、`header-left`、`header-actions`、默认插槽（内容区）、`footer`（底部按钮区）
+
+```vue
+<YsDialog v-model="state.dialogVisible" title="新增字典" height="400px">
+	<!-- 表单内容 -->
+	<template #footer>
+		<el-button @click="state.dialogVisible = false">取消</el-button>
+		<el-button type="primary" @click="handleSubmit">确定</el-button>
+	</template>
+</YsDialog>
+```
 
 ### 前端开发规范
 
 - **页面组件**: 使用 `<script setup>` 语法，添加 `name` 属性
 - **API封装**: 按模块组织，使用 `useXxxApi()` 函数式封装
-- **表格组件**: 使用 `YsTable` 组件，支持自动高度、分页、跨页选中
-- **弹窗组件**: 使用 `YsDialog` 组件，统一弹窗样式
+- **表格组件**: 统一使用 `YsTable` 组件（契约见上方「通用组件」），支持自动高度、分页、跨页选中
+- **弹窗组件**: 统一使用 `YsDialog` 组件（契约见上方「通用组件」），统一弹窗样式
+- **安全渲染**: 动态 HTML 一律使用 `v-safe-html` 指令（内置 DOMPurify 净化），禁止直接 `v-html`
 - **懒加载**: 弹窗等非首屏组件使用 `defineAsyncComponent` 懒加载
 
 ### 代码分层架构

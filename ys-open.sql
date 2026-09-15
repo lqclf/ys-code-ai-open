@@ -395,6 +395,11 @@ INSERT INTO `sys_menu` VALUES ('19000000000000000054', '参数配置-查询', '1
 INSERT INTO `sys_menu` VALUES ('19000000000000000055', '参数配置-新增', '11000000000000000015', NULL, '', '', '', 'system:config:add', '', '', 2, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
 INSERT INTO `sys_menu` VALUES ('19000000000000000056', '参数配置-修改', '11000000000000000015', NULL, '', '', '', 'system:config:edit', '', '', 3, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
 INSERT INTO `sys_menu` VALUES ('19000000000000000057', '参数配置-删除', '11000000000000000015', NULL, '', '', '', 'system:config:delete', '', '', 4, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
+INSERT INTO `sys_menu` VALUES ('11000000000000000014', '字典管理', '10000000000000000003', 'systemDict', '/system/dict/index.vue', '', '/system/dict', 'system:dict:list', 'cn cn-zidianguanli', '', 5, 2, 0, 0, 0, 0, 0, 1, '2025-07-31 09:24:15', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('19000000000000000050', '字典管理-查询', '11000000000000000014', NULL, '', '', '', 'system:dict:query', '', '', 1, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
+INSERT INTO `sys_menu` VALUES ('19000000000000000051', '字典管理-新增', '11000000000000000014', NULL, '', '', '', 'system:dict:add', '', '', 2, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
+INSERT INTO `sys_menu` VALUES ('19000000000000000052', '字典管理-修改', '11000000000000000014', NULL, '', '', '', 'system:dict:edit', '', '', 3, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
+INSERT INTO `sys_menu` VALUES ('19000000000000000053', '字典管理-删除', '11000000000000000014', NULL, '', '', '', 'system:dict:delete', '', '', 4, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -565,6 +570,11 @@ INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000054
 INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000055');
 INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000056');
 INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000057');
+INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '11000000000000000014');
+INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000050');
+INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000051');
+INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000052');
+INSERT INTO `sys_role_menu` VALUES ('1949738202609135222', '19000000000000000053');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -687,5 +697,52 @@ INSERT INTO `sys_user_role` VALUES ('2000000000000000002', '1949738202609135222'
 INSERT INTO `sys_user_role` VALUES ('2000000000000000003', '1949738202609135222');
 INSERT INTO `sys_user_role` VALUES ('2000000000000000008', '1955154995175673857');
 INSERT INTO `sys_user_role` VALUES ('2000000000000000008', '1955155180035428353');
+
+-- ----------------------------
+-- Table structure for sys_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict`  (
+  `id` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编码',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `descript` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `status` int NULL DEFAULT 1 COMMENT '状态 0.禁用 1.正常',
+  `is_delete` tinyint NULL DEFAULT 1 COMMENT '删除状态 0.已删除 1.正常',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人id',
+  `create_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典管理表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
+INSERT INTO `sys_dict` VALUES ('1950439175367376901', 'common_status', '通用状态', '通用的启用/停用状态字典，用于系统通用状态（启用/停用）的字典项维护', 1, 1, '2025-07-31 09:24:15', '1949738202609135617', '超级管理员');
+
+-- ----------------------------
+-- Table structure for sys_dict_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_detail`;
+CREATE TABLE `sys_dict_detail`  (
+  `id` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `dict_id` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典主表id',
+  `dict_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典主表编码',
+  `code` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编码',
+  `name` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `seq` int NULL DEFAULT NULL COMMENT '序号',
+  `is_delete` tinyint NULL DEFAULT 1 COMMENT '删除状态 0.已删除 1.正常',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人id',
+  `create_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人名称',
+  `tag_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标签类型（primary/success/warning/danger/info）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典管理明细表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_dict_detail
+-- ----------------------------
+INSERT INTO `sys_dict_detail` VALUES ('1950440156679311371', '1950439175367376901', 'common_status', '1', '启用', 1, 1, '2025-07-31 09:24:15', '1949738202609135617', '超级管理员', 'success');
+INSERT INTO `sys_dict_detail` VALUES ('1950440156679311372', '1950439175367376901', 'common_status', '0', '禁用', 2, 1, '2025-07-31 09:24:15', '1949738202609135617', '超级管理员', 'danger');
 
 SET FOREIGN_KEY_CHECKS = 1;

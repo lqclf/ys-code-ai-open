@@ -39,6 +39,27 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- 基础设施 - 字典模块：字典类型与字典项维护 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-infra-dict</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- 基础设施 - 枚举模块：枚举值下发 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-infra-enum</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- ==================== 接口文档 ==================== -->
+        <!-- Knife4j 接口文档（OpenAPI3），提供 /doc.html 在线调试 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        </dependency>
+
 
         <!-- ==================== Spring Boot Web ==================== -->
         <!-- Spring Boot Web 启动器，包含嵌入式 Tomcat -->

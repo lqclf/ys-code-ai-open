@@ -12,8 +12,8 @@
     <artifactId>ys-infra-dict</artifactId>
 
     <description>
-        字典翻译模块 - 业务字典数据维护与翻译
-        功能：字典类型管理、字典数据管理、字典翻译注解
+        字典管理模块 - 业务字典数据维护与字典项下发
+        功能：字典类型管理、字典数据管理
     </description>
 
     <dependencies>
@@ -23,13 +23,6 @@
             <groupId>com.eric</groupId>
             <artifactId>ys-common</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- ==================== AOP 切面 ==================== -->
-        <!-- Spring Boot AOP 支持，用于字典翻译切面 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
         <!-- ==================== 工具类 ==================== -->

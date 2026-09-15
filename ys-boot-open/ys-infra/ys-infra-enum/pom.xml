@@ -12,8 +12,8 @@
     <artifactId>ys-infra-enum</artifactId>
 
     <description>
-        枚举翻译模块 - 枚举值与展示名称的转换
-        功能：枚举类型定义、自动翻译注解、枚举值转换
+        枚举管理模块 - 枚举值与展示名称的下发
+        功能：枚举类型定义、枚举值下发
     </description>
 
     <dependencies>
@@ -23,13 +23,6 @@
             <groupId>com.eric</groupId>
             <artifactId>ys-common</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- ==================== AOP 切面 ==================== -->
-        <!-- Spring Boot AOP 支持，用于枚举翻译切面 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
         <!-- ==================== 工具类 ==================== -->

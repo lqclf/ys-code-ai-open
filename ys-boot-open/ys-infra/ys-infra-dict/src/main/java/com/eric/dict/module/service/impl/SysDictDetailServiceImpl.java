@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.eric.common.module.domain.query.PageQuery;
 import com.eric.common.module.service.impl.BaseServiceImpl;
 import com.eric.common.utils.BeanCopyUtils;
-import com.eric.common.utils.RedisUtils;
 import com.eric.dict.module.dto.SysDictDetailDTO;
 import com.eric.dict.module.entity.SysDictDetail;
 import com.eric.dict.module.mapper.SysDictDetailMapper;
@@ -14,17 +13,23 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 字典管理明细表 服务实现类
+ * <p>
+ * 缓存说明：本实现使用进程内缓存（ConcurrentHashMap）缓存按 dictCode 查询的字典明细，
+ * 不依赖 Redis，保证开源版在零中间件环境下开箱即用。
+ * 字典项发生变更时同步清理缓存，保证接口立即返回最新数据。
+ * </p>
+ *
  * @ClassName:  SysDictDetailServiceImpl
  * @author:     liuQ
  * @date:       2025-07-28 16:36:39
@@ -37,17 +42,19 @@ public class SysDictDetailServiceImpl extends BaseServiceImpl<SysDictDetailMappe
 	private static final Logger log = LoggerFactory.getLogger(SysDictDetailServiceImpl.class);
 
 	/**
-	 * 字典缓存键前缀
+	 * 字典缓存过期时间（毫秒），默认 24 小时
 	 */
-	private static final String DICT_CACHE_PREFIX = "dict:";
+	private static final long DICT_CACHE_EXPIRE_MILLIS = 24 * 60 * 60 * 1000L;
 
 	/**
-	 * 字典缓存过期时间（小时）
+	 * 进程内字典明细缓存：key = 字典编码，value = 该字典下的明细列表
 	 */
-	private static final long DICT_CACHE_EXPIRE_HOURS = 24;
+	private static final Map<String, List<SysDictDetail>> DETAIL_CACHE = new ConcurrentHashMap<>(64);
 
-	@Autowired
-	private RedisUtils redisUtils;
+	/**
+	 * 缓存过期时间戳：key = 字典编码，value = 过期时间（毫秒）
+	 */
+	private static final Map<String, Long> DETAIL_CACHE_EXPIRE_AT = new ConcurrentHashMap<>(64);
 
 	@Override
 	public String add(SysDictDetailDTO o) {
@@ -84,7 +91,7 @@ public class SysDictDetailServiceImpl extends BaseServiceImpl<SysDictDetailMappe
 		Boolean result = updateById(sysDictDetail);
 		// 清除新旧字典编码的缓存
 		clearDictCache(oldDictCode);
-		if (!oldDictCode.equals(o.getDictCode())) {
+		if (oldDictCode == null || !oldDictCode.equals(o.getDictCode())) {
 			clearDictCache(o.getDictCode());
 		}
 		return result;
@@ -116,15 +123,7 @@ public class SysDictDetailServiceImpl extends BaseServiceImpl<SysDictDetailMappe
 			}
 			Boolean result = this.saveOrUpdateBatch(list, 1000);
 			// 清除所有相关字典的缓存
-			List<String> dictCodes = new ArrayList<>();
-			for (SysDictDetailDTO dto : dataList) {
-				if (dto.getDictCode() != null && !dictCodes.contains(dto.getDictCode())) {
-					dictCodes.add(dto.getDictCode());
-				}
-			}
-			for (String dictCode : dictCodes) {
-				clearDictCache(dictCode);
-			}
+			clearDictCacheBatch(collectDictCodes(dataList));
 			return result;
 		}
 		return false;
@@ -140,43 +139,34 @@ public class SysDictDetailServiceImpl extends BaseServiceImpl<SysDictDetailMappe
 			}
 			Boolean result = this.updateBatchById(list);
 			// 清除所有相关字典的缓存
-			List<String> dictCodes = new ArrayList<>();
-			for (SysDictDetailDTO dto : dataList) {
-				if (dto.getDictCode() != null && !dictCodes.contains(dto.getDictCode())) {
-					dictCodes.add(dto.getDictCode());
-				}
-			}
-			for (String dictCode : dictCodes) {
-				clearDictCache(dictCode);
-			}
+			clearDictCacheBatch(collectDictCodes(dataList));
 			return result;
 		}
 		return false;
 	}
 
 	/**
-	 * 根据字典编码查询字典明细列表（带Redis缓存优化）
-	 * 查询策略：先查缓存，缓存未命中再查数据库并写入缓存
+	 * 根据字典编码查询字典明细列表（带进程内缓存）
+	 * 查询策略：先查缓存，缓存未命中或已过期再查数据库并写入缓存
 	 * @param dictCode 字典编码
 	 * @return 字典明细列表
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<SysDictDetail> selectByDictCode(String dictCode) {
-		String cacheKey = DICT_CACHE_PREFIX + dictCode;
-		
-		// 先从Redis缓存中查询
-		try {
-			List<SysDictDetail> cachedList = (List<SysDictDetail>) redisUtils.get(cacheKey);
-			if (cachedList != null && !cachedList.isEmpty()) {
-				log.debug("字典缓存命中: {}", dictCode);
-				return cachedList;
-			}
-		} catch (Exception e) {
-			log.warn("字典缓存读取失败: {}, 将从数据库查询", dictCode, e);
+		if (dictCode == null || dictCode.isEmpty()) {
+			return new ArrayList<>();
 		}
 
-		// 缓存未命中，从数据库查询
+		List<SysDictDetail> cachedList = DETAIL_CACHE.get(dictCode);
+		Long expireAt = DETAIL_CACHE_EXPIRE_AT.get(dictCode);
+		long now = System.currentTimeMillis();
+		if (cachedList != null && expireAt != null && expireAt > now) {
+			log.debug("字典缓存命中: {}", dictCode);
+			// 返回副本，避免调用方修改污染缓存
+			return new ArrayList<>(cachedList);
+		}
+
+		// 缓存未命中或已过期，从数据库查询
 		QueryWrapper<SysDictDetail> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("dict_code", dictCode);
 		queryWrapper.eq("is_delete", 1);
@@ -185,12 +175,13 @@ public class SysDictDetailServiceImpl extends BaseServiceImpl<SysDictDetailMappe
 
 		// 将查询结果写入缓存
 		if (result != null && !result.isEmpty()) {
-			try {
-				redisUtils.set(cacheKey, result, DICT_CACHE_EXPIRE_HOURS, TimeUnit.HOURS);
-				log.debug("字典缓存已设置: {}, 记录数: {}", dictCode, result.size());
-			} catch (Exception e) {
-				log.warn("字典缓存写入失败: {}", dictCode, e);
-			}
+			DETAIL_CACHE.put(dictCode, new ArrayList<>(result));
+			DETAIL_CACHE_EXPIRE_AT.put(dictCode, now + DICT_CACHE_EXPIRE_MILLIS);
+			log.debug("字典缓存已设置: {}, 记录数: {}", dictCode, result.size());
+		} else {
+			// 查询结果为空时也要清理，避免已删除的字典残留
+			DETAIL_CACHE.remove(dictCode);
+			DETAIL_CACHE_EXPIRE_AT.remove(dictCode);
 		}
 
 		return result;
@@ -205,11 +196,43 @@ public class SysDictDetailServiceImpl extends BaseServiceImpl<SysDictDetailMappe
 			return;
 		}
 		try {
-			String cacheKey = DICT_CACHE_PREFIX + dictCode;
-			redisUtils.delete(cacheKey);
+			DETAIL_CACHE.remove(dictCode);
+			DETAIL_CACHE_EXPIRE_AT.remove(dictCode);
 			log.debug("字典缓存已清除: {}", dictCode);
 		} catch (Exception e) {
 			log.warn("字典缓存清除失败: {}", dictCode, e);
 		}
+	}
+
+	/**
+	 * 批量清除多个字典编码的缓存
+	 * @param dictCodes 字典编码列表
+	 */
+	private void clearDictCacheBatch(List<String> dictCodes) {
+		for (String dictCode : dictCodes) {
+			if (dictCode == null || dictCode.isEmpty()) {
+				continue;
+			}
+			DETAIL_CACHE.remove(dictCode);
+			DETAIL_CACHE_EXPIRE_AT.remove(dictCode);
+		}
+		if (!dictCodes.isEmpty()) {
+			log.debug("字典缓存已批量清除: {}", dictCodes);
+		}
+	}
+
+	/**
+	 * 从明细列表中提取去重的字典编码
+	 * @param dataList 字典明细列表
+	 * @return 去重的字典编码
+	 */
+	private List<String> collectDictCodes(List<SysDictDetailDTO> dataList) {
+		List<String> dictCodes = new ArrayList<>();
+		for (SysDictDetailDTO dto : dataList) {
+			if (dto.getDictCode() != null && !dictCodes.contains(dto.getDictCode())) {
+				dictCodes.add(dto.getDictCode());
+			}
+		}
+		return dictCodes;
 	}
 }

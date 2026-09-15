@@ -110,6 +110,13 @@
             <artifactId>mybatis-plus-jsqlparser</artifactId>
         </dependency>
 
+        <!-- ==================== 接口文档 ==================== -->
+        <!-- Knife4j 接口文档（OpenAPI3），提供 @Tag/@Operation/@Schema 注解与 /doc.html 在线调试 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        </dependency>
+
         <!-- ==================== 加密算法 ==================== -->
         <!-- Bouncy Castle 国密加密算法库（SM4支持） -->
         <dependency>
