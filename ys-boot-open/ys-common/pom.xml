@@ -183,5 +183,16 @@
             <artifactId>fastjson2</artifactId>
         </dependency>
 
+        <!-- Spring Data Redis（通用安全工具：RedisUtils/RedisKeyUtil/CSRF 令牌存储，随闭源 ys-common 依赖） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- Spring AOP（通用安全工具：RateLimiterAspect 限速切面，随闭源 ys-common 依赖） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
