@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ys-infra</artifactId>
+        <groupId>com.eric</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-infra-file</artifactId>
+
+    <description>
+        文件上传模块（简化版） - 仅支持本地和 MinIO 两种存储方式
+        功能：单文件上传、批量上传、文件下载、物理删除
+    </description>
+
+    <dependencies>
+        <!-- ==================== 内部模块依赖 ==================== -->
+        <!-- 公共支撑层 - 提供文件上传配置、存储策略等基础能力 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- ==================== 文件存储 - MinIO ==================== -->
+        <!-- MinIO 对象存储客户端（可选依赖，按需启用） -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- OkHttp3 - MinIO 客户端底层 HTTP 依赖（MinIO 客户端直接使用） -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- ==================== 工具类 ==================== -->
+        <!-- Hutool 工具集 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+    </dependencies>
+</project>

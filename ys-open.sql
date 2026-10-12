@@ -745,4 +745,41 @@ CREATE TABLE `sys_dict_detail`  (
 INSERT INTO `sys_dict_detail` VALUES ('1950440156679311371', '1950439175367376901', 'common_status', '1', '启用', 1, 1, '2025-07-31 09:24:15', '1949738202609135617', '超级管理员', 'success');
 INSERT INTO `sys_dict_detail` VALUES ('1950440156679311372', '1950439175367376901', 'common_status', '0', '禁用', 2, 1, '2025-07-31 09:24:15', '1949738202609135617', '超级管理员', 'danger');
 
+-- ----------------------------
+-- Table structure for sys_fileinfo（期11 开源：基础文件上传，简化版）
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_fileinfo`;
+CREATE TABLE `sys_fileinfo`  (
+  `id` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `business_id` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务id',
+  `file_key` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件唯一标识(MD5+时间戳)',
+  `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名',
+  `file_hash` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件哈希值(SHA-256)',
+  `original_filename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '真实文件名',
+  `category` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件种类',
+  `file_path` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件存储路径',
+  `temp_path` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '临时路径',
+  `file_size` bigint NULL DEFAULT 0 COMMENT '文件大小',
+  `file_size_str` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件大小描述',
+  `byte_size` bigint NULL DEFAULT NULL COMMENT '文件字节大小',
+  `suffix` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '后缀名',
+  `file_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件类型',
+  `file_md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件MD5值',
+  `storage_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '存储类型(0:本地,1:MinIO)',
+  `bucket_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'MinIO桶名',
+  `is_directory` tinyint NOT NULL DEFAULT 0 COMMENT '是否是目录',
+  `parent_id` bigint NULL DEFAULT NULL COMMENT '父目录ID',
+  `chunk_info` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '分片信息(JSON格式)',
+  `upload_status` int NULL DEFAULT NULL COMMENT '上传状态(0:上传中,1:上传完成,2:上传失败)',
+  `download_count` bigint NULL DEFAULT NULL COMMENT '下载次数',
+  `path_hierarchy` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '目录结构路径',
+  `thumbnail_path` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '缩略图路径',
+  `extra_info` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '文件扩展属性(JSON格式)',
+  `is_delete` tinyint NULL DEFAULT 1 COMMENT '删除状态 0.已删除 1.正常',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人id',
+  `create_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件管理' ROW_FORMAT = DYNAMIC;
+
 SET FOREIGN_KEY_CHECKS = 1;

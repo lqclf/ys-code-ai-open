@@ -53,6 +53,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- 基础设施 - 文件上传模块（简化版）：本地/MinIO 存储、基础上传下载删除 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-infra-file</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- ==================== 接口文档 ==================== -->
         <!-- Knife4j 接口文档（OpenAPI3），提供 /doc.html 在线调试 -->
         <dependency>

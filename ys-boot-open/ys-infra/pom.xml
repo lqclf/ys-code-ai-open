@@ -24,6 +24,8 @@
         <module>ys-infra-dict</module>
         <!-- 枚举模块：枚举值下发 -->
         <module>ys-infra-enum</module>
+        <!-- 文件上传模块（简化版）：本地/MinIO 存储、单文件/批量上传、下载、物理删除 -->
+        <module>ys-infra-file</module>
     </modules>
 
 </project>

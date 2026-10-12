@@ -49,6 +49,7 @@
         <useragent.version>1.21</useragent.version>
         <zip4j.version>2.11.3</zip4j.version>
         <minio.version>8.6.0</minio.version>
+        <okhttp3.version>4.12.0</okhttp3.version>
         <aliyun-oss.version>3.17.4</aliyun-oss.version>
         <tencent-cos.version>5.6.155</tencent-cos.version>
         <aws-sdk.version>2.25.48</aws-sdk.version>
@@ -141,6 +142,19 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- MinIO 对象存储客户端（文件上传模块可选依赖） -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+            <!-- OkHttp3 - MinIO 客户端底层 HTTP 依赖 -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
