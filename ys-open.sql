@@ -400,6 +400,12 @@ INSERT INTO `sys_menu` VALUES ('19000000000000000050', '字典管理-查询', '1
 INSERT INTO `sys_menu` VALUES ('19000000000000000051', '字典管理-新增', '11000000000000000014', NULL, '', '', '', 'system:dict:add', '', '', 2, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
 INSERT INTO `sys_menu` VALUES ('19000000000000000052', '字典管理-修改', '11000000000000000014', NULL, '', '', '', 'system:dict:edit', '', '', 3, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
 INSERT INTO `sys_menu` VALUES ('19000000000000000053', '字典管理-删除', '11000000000000000014', NULL, '', '', '', 'system:dict:delete', '', '', 4, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', '', '');
+-- 期12 开源：文件管理菜单（逐字取自闭源 ys-basic.sql 第 1416/1482-1485 行）
+INSERT INTO `sys_menu` VALUES ('11000000000000000017', '文件管理', '10000000000000000003', 'systemFileinfo', '/system/fileinfo/index.vue', '', '/system/fileinfo', 'system:fileinfo:list', 'cn cn-wenjianjia1', '', 7, 2, 0, 0, 0, 0, 0, 1, '2025-07-31 09:24:15', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('19000000000000000080', '文件管理-查询', '11000000000000000017', NULL, NULL, NULL, NULL, 'system:fileinfo:query', NULL, NULL, 1, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('19000000000000000081', '文件管理-上传', '11000000000000000017', NULL, NULL, NULL, NULL, 'system:fileinfo:upload', NULL, NULL, 2, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('19000000000000000082', '文件管理-下载', '11000000000000000017', NULL, NULL, NULL, NULL, 'system:fileinfo:download', NULL, NULL, 3, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('19000000000000000083', '文件管理-删除', '11000000000000000017', NULL, NULL, NULL, NULL, 'system:fileinfo:delete', NULL, NULL, 4, 3, 0, 0, 0, 0, 0, 1, '2025-07-31 09:27:03', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_role
