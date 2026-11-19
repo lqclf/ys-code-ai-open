@@ -35,4 +35,11 @@ public interface SysRoleService extends BaseService<SysRoleDTO, SysRole> {
      * @return
      */
     List<SysRole> getRoleList();
+
+    /**
+     * 查询导出数据列表
+     * @param dto 查询条件
+     * @return 角色列表
+     */
+    List<SysRole> list(SysRoleDTO dto);
 }

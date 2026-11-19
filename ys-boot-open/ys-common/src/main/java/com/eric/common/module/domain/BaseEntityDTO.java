@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 公共基础entity
@@ -41,4 +42,26 @@ public class BaseEntityDTO implements Serializable {
      * 删除状态 0已删除 1正常
      */
     private Boolean isDelete;
+
+    // ==================== 导入辅助字段 ====================
+
+    /**
+     * 行号（用于导入时标记错误位置）
+     */
+    private Integer rowNum;
+
+    /**
+     * 错误信息（用于标记导入错误）
+     */
+    private String errorMsg;
+
+    /**
+     * 是否有效（用于导入预览）
+     */
+    private Boolean valid;
+
+    /**
+     * 导出时选中的字段列表
+     */
+    private List<String> selectedFields;
 }

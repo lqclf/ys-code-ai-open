@@ -39,6 +39,18 @@ public enum UserTypeEnum implements BaseEnum {
         return false;
     }
 
+    /**
+     * 根据key获取枚举值
+     * @return
+     */
+    public static UserTypeEnum getByKey(Integer key) {
+        for (UserTypeEnum value : values()) {
+            if (value.key.equals(key)) {
+                return value;
+            }
+        }
+        return null;
+    }
     @Override
     public Object getKey() {
         return key;

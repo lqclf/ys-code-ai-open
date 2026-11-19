@@ -26,6 +26,8 @@
         <module>ys-infra-enum</module>
         <!-- 文件上传模块（简化版）：本地/MinIO 存储、单文件/批量上传、下载、物理删除 -->
         <module>ys-infra-file</module>
+        <!-- Excel导入导出模块 - 注解驱动，导出/导入/校验/错误报告全流程 -->
+        <module>ys-infra-excel</module>
     </modules>
 
 </project>

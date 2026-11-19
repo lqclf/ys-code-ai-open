@@ -21,6 +21,19 @@ public enum StatusEnum implements BaseEnum {
         this.key = key;
         this.value = value;
     }
+    /**
+     * 根据key获取枚举值
+     * @return
+     */
+    public static StatusEnum getByKey(Integer key) {
+        for (StatusEnum value : values()) {
+            if (value.key.equals(key)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
     @Override
     public Object getKey() {
         return key;

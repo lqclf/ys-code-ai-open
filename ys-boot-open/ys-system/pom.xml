@@ -25,6 +25,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- 基础设施 - Excel 导入导出模块：注解驱动导入导出能力 -->
+        <dependency>
+            <groupId>com.eric</groupId>
+            <artifactId>ys-infra-excel</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- ==================== MyBatis-Plus 核心依赖 ==================== -->
         <!-- MyBatis-Plus ORM 框架，简化数据库操作 -->
         <dependency>

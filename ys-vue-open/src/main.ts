@@ -23,6 +23,9 @@ import YsTable from '@/components/YsTable/index.vue';
 import '@/theme/remixicon/remixicon.css'
 //弹窗组件
 import YsDialog from '@/components/YsDialog/index.vue';
+//Excel 导入导出组件
+import YsImportExcel from '@/components/YsExcel/YsImportExcel.vue';
+import YsExportExcel from '@/components/YsExcel/YsExportExcel.vue';
 
 // ECharts 全局注册 GraphicComponent（被多个大屏组件使用的图形组件）
 import * as echarts from 'echarts/core';
@@ -37,6 +40,8 @@ other.elSvg(app); // 引入svg图标 并注册全局组件
 // 注册全局组件
 app.component('YsDialog', YsDialog)
 app.component('YsTable', YsTable)
+app.component('YsImportExcel', YsImportExcel)
+app.component('YsExportExcel', YsExportExcel)
 
 // 按需注册 Element Plus 组件（必须在 mount 之前调用）
 registerElementPlus(app);

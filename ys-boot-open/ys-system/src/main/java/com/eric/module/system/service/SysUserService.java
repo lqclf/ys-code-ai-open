@@ -119,4 +119,11 @@ public interface SysUserService extends BaseService<SysUserDTO, SysUser> {
      * @return 所有用户列表
      */
     List<SysUser> getAllUsers();
+
+    /**
+     * 查询导出数据列表
+     * @param dto 查询条件
+     * @return 用户列表
+     */
+    List<SysUser> list(SysUserDTO dto);
 }

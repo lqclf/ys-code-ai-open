@@ -1,7 +1,9 @@
 package com.eric.module.system.dto;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.eric.common.module.domain.BaseEntityDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -81,6 +83,17 @@ public class SysDepartDTO extends BaseEntityDTO {
      * 联系电话
      */
 	private String linkPhone;
+     /**
+     * 部门负责人ID
+     */
+    @Schema(description = "部门负责人ID")
+	private String leaderId;
+     /**
+     * 部门负责人名称
+     */
+    @Schema(description = "部门负责人名称")
+    @ExcelProperty("部门负责人")
+	private String leaderName;
      /**
      * 显示顺序(值越小越靠前)
      */

@@ -94,6 +94,7 @@ import {
 // ==================== 反馈组件 ====================
 import {
 	ElAlert,
+	ElResult,
 	ElLoading,
 	ElMessage,
 	ElMessageBox,
@@ -197,6 +198,7 @@ export function registerElementPlus(app: App<Element>) {
 
 	// 反馈组件
 	app.use(ElAlert);
+	app.use(ElResult);
 	app.use(ElLoading);
 	app.use(ElDialog);
 	app.use(ElTooltip);
